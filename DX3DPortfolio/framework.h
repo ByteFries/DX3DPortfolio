@@ -1,15 +1,43 @@
-﻿// header.h: 표준 시스템 포함 파일
-// 또는 프로젝트 특정 포함 파일이 들어 있는 포함 파일입니다.
-//
+﻿#pragma once
 
-#pragma once
+#include "__Others/targetver.h"
+#define WIN32_LEAN_AND_MEAN
 
-#include "targetver.h"
-#define WIN32_LEAN_AND_MEAN             // 거의 사용되지 않는 내용을 Windows 헤더에서 제외합니다.
-// Windows 헤더 파일
 #include <windows.h>
-// C 런타임 헤더 파일입니다.
-#include <stdlib.h>
-#include <malloc.h>
-#include <memory.h>
-#include <tchar.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+
+#pragma comment(lib, "d3d11.lib")
+#pragma comment(lib, "d3dcompiler.lib")
+
+using namespace std;
+using namespace DirectX;
+
+#include "Utility\Singleton.h"
+#include "System\Device.h"
+#include "Math\Vector3.h"
+
+#include "Render\Buffer\ConstantBuffer.h"
+#include "Render\Buffer\GlobalBuffer.h"
+#include "Render\Buffer\VertexBuffer.h"
+#include "Render\Buffer\IndexBuffer.h"
+#include "Render\Buffer\VertexLayout.h"
+
+#include "Render\Mesh.h"
+
+#include "Render\Shader\Shader.h"
+#include "Render\Shader\VertexShader.h"
+#include "Render\Shader\PixelShader.h"
+
+#include "Render\Material.h"
+
+
+
+#include "Scene\Scene.h"
+
+#include "Program.h"
+
+#include "Defines.h"
+
+extern HWND hWnd;

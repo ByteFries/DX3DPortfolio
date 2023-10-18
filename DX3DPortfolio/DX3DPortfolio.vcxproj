@@ -104,6 +104,9 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>framework.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>./;../;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,20 +130,57 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="DX3DPortfolio.h" />
+    <ClInclude Include="Render\Shader\PixelShader.h" />
+    <ClInclude Include="Render\Buffer\IndexBuffer.h" />
+    <ClInclude Include="Render\Buffer\ConstantBuffer.h" />
+    <ClInclude Include="Defines.h" />
+    <ClInclude Include="Render\Buffer\GlobalBuffer.h" />
+    <ClInclude Include="Render\Buffer\VertexLayout.h" />
+    <ClInclude Include="Render\Material.h" />
+    <ClInclude Include="Render\Mesh.h" />
+    <ClInclude Include="Scene\MainScene.h" />
+    <ClInclude Include="Program.h" />
+    <ClInclude Include="Scene\Scene.h" />
+    <ClInclude Include="Render\Shader\Shader.h" />
+    <ClInclude Include="System\Device.h" />
+    <ClInclude Include="Main.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Resource.h" />
-    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Utility\Singleton.h" />
+    <ClInclude Include="Math\Vector3.h" />
+    <ClInclude Include="Render\Buffer\VertexBuffer.h" />
+    <ClInclude Include="Render\Shader\VertexShader.h" />
+    <ClInclude Include="__Others\Resource.h" />
+    <ClInclude Include="__Others\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DX3DPortfolio.cpp" />
+    <ClCompile Include="Render\Shader\PixelShader.cpp" />
+    <ClCompile Include="Render\Buffer\IndexBuffer.cpp" />
+    <ClCompile Include="Render\Buffer\ConstantBuffer.cpp" />
+    <ClCompile Include="Render\Material.cpp" />
+    <ClCompile Include="Render\Mesh.cpp" />
+    <ClCompile Include="Scene\MainScene.cpp" />
+    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Scene\Scene.cpp" />
+    <ClCompile Include="Render\Shader\Shader.cpp" />
+    <ClCompile Include="System\Device.cpp" />
+    <ClCompile Include="Main.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">./;../;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <ClCompile Include="framework.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">framework.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Utility\Singleton.cpp" />
+    <ClCompile Include="Math\Vector3.cpp" />
+    <ClCompile Include="Render\Buffer\VertexBuffer.cpp" />
+    <ClCompile Include="Render\Shader\VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="DX3DPortfolio.rc" />
+    <ResourceCompile Include="__Others\DX3DPortfolio.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="DX3DPortfolio.ico" />
-    <Image Include="small.ico" />
+    <Image Include="__Others\DX3DPortfolio.ico" />
+    <Image Include="__Others\small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
