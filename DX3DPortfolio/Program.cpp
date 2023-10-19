@@ -16,10 +16,12 @@ Program::~Program()
 
 void Program::Update()
 {
+	_scene->Update();
 }
 
 void Program::Render()
 {
+	_scene->Render();
 }
 
 void Program::Initialize()

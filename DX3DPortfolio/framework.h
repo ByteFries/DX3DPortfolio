@@ -4,12 +4,22 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
+#include <string>
+#include <vector>
+#include <functional>
+#include <unordered_map>
+
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "dxguid.lib")
+
+#include <Shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
 
 using namespace std;
 using namespace DirectX;
@@ -17,6 +27,8 @@ using namespace DirectX;
 #include "Utility\Singleton.h"
 #include "System\Device.h"
 #include "Math\Vector3.h"
+
+#include "Defines.h"
 
 #include "Render\Buffer\ConstantBuffer.h"
 #include "Render\Buffer\GlobalBuffer.h"
@@ -38,6 +50,5 @@ using namespace DirectX;
 
 #include "Program.h"
 
-#include "Defines.h"
 
 extern HWND hWnd;
