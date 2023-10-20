@@ -12,7 +12,7 @@ VertexShader* Shader::AddVS(wstring key)
 {
 	wstring path = L"_Shader/Vertex" + key + L".hlsl";
 	
-	assert(PathFileExists(key.c_str()));
+	assert(PathFileExists(path.c_str()));
 	
 	if (_shaders.count(path) > 0)
 		return (VertexShader*)_shaders[path];

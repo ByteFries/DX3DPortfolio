@@ -2,6 +2,7 @@
 #include "ConstantBuffer.h"
 
 ConstantBuffer::ConstantBuffer(void* data, UINT size)
+	:_data(data), _size(size)
 {
 	D3D11_BUFFER_DESC bufferDesc = {};
 	bufferDesc.ByteWidth = size;

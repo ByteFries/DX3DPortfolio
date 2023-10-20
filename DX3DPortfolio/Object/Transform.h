@@ -3,7 +3,7 @@ class Transform
 {
 public:
 	Transform();
-	~Transform();
+	virtual ~Transform();
 
 	void Update();
 
@@ -16,12 +16,13 @@ public:
 	Vector3 _translation = { 0.0f, 0.0f, 0.0f };
 
 	const Vector3 GetWorldPos() { return _worldScale; }
+
 protected:
 	Vector3 _pivot = {};
 
 	MatrixBuffer* _mBuffer;
 	XMMATRIX _srt;
-	Transform* _parent;
+	Transform* _parent = nullptr;
 
 	Vector3 _forward;
 	Vector3 _up;

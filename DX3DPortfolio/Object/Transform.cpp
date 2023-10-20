@@ -26,6 +26,8 @@ void Transform::Update()
 	if (_parent != nullptr)
 		_srt *= _parent->GetSRT();
 
+	_mBuffer->SetMatrix(_srt);
+
 	XMFLOAT4X4 fWorld;
 
 	XMStoreFloat4x4(&fWorld, _srt);

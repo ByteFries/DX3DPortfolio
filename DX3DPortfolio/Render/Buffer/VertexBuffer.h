@@ -3,7 +3,7 @@ class VertexBuffer
 {
 public:
 	template<class T>
-	VertexBuffer(vector<T>& vertices, UINT size);
+	VertexBuffer(vector<T>& vertices);
 	~VertexBuffer();
 
 	void IASetBuffer(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -19,7 +19,7 @@ private:
 };
 
 template<class T>
-inline VertexBuffer::VertexBuffer(vector<T>& vertices, UINT size)
+inline VertexBuffer::VertexBuffer(vector<T>& vertices)
 {
 	_stride = sizeof(T);
 	_offset = 0;

@@ -44,6 +44,8 @@ using namespace DirectX;
 
 #include "Render\Material.h"
 
+#include "Object\Transform.h"
+#include "Object\Basic\Cube.h"
 
 
 #include "Scene\Scene.h"

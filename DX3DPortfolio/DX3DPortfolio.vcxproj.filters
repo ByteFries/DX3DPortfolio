@@ -154,4 +154,8 @@
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="_Shader\VertexColor.hlsl" />
+    <FxCompile Include="_Shader\PixelColor.hlsl" />
+  </ItemGroup>
 </Project>
