@@ -11,12 +11,19 @@ Program::Program()
 Program::~Program()
 {
 	delete _scene;
+	delete rs;
 	Shader::Clear();
+	Texture::Delete();
+	Environment::Delete();
+	Camera::Delete();
 	Device::Delete();
 }
 
 void Program::Update()
 {
+	Time::Get()->Update();
+	Keyboard::Get()->Update();
+	Camera::Get()->Update();
 	_scene->Update();
 }
 
@@ -31,14 +38,9 @@ void Program::Initialize()
 {
 	Device::Get();
 
-	D3D11_VIEWPORT viewPort; //화면이 그려질 영역
+	rs = new RasterizerState();
+	rs->SetState();
 
-	viewPort.TopLeftX = 0.0f;
-	viewPort.TopLeftY = 0.0f;
-	viewPort.Width = WIN_WIDTH;
-	viewPort.Height = WIN_HEIGHT;
-	viewPort.MinDepth = 0.0f;
-	viewPort.MaxDepth = 1.0f;
-
-	DC->RSSetViewports(1, &viewPort);
+	Camera::Get();
+	Environment::Get();
 }

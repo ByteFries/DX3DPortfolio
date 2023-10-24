@@ -4,7 +4,7 @@ struct VertexOutput
 };
 
 
-float4 main() : SV_TARGET
+float4 main(VertexOutput input) : SV_TARGET
 {
 	return float4(1.0f, 1.0f, 1.0f, 1.0f);
 }

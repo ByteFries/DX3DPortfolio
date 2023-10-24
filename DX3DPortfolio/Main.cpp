@@ -4,9 +4,11 @@
 #include "framework.h"
 #include "Main.h"
 
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
+Vector3 mousePos;
 HWND hWnd;
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
@@ -114,6 +116,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    RECT rect = { 0,0,WIN_WIDTH,WIN_HEIGHT };
 
+   AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+
    hWnd = CreateWindowW(
        szWindowClass,
        szTitle,
@@ -154,6 +158,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_MOUSEMOVE:
+    {
+        mousePos.x = LOWORD(lParam);
+        mousePos.y = HIWORD(lParam);
+
+         break;
+    }
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

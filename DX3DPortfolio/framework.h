@@ -21,12 +21,20 @@
 #include <Shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 
+#pragma comment(lib, "DirectXTex.lib")
+#include "_include/DirectXTex.h"
+#include "_include/DirectXTex.inl"
+
 using namespace std;
 using namespace DirectX;
 
 #include "Utility\Singleton.h"
 #include "System\Device.h"
 #include "Math\Vector3.h"
+#include "Utility\Time.h"
+#include "Utility\Keyboard.h"
+
+#include "Render\State\RasterizerState.h"
 
 #include "Defines.h"
 
@@ -42,11 +50,23 @@ using namespace DirectX;
 #include "Render\Shader\VertexShader.h"
 #include "Render\Shader\PixelShader.h"
 
+#include "Render\Texture\Texture.h"
 #include "Render\Material.h"
 
-#include "Object\Transform.h"
-#include "Object\Basic\Cube.h"
+#include "Render\State\RasterizerState.h"
+#include "Render\State\SamplerState.h"
+#include "Render\State\StateManager.h"
 
+
+#include "Object\Transform.h"
+#include "Object\Basic\Quad.h"
+#include "Object\Basic\Cube.h"
+#include "Object\Basic\TextureCube.h"
+
+#include "Object\Terrain\Terrain.h"
+
+#include "System\Camera.h"
+#include "System\Environment.h"
 
 #include "Scene\Scene.h"
 
@@ -54,3 +74,4 @@ using namespace DirectX;
 
 
 extern HWND hWnd;
+extern Vector3 mousePos;

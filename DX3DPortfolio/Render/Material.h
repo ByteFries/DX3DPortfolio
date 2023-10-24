@@ -11,10 +11,12 @@ public:
 
 	void IASetBuffer();
 
+	void SetTexture(wstring path);
+
 private:
 	VertexShader* _vShader;
 	PixelShader* _pShader;
 
-	
+	Texture* _texture;
 };
 

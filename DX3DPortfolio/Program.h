@@ -12,6 +12,8 @@ public:
 private:
 	void Initialize();
 
+	RasterizerState* rs;
+
 	class MainScene* _scene;
 };
 

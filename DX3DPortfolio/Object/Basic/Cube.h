@@ -13,7 +13,7 @@ private:
 
 	Vector3 _size = {10.0f, 10.0f, 10.0f};
 
-	vector<Vertex> _vertices;
+	vector<VertexTexture> _vertices;
 	vector<UINT> _indices;
 
 	Mesh* _mesh;

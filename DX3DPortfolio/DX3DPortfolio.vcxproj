@@ -106,11 +106,12 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>framework.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>./;../;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../;_Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>/_Library</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,6 +131,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Object\Basic\Quad.h" />
+    <ClInclude Include="Render\State\RasterizerState.h" />
+    <ClInclude Include="Render\State\SamplerState.h" />
+    <ClInclude Include="Render\State\StateManager.h" />
+    <ClInclude Include="System\Camera.h" />
+    <ClInclude Include="System\Environment.h" />
+    <ClInclude Include="Render\Texture\Texture.h" />
+    <ClInclude Include="Object\Terrain\Terrain.h" />
+    <ClInclude Include="Object\Basic\TextureCube.h" />
+    <ClInclude Include="Utility\Keyboard.h" />
     <ClInclude Include="Object\Basic\Cube.h" />
     <ClInclude Include="Render\Shader\PixelShader.h" />
     <ClInclude Include="Render\Buffer\IndexBuffer.h" />
@@ -147,14 +158,26 @@
     <ClInclude Include="Main.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Object\Transform.h" />
+    <ClInclude Include="Utility\Time.h" />
     <ClInclude Include="Utility\Singleton.h" />
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Render\Buffer\VertexBuffer.h" />
     <ClInclude Include="Render\Shader\VertexShader.h" />
+    <ClInclude Include="_Include\DirectXTex.h" />
     <ClInclude Include="__Others\Resource.h" />
     <ClInclude Include="__Others\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Object\Basic\Quad.cpp" />
+    <ClCompile Include="Render\State\RasterizerState.cpp" />
+    <ClCompile Include="Render\State\SamplerState.cpp" />
+    <ClCompile Include="Render\State\StateManager.cpp" />
+    <ClCompile Include="System\Camera.cpp" />
+    <ClCompile Include="System\Environment.cpp" />
+    <ClCompile Include="Render\Texture\Texture.cpp" />
+    <ClCompile Include="Object\Terrain\Terrain.cpp" />
+    <ClCompile Include="Object\Basic\TextureCube.cpp" />
+    <ClCompile Include="Utility\Keyboard.cpp" />
     <ClCompile Include="Object\Basic\Cube.cpp" />
     <ClCompile Include="Render\Shader\PixelShader.cpp" />
     <ClCompile Include="Render\Buffer\IndexBuffer.cpp" />
@@ -174,6 +197,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">framework.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Object\Transform.cpp" />
+    <ClCompile Include="Utility\Time.cpp" />
     <ClCompile Include="Utility\Singleton.cpp" />
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Render\Buffer\VertexBuffer.cpp" />
@@ -194,6 +218,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="_Shader\PixelTexture.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="_Shader\VertexColor.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
@@ -201,6 +232,19 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="_Shader\VertexTexture.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="_Library\DirectXTex.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="_Include\DirectXTex.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

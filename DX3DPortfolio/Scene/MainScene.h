@@ -10,11 +10,6 @@ public:
 	void PostRender() override;
 
 private:
-	Cube* _cube;
-
-	MatrixBuffer* view;
-	MatrixBuffer* proj;
-
-	XMMATRIX _projectionMatrix;
+	Terrain* _terrain;
 };
 

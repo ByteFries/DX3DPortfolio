@@ -8,6 +8,7 @@ Cube::Cube()
 	_mesh = new Mesh(_vertices, _indices);
 	_material = new Material();
 	_material->SetShader(L"Color");
+    //_material->SetTexture(L"LighthouseScene.png");
 }
 
 Cube::~Cube()
@@ -35,22 +36,29 @@ void Cube::CreateVertices()
 {
 	Vector3 halfSize = _size * 0.5f;
 
-	Vertex v;
+	VertexTexture v;
     
     v.pos = { -halfSize.x, +halfSize.y, -halfSize.z };
     _vertices.push_back(v);
+
     v.pos = { +halfSize.x, +halfSize.y, -halfSize.z };
     _vertices.push_back(v);
+
     v.pos = { -halfSize.x, -halfSize.y, -halfSize.z };
     _vertices.push_back(v);
+
     v.pos = { +halfSize.x, -halfSize.y, -halfSize.z };
     _vertices.push_back(v);
+
     v.pos = { -halfSize.x, +halfSize.y, +halfSize.z };
     _vertices.push_back(v);
+
     v.pos = { +halfSize.x, +halfSize.y, +halfSize.z };
     _vertices.push_back(v);
+
     v.pos = { -halfSize.x, -halfSize.y, +halfSize.z };
     _vertices.push_back(v);
+
     v.pos = { +halfSize.x, -halfSize.y, +halfSize.z };
     _vertices.push_back(v);
 
@@ -78,73 +86,73 @@ void Cube::CreateVertices()
    
     //v.pos = { -halfSize.x, halfSize.y, -halfSize.z }; // 0
     //_vertices.push_back(v);
-
+    //
     //v.pos = { -halfSize.x, halfSize.y, -halfSize.z }; // 1
     //_vertices.push_back(v);
-
+    //
     //v.pos = { -halfSize.x,-halfSize.y, -halfSize.z }; // 2
     //_vertices.push_back(v);
-
+    //
     //v.pos = { halfSize.x,-halfSize.y, -halfSize.z }; // 3
     //_vertices.push_back(v);
-
+    //
     //v.pos = { halfSize.x, halfSize.y, halfSize.z }; // 4
     //_vertices.push_back(v);
-
+    //
     //v.pos = { -halfSize.x,halfSize.y, halfSize.z }; // 5
     //_vertices.push_back(v);
-
+    //
     //v.pos = { halfSize.x, -halfSize.y, halfSize.z }; // 6
     //_vertices.push_back(v);
-
+    //
     //v.pos = { -halfSize.x, -halfSize.y, halfSize.z }; // 7
     //_vertices.push_back(v);
-
-
+    //
+    //
     //_indices.push_back(0);
     //_indices.push_back(1);
     //_indices.push_back(2);
-
+    //
     //_indices.push_back(2);
     //_indices.push_back(1);
     //_indices.push_back(3);
-
+    //
     //_indices.push_back(1);
     //_indices.push_back(4);
     //_indices.push_back(3);
-
+    //
     //_indices.push_back(3);
     //_indices.push_back(4);
     //_indices.push_back(6);
-
+    //
     //_indices.push_back(5);
     //_indices.push_back(0);
     //_indices.push_back(7);
-
+    //
     //_indices.push_back(7);
     //_indices.push_back(0);
     //_indices.push_back(2);
-
+    //
     //_indices.push_back(4);
     //_indices.push_back(5);
     //_indices.push_back(6);
-
+    //
     //_indices.push_back(6);
     //_indices.push_back(5);
     //_indices.push_back(7);
-
+    //
     //_indices.push_back(5);
     //_indices.push_back(4);
     //_indices.push_back(0);
-
+    //
     //_indices.push_back(0);
     //_indices.push_back(4);
     //_indices.push_back(1);
-
+    //
     //_indices.push_back(2);
     //_indices.push_back(3);
     //_indices.push_back(7);
-
+    //
     //_indices.push_back(7);
     //_indices.push_back(3);
     //_indices.push_back(6);
