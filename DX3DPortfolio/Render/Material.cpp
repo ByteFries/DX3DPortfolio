@@ -29,10 +29,12 @@ void Material::IASetBuffer()
 {
 	_vShader->SetShader();
 	_pShader->SetShader();
-	_texture->PSSetShaderResource(0);
+	if (_isTexture)
+		_texture->PSSetShaderResource(0);
 }
 
 void Material::SetTexture(wstring path)
 {
 	_texture = Texture::Get(path);
+	_isTexture = true;
 }

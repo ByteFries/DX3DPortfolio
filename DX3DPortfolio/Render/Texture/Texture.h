@@ -13,6 +13,8 @@ public:
 
 	XMFLOAT2 GetSize();
 
+	vector<XMFLOAT4> ReadPixels();
+
 private:
 	ID3D11ShaderResourceView* _srv = nullptr;
 	ScratchImage _image;

@@ -3,10 +3,11 @@
 
 Terrain::Terrain()
 {
+	_material = new Material();
+
 	CreateVertices();
 
 	_mesh = new Mesh(_vertices, _indices);
-	_material = new Material();
 
 	_material->SetShader(L"Texture");
 	_material->SetTexture(L"_Texture/IMG/LighthouseScene.png");
@@ -35,12 +36,22 @@ void Terrain::Render()
 
 void Terrain::CreateVertices()
 {
+	Texture* heightMap = Texture::Get(L"_Texture/HeightMap/HeightMap.png");
+
+	vector<XMFLOAT4> pixels = heightMap->ReadPixels();
+
+	_height = heightMap->GetSize().y;
+	_width = heightMap->GetSize().x;
+
 	for (int i = 0; i < _height; i++)
 	{
 		for (int j = 0; j < _width; j++)
 		{
 			VertexTexture v;
 			v.pos = Vector3(j, 0, i);
+
+			v.pos.y = pixels[i * _width + j].x * MAP_HEIGHT;
+
 			v.uv.x = j / (_width - 1);
 			v.uv.y = 1 - i / (_height - 1);
 

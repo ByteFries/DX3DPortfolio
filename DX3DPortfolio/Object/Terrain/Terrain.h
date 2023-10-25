@@ -19,4 +19,6 @@ private:
 
 	Mesh* _mesh;
 	Material* _material;
+
+	const float MAP_HEIGHT = 20.0f;
 };

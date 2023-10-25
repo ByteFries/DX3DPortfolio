@@ -61,3 +61,26 @@ XMFLOAT2 Texture::GetSize()
 {
 	return XMFLOAT2(_image.GetMetadata().width, _image.GetMetadata().height);
 }
+
+vector<XMFLOAT4> Texture::ReadPixels()
+{
+	unsigned char* pixels = _image.GetPixels();
+
+	UINT size = _image.GetPixelsSize() * 0.25f;
+
+	vector<XMFLOAT4> colors(size);
+
+	float scale = 1.0f / 255.0f;
+
+	UINT count = 0;
+
+	for (XMFLOAT4& color : colors)
+	{
+		color.x = pixels[count++] * scale;
+		color.y = pixels[count++] * scale;
+		color.z = pixels[count++] * scale;
+		color.w = pixels[count++] * scale;
+	}
+
+	return colors;
+}
