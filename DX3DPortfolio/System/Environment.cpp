@@ -6,11 +6,20 @@ Environment::Environment()
 {
 	CreateViewport();
 	CreateProjection();
+
+	_sunBuffer = new SunBuffer();
 }
 
 Environment::~Environment()
 {
 	delete _proj;
+	delete _sunBuffer;
+}
+
+void Environment::SetPerspective()
+{
+	_proj->SetVSBuffer(2);
+	_sunBuffer->SetPSBuffer(0);
 }
 
 void Environment::CreateProjection()
@@ -25,8 +34,6 @@ void Environment::CreateProjection()
 	);
 
 	_proj->SetMatrix(matrix);
-
-	_proj->SetVSBuffer(2);
 }
 
 void Environment::CreateViewport()

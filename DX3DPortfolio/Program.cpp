@@ -30,6 +30,7 @@ void Program::Update()
 void Program::Render()
 {
 	Device::Get()->Clear();
+	Environment::Get()->SetPerspective();
 	_scene->Render();
 	Device::Get()->Present();
 }

@@ -6,6 +6,7 @@ cbuffer World : register(b0)
 cbuffer View : register(b1)
 {
     matrix view;
+    matrix pos;
 }
 
 cbuffer Projection : register(b2)

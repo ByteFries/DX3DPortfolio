@@ -25,6 +25,15 @@ struct Vector3
 		return XMVectorSet(x,y,z,0.0f);
 	}
 
+	static Vector3 Cross(Vector3 left, Vector3 right)
+	{
+		return XMVector3Cross(left, right);
+	}
+
+	static float Dot(Vector3 v1, Vector3 v2)
+	{
+		return XMVectorGetX(XMVector3Dot(v1, v2));
+	}
 	Vector3 operator-(Vector3 other)
 	{
 		return Vector3(x - other.x, y - other.y, z - other.z);

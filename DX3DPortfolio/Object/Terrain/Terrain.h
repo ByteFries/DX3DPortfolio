@@ -9,7 +9,7 @@ public:
 	void Render();
 
 private:
-	vector<VertexTexture> _vertices;
+	vector<VertexTextureNormal> _vertices;
 	vector<UINT> _indices;
 
 	void CreateVertices();

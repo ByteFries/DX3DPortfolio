@@ -228,6 +228,8 @@
     <FxCompile Include="_Shader\PixelColor.hlsl" />
     <FxCompile Include="_Shader\VertexTexture.hlsl" />
     <FxCompile Include="_Shader\PixelTexture.hlsl" />
+    <FxCompile Include="_Shader\VertexDefault.hlsl" />
+    <FxCompile Include="_Shader\PixelDefault.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="_Library\DirectXTex.lib" />
