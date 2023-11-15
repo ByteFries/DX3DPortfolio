@@ -1,4 +1,5 @@
 #pragma once
+
 class Camera :public Singleton<Camera>
 {
 	friend class Singleton;
@@ -6,6 +7,8 @@ class Camera :public Singleton<Camera>
 	~Camera();
 public:
 	void Update();
+
+	Ray ScreenPointToRay(Vector3 pos);
 
 	void Debug();
 private:

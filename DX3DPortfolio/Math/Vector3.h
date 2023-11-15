@@ -44,6 +44,11 @@ struct Vector3
 		return Vector3(x * amount, y * amount, z * amount);
 	}
 
+	Vector3 operator*(const XMMATRIX& value)
+	{
+		return XMVector3TransformNormal(*this, value);
+	}
+
 	void operator+=(Vector3 other)
 	{
 		x += other.x;

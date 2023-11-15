@@ -15,5 +15,7 @@ private:
 	RasterizerState* rs;
 
 	class MainScene* _scene;
+
+	bool _wireFrame = false;
 };
 

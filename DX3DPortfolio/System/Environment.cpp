@@ -1,7 +1,6 @@
 #include "framework.h"
 #include "Environment.h"
 
-
 Environment::Environment()
 {
 	CreateViewport();
@@ -12,28 +11,28 @@ Environment::Environment()
 
 Environment::~Environment()
 {
-	delete _proj;
+	delete _pers;
 	delete _sunBuffer;
 }
 
 void Environment::SetPerspective()
 {
-	_proj->SetVSBuffer(2);
+	_pers->SetVSBuffer(2);
 	_sunBuffer->SetPSBuffer(0);
 }
 
 void Environment::CreateProjection()
 {
-	_proj = new MatrixBuffer();
+	_pers = new MatrixBuffer();
 
-	XMMATRIX matrix = XMMatrixPerspectiveFovLH(
+	_persMatrix = XMMatrixPerspectiveFovLH(
 		XM_PIDIV4,
 		WIN_WIDTH / WIN_HEIGHT,
 		0.1f,
 		1000.0f
 	);
 
-	_proj->SetMatrix(matrix);
+	_pers->SetMatrix(_persMatrix);
 }
 
 void Environment::CreateViewport()

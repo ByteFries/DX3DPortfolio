@@ -8,4 +8,3 @@ public:
 	virtual void Render() abstract;
 	virtual void PostRender() abstract;
 };
-

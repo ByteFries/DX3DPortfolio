@@ -29,9 +29,26 @@ void Program::Update()
 
 void Program::Render()
 {
+	ImGui_ImplDX11_NewFrame();
+	ImGui_ImplWin32_NewFrame();
+	ImGui::NewFrame();
+
+	if (_wireFrame)
+		StateManager::Get()->GetRasterizer()->ChangeState(D3D11_FILL_WIREFRAME);
+	else
+		StateManager::Get()->GetRasterizer()->ChangeState(D3D11_FILL_SOLID);
+
 	Device::Get()->Clear();
 	Environment::Get()->SetPerspective();
 	_scene->Render();
+	Device::Get()->Present();
+
+	ImGui::Checkbox("WrieFrame", &_wireFrame);
+
+	ImGui::Render();
+
+	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
 	Device::Get()->Present();
 }
 
@@ -44,4 +61,10 @@ void Program::Initialize()
 
 	Camera::Get();
 	Environment::Get();
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui::StyleColorsDark();
+	ImGui_ImplWin32_Init(hWnd);
+	ImGui_ImplDX11_Init(DEVICE, DC);
 }

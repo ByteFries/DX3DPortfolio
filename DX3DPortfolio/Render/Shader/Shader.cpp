@@ -38,6 +38,21 @@ PixelShader* Shader::AddPS(wstring key)
 	return (PixelShader*)_shaders[path];
 }
 
+ComputeShader* Shader::AddCS(wstring key)
+{
+	wstring path = L"_Shader/Compute" + key + L".hlsl";
+
+	assert(PathFileExists(path.c_str()));
+
+	if (_shaders.count(path) > 0)
+		return (ComputeShader*)_shaders[path];
+
+	_shaders[path] = new ComputeShader(path);
+	_shaders[path]->_path = key;
+
+	return (ComputeShader*)_shaders[path];
+}
+
 void Shader::Clear()
 {
 	for (pair<wstring, Shader*> pair : _shaders)

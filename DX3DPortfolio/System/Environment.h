@@ -5,15 +5,16 @@ class Environment :public Singleton<Environment>
 	Environment();
 	~Environment();
 public:
-
 	void SetPerspective();
-	
+
+	XMMATRIX GetPersMatrix() { return _persMatrix; }
+
 private:
 	void CreateProjection();
 	void CreateViewport();
 
-	MatrixBuffer* _proj;
+	XMMATRIX _persMatrix;
+	MatrixBuffer* _pers;
 	SunBuffer* _sunBuffer;
-
 };
 

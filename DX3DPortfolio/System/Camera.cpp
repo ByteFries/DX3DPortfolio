@@ -18,8 +18,37 @@ void Camera::Update()
 	FreeMode();
 }
 
+Ray Camera::ScreenPointToRay(Vector3 pos)
+{
+	Ray ray;
+	ray.origin = _transform->_translation;
+
+	Vector3 point;
+
+	point.x = +(2.0f * pos.x) / WIN_WIDTH - 1.0f;
+	point.y = -(2.0f * pos.y) / WIN_HEIGHT + 1.0f;
+	point.z = 1.0f;
+
+	XMMATRIX projMatrix = Environment::Get()->GetPersMatrix();
+
+	XMFLOAT4X4 proj;
+
+	XMStoreFloat4x4(&proj, projMatrix);
+
+	point.x /= proj._11;
+	point.y /= proj._22;
+
+	XMMATRIX invView = _transform->GetSRT();
+
+	ray.direction = point * invView;
+	ray.direction.Normalize();
+
+	return ray;
+}
+
 void Camera::Debug()
 {
+
 }
 
 void Camera::FreeMode()

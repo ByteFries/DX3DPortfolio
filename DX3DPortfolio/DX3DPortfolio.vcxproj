@@ -111,7 +111,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>/_Library</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>_Library</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -131,10 +131,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ModelExport\ModelExporter.h" />
+    <ClInclude Include="ModelExport\ModelType.h" />
+    <ClInclude Include="Model\ModelMesh.h" />
+    <ClInclude Include="Model\ModelReader.h" />
+    <ClInclude Include="Utility\BinaryReader.h" />
+    <ClInclude Include="Utility\BinaryWriter.h" />
+    <ClInclude Include="Collider\ColliderBox.h" />
+    <ClInclude Include="Collider\ColliderSphere.h" />
+    <ClInclude Include="Collider\Collider.h" />
+    <ClInclude Include="Render\Shader\ComputeShader.h" />
     <ClInclude Include="Object\Basic\Quad.h" />
     <ClInclude Include="Render\State\RasterizerState.h" />
     <ClInclude Include="Render\State\SamplerState.h" />
     <ClInclude Include="Render\State\StateManager.h" />
+    <ClInclude Include="Object\Basic\Sphere.h" />
+    <ClInclude Include="Render\Buffer\StructuredBuffer.h" />
     <ClInclude Include="System\Camera.h" />
     <ClInclude Include="System\Environment.h" />
     <ClInclude Include="Render\Texture\Texture.h" />
@@ -163,15 +175,27 @@
     <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="Render\Buffer\VertexBuffer.h" />
     <ClInclude Include="Render\Shader\VertexShader.h" />
+    <ClInclude Include="Utility\Utility.h" />
     <ClInclude Include="_Include\DirectXTex.h" />
     <ClInclude Include="__Others\Resource.h" />
     <ClInclude Include="__Others\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ModelExport\ModelExporter.cpp" />
+    <ClCompile Include="Model\ModelMesh.cpp" />
+    <ClCompile Include="Model\ModelReader.cpp" />
+    <ClCompile Include="Utility\BinaryReader.cpp" />
+    <ClCompile Include="Utility\BinaryWriter.cpp" />
+    <ClCompile Include="Collider\ColliderBox.cpp" />
+    <ClCompile Include="Collider\ColliderSphere.cpp" />
+    <ClCompile Include="Collider\Collider.cpp" />
+    <ClCompile Include="Render\Shader\ComputeShader.cpp" />
     <ClCompile Include="Object\Basic\Quad.cpp" />
     <ClCompile Include="Render\State\RasterizerState.cpp" />
     <ClCompile Include="Render\State\SamplerState.cpp" />
     <ClCompile Include="Render\State\StateManager.cpp" />
+    <ClCompile Include="Object\Basic\Sphere.cpp" />
+    <ClCompile Include="Render\Buffer\StructuredBuffer.cpp" />
     <ClCompile Include="System\Camera.cpp" />
     <ClCompile Include="System\Environment.cpp" />
     <ClCompile Include="Render\Texture\Texture.cpp" />
@@ -202,6 +226,7 @@
     <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="Render\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="Render\Shader\VertexShader.cpp" />
+    <ClCompile Include="Utility\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="__Others\DX3DPortfolio.rc" />
@@ -211,6 +236,22 @@
     <Image Include="__Others\small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="_Shader\ComputePicking.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="_Shader\PixelCollider.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="_Shader\PixelColor.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -231,6 +272,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="_Shader\VertexCollider.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="_Shader\VertexColor.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -255,10 +302,12 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
+    <Library Include="_Library\assimp.lib" />
     <Library Include="_Library\DirectXTex.lib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="_Include\DirectXTex.inl" />
+    <None Include="_Library\assimp-vc143-mtd.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

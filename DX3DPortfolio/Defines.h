@@ -13,3 +13,6 @@
 #define KEY_PRESS(k) Keyboard::Get()->Press(k)
 
 #define DELTA Time::Get()->Delta() 
+
+#define MAX_BONE 256
+#define MAX_FRAME_KEY 512

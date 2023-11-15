@@ -9,6 +9,8 @@ public:
 	static Texture* Get(wstring file);
 	static void Delete();
 
+	wstring GetPath() { return _path; }
+
 	void PSSetShaderResource(UINT slot);
 
 	XMFLOAT2 GetSize();

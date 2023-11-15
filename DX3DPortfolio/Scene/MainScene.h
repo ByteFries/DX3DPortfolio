@@ -11,5 +11,6 @@ public:
 
 private:
 	Terrain* _terrain;
+	ModelExporter* _exporter;
+	ModelReader* _reader;
 };
-

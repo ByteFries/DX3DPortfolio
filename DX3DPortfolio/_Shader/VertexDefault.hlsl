@@ -19,6 +19,7 @@ struct VertexInput
     float4 pos : POSITION;
     float2 uv : UV;
     float3 normal : NORMAL;
+    float3 tangent : TANGENT;
 };
 
 struct VertexOutput
@@ -27,6 +28,8 @@ struct VertexOutput
     float2 uv : UV;
     float3 normal : NORMAL;
     float3 cameraDir : CAMERA_DIRECTION;
+    float3 tangent : TANGENT;
+    float3 binormal : BINORMAL;
 };
 
 VertexOutput main(VertexInput input)
@@ -44,6 +47,10 @@ VertexOutput main(VertexInput input)
     result.uv = input.uv;
     
     result.normal = normalize(mul(input.normal, (float3x3)world));
+    
+    result.tangent = normalize(mul(input.tangent, (float3x3) world));
+    
+    result.binormal = cross(result.normal, result.tangent);
     
 	return result;
 }
