@@ -6,19 +6,19 @@ Environment::Environment()
 	CreateViewport();
 	CreateProjection();
 
-	_sunBuffer = new SunBuffer();
+	_lBuffer = new LightBuffer();
 }
 
 Environment::~Environment()
 {
 	delete _pers;
-	delete _sunBuffer;
+	delete _lBuffer;
 }
 
 void Environment::SetPerspective()
 {
 	_pers->SetVSBuffer(2);
-	_sunBuffer->SetPSBuffer(0);
+	_lBuffer->SetPSBuffer(0);
 }
 
 void Environment::CreateProjection()

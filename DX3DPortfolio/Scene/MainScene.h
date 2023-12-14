@@ -12,5 +12,7 @@ public:
 private:
 	Terrain* _terrain;
 	ModelExporter* _exporter;
-	ModelReader* _reader;
+	Cat* _cat;
+	Actor* _actor;
+	ActorInstancing* _instancing;
 };

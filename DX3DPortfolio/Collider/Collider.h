@@ -17,7 +17,7 @@ class Collider : public Transform
 public:
 	enum ColliderType
 	{
-		BOX, SPHERE, CAPSULE
+		BOX, SPHERE
 	};
 
 	static bool _hidden;
@@ -31,15 +31,19 @@ public:
 	virtual bool Collision(class ColliderBox* other) abstract;
 	virtual bool Collision(class ColliderSphere* other) abstract;
 
+	virtual bool Block(Collider* other);
+
+	virtual bool Block(ColliderBox* other) abstract;
+	virtual bool Block(ColliderSphere* other) abstract;
+
 	virtual void CreateMesh() abstract;
 
 	void Render();
 
-	void SetColor(float r, float g, float b) { _material->GetMaterialBuffer()->SetDiffuseColor( r, g, b, 1.0f ); }
+	void SetColor(float r, float g, float b) { _mesh->GetPart(0)->GetMaterial()->GetMaterialBuffer()->SetDiffuseColor( r, g, b, 1.0f ); }
 
 protected:
-	Material* _material;
-		Mesh*	  _mesh;
+	StaticMesh*	  _mesh;
     ColliderType  _type;
 
 	vector<Vertex> _vertices;

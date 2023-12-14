@@ -76,6 +76,8 @@ void Material::Save(string path)
 {
 	BinaryWriter writer(path);
 
+	writer.WriteData(_label);
+
 	if(_vShader)
 		writer.WriteData(_vShader->GetPath());
 	else
@@ -157,4 +159,31 @@ void Material::Load(string path)
 	_mBuffer->SetEmissiveColor(color.x, color.y, color.x, color.w);
 
 	_mBuffer->SetShininess(reader.ReadFloat());
+}
+
+void Material::Debug()
+{
+	char* str = (char*)_label.data();
+
+	ImGui::InputText("Label", str, 128);
+
+	_label = str;
+
+	if (_label[0] == '\0')
+		_label = "NULL";
+
+	if (ImGui::BeginMenu(_label.c_str()))
+	{
+		ImGui::ColorEdit4((_label + " Diffuse").c_str(), (float*)&_mBuffer->GetDiffuseColorRef());
+		ImGui::ColorEdit4((_label + " Specular").c_str(), (float*)&_mBuffer->GetSpecularColorRef());
+		ImGui::ColorEdit4((_label + " Ambient").c_str(), (float*)&_mBuffer->GetAmbientColorRef());
+
+		ImGui::Checkbox((_label + " HasDiffuseMap").c_str(), (bool*)&_mBuffer->HasDiffuseMapRef());
+		ImGui::Checkbox((_label + " HasSpecularMap").c_str(), (bool*)&_mBuffer->HasSpecularMapRef());
+		ImGui::Checkbox((_label + " HasNormalMap").c_str(), (bool*)&_mBuffer->HasNormalMapRef());
+
+		ImGui::SliderFloat((_label + " Shininess").c_str(), &_mBuffer->GetShininessRef(), 1.0f, 50.0f);
+
+		ImGui::EndMenu();
+	}
 }

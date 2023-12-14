@@ -9,9 +9,9 @@ ModelExporter::ModelExporter(string name)
 	_importer->SetPropertyBool(AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS, false);
 	_importer->SetPropertyInteger(AI_CONFIG_PP_RVC_FLAGS, aiComponent_TANGENTS_AND_BITANGENTS);
 
-	_scene = _importer->ReadFile("Model/Data/FBX/" + name + ".fbx",
+	_scene = _importer->ReadFile("Actor/Model/Data/FBX/" + name + ".fbx",
 		aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_MaxQuality);
-
+	
 	assert(_scene != nullptr);
 }
 
@@ -24,11 +24,20 @@ void ModelExporter::ExportModel()
 {
 	ExportMaterial();
 	ExportMesh();
+
+	for (UINT i = 0; i < _scene->mNumAnimations; i++)
+	{
+		Clip* clip = ReadClip(_scene->mAnimations[i]);
+
+		WriteClip(clip, _name + to_string(i));
+
+		delete clip;
+	}
 }
 
 void ModelExporter::ExportClip(string file)
 {
-	_scene = _importer->ReadFile("Model/Data/" + _name + "/Animation/" + file + ".fbx",
+	_scene = _importer->ReadFile("Actor/Model/Data/" + _name + "/AnimationFBX/" + file + ".fbx",
 		aiProcess_ConvertToLeftHanded | aiProcessPreset_TargetRealtime_MaxQuality);
 
 	assert(_scene != nullptr);
@@ -83,7 +92,7 @@ void ModelExporter::ExportMaterial()
 		srcMaterial->GetTexture(aiTextureType_NORMALS, 0, &file);
 		material->SetNormalMap(CreateTexture(file.C_Str()));
 
-		string savePath = "Model/Data/" + _name + "/Material/" + material->GetLabel() + ".mat";
+		string savePath = "Actor/Model/Data/" + _name + "/Material/" + material->GetLabel() + ".mat";
 
 		Utility::CreateFolder(savePath);
 
@@ -94,7 +103,7 @@ void ModelExporter::ExportMaterial()
 		delete material;
 	}
 
-	BinaryWriter data("Model/Data/" + _name + "/Material/MaterialList.list");
+	BinaryWriter data("Actor/Model/Data/" + _name + "/Material/MaterialList.list");
 
 	data.WriteData((UINT)_materialNames.size());
 
@@ -157,8 +166,11 @@ void ModelExporter::ReadMesh(aiNode* node)
 		MeshData* mesh = new MeshData();
 
 		mesh->name = node->mName.C_Str();
-
-		_meshNames.push_back(mesh->name);
+		
+		vector<string>::iterator iter = find(_meshNames.begin(), _meshNames.end(), mesh->name);
+		
+		if (iter == _meshNames.end())
+			_meshNames.push_back(mesh->name);
 
 		UINT index = node->mMeshes[i];
 
@@ -209,7 +221,7 @@ void ModelExporter::ReadMesh(aiNode* node)
 			}
 
 
-
+			
 			mesh->vertices[j] = vertex;
 		}
 
@@ -223,7 +235,7 @@ void ModelExporter::ReadMesh(aiNode* node)
 			}
 		}
 
-		_meshes.push_back(mesh);
+		_meshes[mesh->name].push_back(mesh);
 	}
 
 	for (UINT i = 0; i < node->mNumChildren; i++)
@@ -292,8 +304,7 @@ void ModelExporter::ReadBone(aiMesh* mesh, vector<VertexWeights>& vertexWeights)
 
 void ModelExporter::WriteMesh()
 {
-
-	string path = "Model/Data/" + _name + "/Mesh/";
+	string path = "Actor/Model/Data/" + _name + "/Mesh/";
 
 	Utility::CreateFolder(path);
 
@@ -301,24 +312,29 @@ void ModelExporter::WriteMesh()
 		BinaryWriter listWriter(path + "MeshList.list");
 		listWriter.WriteData((UINT)_meshNames.size());
 
-		for (int i = 0; i < _meshes.size(); i++)
+		for (pair<string, vector<MeshData*>> p : _meshes)
 		{
-			BinaryWriter writer(path + _meshes[i]->name + ".mesh");
+			BinaryWriter writer(path + p.first + ".mesh");
 
-			writer.WriteData(_meshes[i]->name);
-			writer.WriteData(_meshes[i]->materialIndex);
+			UINT size = p.second.size();
 
-			writer.WriteData((UINT)_meshes[i]->vertices.size());
-			writer.WriteData(_meshes[i]->vertices.data(), _meshes[i]->vertices.size() * sizeof(ModelVertex));
+			writer.WriteData(size);
 
-			writer.WriteData((UINT)_meshes[i]->indices.size());
-			writer.WriteData(_meshes[i]->indices.data(), _meshes[i]->indices.size() * sizeof(UINT));
+			for (int i = 0; i < size; i++)
+			{
+				writer.WriteData(p.second[i]->materialIndex);
 
-			delete _meshes[i];
+				writer.WriteData((UINT)p.second[i]->vertices.size());
+				writer.WriteData(p.second[i]->vertices.data(), p.second[i]->vertices.size() * sizeof(ModelVertex));
 
-			listWriter.WriteData(_meshNames[i]);
+				writer.WriteData((UINT)p.second[i]->indices.size());
+				writer.WriteData(p.second[i]->indices.data(), p.second[i]->indices.size() * sizeof(UINT));
+
+				delete p.second[i];
+			}
+
+			listWriter.WriteData(p.first);
 		}
-
 
 		_meshes.clear();
 		_meshNames.clear();
@@ -450,8 +466,11 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 		if (node.keyFrame.size() < clip->frameCount)
 		{
 			UINT count = clip->frameCount - node.keyFrame.size();
+			
+			KeyTransform keyTransform;
 
-			KeyTransform keyTransform = node.keyFrame.back();
+			if (node.keyFrame.size())
+				keyTransform = node.keyFrame.back();
 
 			for (UINT n = 0; n < count; n++)
 			{
@@ -471,7 +490,7 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 
 void ModelExporter::WriteClip(Clip* clip, string file)
 {
-	string savePath = "Model/Data/" + _name + "/Clip/" + file + ".clip";
+	string savePath = "Actor/Model/Data/" + _name + "/Clip/" + file + ".clip";
 
 	Utility::CreateFolder(savePath);
 

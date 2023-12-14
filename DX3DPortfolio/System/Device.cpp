@@ -10,6 +10,7 @@ Device::Device()
 Device::~Device()
 {
 	_depthStencilView->Release();
+	_renderTargetView->Release();
 	_swapChain->Release();
 	_dc->Release();
 	_device->Release();
@@ -17,7 +18,7 @@ Device::~Device()
 
 void Device::Clear()
 {
-	float clearColor[4] = { 0.0f,0.0f,0.0f,1.0f };
+	float clearColor[4] = { 0.2f,0.2f,0.2f,1.0f };
 
 	_dc->ClearRenderTargetView(_renderTargetView, clearColor);
 	_dc->ClearDepthStencilView(_depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);

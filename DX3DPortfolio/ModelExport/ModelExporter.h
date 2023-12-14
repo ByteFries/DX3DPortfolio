@@ -34,7 +34,7 @@ private:
 
 	const aiScene* _scene;
 
-	vector<MeshData*> _meshes;
+	map<string, vector<MeshData*>> _meshes;
 
 	vector<string> _materialNames;
 	vector<string> _meshNames;

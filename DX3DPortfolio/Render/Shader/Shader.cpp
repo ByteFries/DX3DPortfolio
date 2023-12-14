@@ -10,7 +10,7 @@ Shader::~Shader()
 
 VertexShader* Shader::AddVS(wstring key)
 {
-	wstring path = L"_Shader/Vertex" + key + L".hlsl";
+	wstring path = L"_Shader/Vertex/Vertex" + key + L".hlsl";
 	
 	assert(PathFileExists(path.c_str()));
 	
@@ -25,7 +25,7 @@ VertexShader* Shader::AddVS(wstring key)
 
 PixelShader* Shader::AddPS(wstring key)
 {
-	wstring path = L"_Shader/Pixel" + key + L".hlsl";
+	wstring path = L"_Shader/Pixel/Pixel" + key + L".hlsl";
 
 	assert(PathFileExists(path.c_str()));
 
@@ -40,7 +40,7 @@ PixelShader* Shader::AddPS(wstring key)
 
 ComputeShader* Shader::AddCS(wstring key)
 {
-	wstring path = L"_Shader/Compute" + key + L".hlsl";
+	wstring path = L"_Shader/Compute/Compute" + key + L".hlsl";
 
 	assert(PathFileExists(path.c_str()));
 

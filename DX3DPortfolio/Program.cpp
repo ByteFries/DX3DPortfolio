@@ -5,25 +5,33 @@
 Program::Program()
 {
 	Initialize();
+	Time::Get()->LockFPS(60.0f);
 	_scene = new MainScene();
 }
 
 Program::~Program()
 {
 	delete _scene;
-	delete rs;
-	Shader::Clear();
-	Texture::Delete();
-	Environment::Delete();
-	Camera::Delete();
 	Device::Delete();
+	Shader::Clear();
+	Time::Delete();
+	Environment::Delete();
+	Keyboard::Delete();
+	StateManager::Delete();
+	
+	Texture::Delete();
+	CameraManager::Delete();
+
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 }
 
 void Program::Update()
 {
 	Time::Get()->Update();
 	Keyboard::Get()->Update();
-	Camera::Get()->Update();
+	CAMERA->Update();
 	_scene->Update();
 }
 
@@ -33,6 +41,12 @@ void Program::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	if (KEY_DOWN(VK_SPACE))
+	{
+		mouseFocus = !mouseFocus;
+		ShowCursor(!mouseFocus);
+	}
+
 	if (_wireFrame)
 		StateManager::Get()->GetRasterizer()->ChangeState(D3D11_FILL_WIREFRAME);
 	else
@@ -41,9 +55,10 @@ void Program::Render()
 	Device::Get()->Clear();
 	Environment::Get()->SetPerspective();
 	_scene->Render();
-	Device::Get()->Present();
+	_scene->PostRender();
 
-	ImGui::Checkbox("WrieFrame", &_wireFrame);
+	ImGui::Checkbox("WireFrame", &_wireFrame);
+	Time::Get()->Debug();
 
 	ImGui::Render();
 
@@ -56,10 +71,7 @@ void Program::Initialize()
 {
 	Device::Get();
 
-	rs = new RasterizerState();
-	rs->SetState();
-
-	Camera::Get();
+	CAMERA;
 	Environment::Get();
 
 	IMGUI_CHECKVERSION();

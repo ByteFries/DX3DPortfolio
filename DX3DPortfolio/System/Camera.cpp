@@ -3,25 +3,26 @@
 
 Camera::Camera()
 {
-	_view = new MatrixBuffer();
-	_transform = new Transform();
+	_view = new CameraBuffer();
 }
 
 Camera::~Camera()
 {
 	delete _view;
-	delete _transform;
 }
 
 void Camera::Update()
 {
-	FreeMode();
+	if (!_target)
+		FreeMode();
+	else
+		TargetMode();
 }
 
 Ray Camera::ScreenPointToRay(Vector3 pos)
 {
 	Ray ray;
-	ray.origin = _transform->_translation;
+	ray.origin = _translation;
 
 	Vector3 point;
 
@@ -38,7 +39,7 @@ Ray Camera::ScreenPointToRay(Vector3 pos)
 	point.x /= proj._11;
 	point.y /= proj._22;
 
-	XMMATRIX invView = _transform->GetSRT();
+	XMMATRIX invView = _srt;
 
 	ray.direction = point * invView;
 	ray.direction.Normalize();
@@ -48,63 +49,118 @@ Ray Camera::ScreenPointToRay(Vector3 pos)
 
 void Camera::Debug()
 {
+	Transform::Debug();
 
+	if (ImGui::TreeNode("Camera Option"))
+	{
+
+		ImGui::Text("Camera Pos : %.3f, %.3f, %.3f", _translation.x, _translation.y, _translation.z);
+		ImGui::Text("Camera Rot : %.3f, %.3f, %.3f", _rotation.x, _rotation.y, _rotation.z);
+
+		Transform::Debug();
+
+		ImGui::SliderFloat("Height", &_targetHeight, -10.0f, 100.0f);
+		ImGui::SliderFloat("Distance", &_targetDistance, -10.0f, 100.0f);
+
+
+		ImGui::TreePop();
+	}
 }
 
 void Camera::FreeMode()
 {
+	//if (!KEY_PRESS(VK_LBUTTON))
+		//return;
+
 	if (KEY_PRESS('W'))
 	{
-		_transform->_translation += DELTA * _cameraSpeed * _transform->Forward();
+		_translation += DELTA * _cameraSpeed * _forward;
 	}
 	if (KEY_PRESS('S'))
 	{
-		_transform->_translation += DELTA * _cameraSpeed * _transform->Backward();
+		_translation += DELTA * _cameraSpeed * -1 * _forward;
 	}
 	if (KEY_PRESS('A'))
 	{
-		_transform->_translation += DELTA * _cameraSpeed * _transform->Left();
+		_translation += DELTA * _cameraSpeed * -1 * _right;
 	}
 	if (KEY_PRESS('D'))
 	{
-		_transform->_translation += DELTA * _cameraSpeed * _transform->Right();
+		_translation += DELTA * _cameraSpeed * _right;
 	}
 	if (KEY_PRESS('Q'))
 	{
-		_transform->_translation.y += DELTA * _cameraSpeed;
+		_translation.y += DELTA * _cameraSpeed;
 	}
 	if (KEY_PRESS('E'))
 	{
-		_transform->_translation.y -= DELTA * _cameraSpeed;
+		_translation.y -= DELTA * _cameraSpeed;
 	}
 
 	if (KEY_PRESS(VK_LBUTTON))
 	{
 		Vector3 dir = (mousePos - _oldMousePos).GetNormalized();
 
-		_transform->_rotation.y += dir.x * _cameraSpeed * DELTA;
-		_transform->_rotation.x += dir.y * _cameraSpeed * DELTA;
+		_rotation.y += dir.x * _cameraSpeed * DELTA;
+		_rotation.x += dir.y * _cameraSpeed * DELTA;
 	}
 
 	_oldMousePos = mousePos;
 	
 
-	_transform->Update();
-	SetView();
+	Transform::Update();
+
+	XMVECTOR   eyePos = _translation;
+	XMVECTOR focusPos = _translation + _forward;
+	XMVECTOR upVector = _up;
+
+	XMMATRIX matrix = XMMatrixLookAtLH(eyePos, focusPos, upVector);
+
+	_view->SetMatrix(matrix, _srt);
+	_view->SetVSBuffer(1);
 }
 
 void Camera::TargetMode()
 {
+	mouseDir.Normalize();
+	dir = mouseDir;
+
+	_rotation.y += mouseDir.x * _cameraSpeed * DELTA;
+	_rotation.x += mouseDir.y * _cameraSpeed * DELTA;
+
+	mouseDir.x = 0;
+	mouseDir.y = 0;
+
+	if (_rotation.x >= 2.0944f)
+		_rotation.x = 2.0944f;
+	else if (_rotation.x <= 0.785398f) //45
+		_rotation.x = 0.785398f;
+	
+	XMMATRIX rotMatrix = XMMatrixRotationRollPitchYaw(_rotation.x, _rotation.y, 0.0f);
+
+	Vector3 forward = FORWARD_VECTOR * rotMatrix;
+	
+	Vector3 worldPos = _target->GetWorldPos();
+
+	_translation = worldPos + UP_VECTOR * _targetHeight - _targetDistance * forward;
+
+	Transform::Update();
+
+	XMMATRIX matrix = XMMatrixLookAtLH(_translation, _target->_translation + _offset, UP_VECTOR);
+
+	_view->SetMatrix(matrix, _srt);
+
+	_view->SetVSBuffer(1);
 }
 
-void Camera::SetView()
+void Camera::SetViewBuffer()
 {
-	XMVECTOR   eyePos = _transform->_translation;
-	XMVECTOR focusPos = _transform->_translation + _transform->Forward();
-	XMVECTOR upVector = _transform->Up();
+	XMVECTOR   eyePos = _translation;
+	XMVECTOR focusPos = _translation + _forward;
+	XMVECTOR upVector = _up;
 
 	XMMATRIX matrix = XMMatrixLookAtLH(eyePos, focusPos, upVector);
 
-	_view->SetMatrix(matrix);
+	_view->SetMatrix(matrix, _srt);
 	_view->SetVSBuffer(1);
 }

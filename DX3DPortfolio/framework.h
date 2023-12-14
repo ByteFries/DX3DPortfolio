@@ -8,12 +8,12 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
+#include <DirectXCollision.h>
 #include <string>
 #include <vector>
 #include <functional>
 #include <map>
 #include <unordered_map>
-
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
@@ -62,8 +62,6 @@ using namespace DirectX;
 #include "Render\Buffer\VertexLayout.h"
 #include "Render\Buffer\StructuredBuffer.h"
 
-#include "Render\Mesh.h"
-
 #include "Render\Shader\Shader.h"
 #include "Render\Shader\VertexShader.h"
 #include "Render\Shader\PixelShader.h"
@@ -72,33 +70,38 @@ using namespace DirectX;
 #include "Render\Texture\Texture.h"
 #include "Render\Material.h"
 
+#include "Render\ModelPart.h"
+#include "Render\StaticMesh.h"
+#include "Render\SkeletalMesh.h"
+
 #include "Render\State\RasterizerState.h"
 #include "Render\State\SamplerState.h"
 #include "Render\State\StateManager.h"
 
-#include "Object\Transform.h"
-
-#include "Model\ModelMesh.h"
-#include "Model\ModelReader.h"
+#include "Actor\Transform.h"
 
 #include "Collider\Collider.h"
 #include "Collider\ColliderSphere.h"
 #include "Collider\ColliderBox.h"
 
-#include "Object\Basic\Quad.h"
-#include "Object\Basic\Cube.h"
-#include "Object\Basic\TextureCube.h"
-#include "Object\Basic\Sphere.h"
+#include "Actor\Basic\Quad.h"
+#include "Actor\Basic\Cube.h"
+#include "Actor\Basic\TextureCube.h"
+#include "Actor\Basic\Sphere.h"
 
 #include "ModelExport\ModelType.h"
 #include "ModelExport\ModelExporter.h"
 
-#include "Model\ModelMesh.h"
-#include "Model\ModelReader.h"
+#include "Actor\Model\ModelReader.h"
+#include "Actor\Model\ModelClip.h"
+#include "Actor\Actor.h"
+#include "Actor\ActorInstancing.h"
+#include "Actor\Model\Cat.h"
 
-#include "Object\Terrain\Terrain.h"
+#include "Actor\Terrain\Terrain.h"
 
 #include "System\Camera.h"
+#include "System\CameraManager.h"
 #include "System\Environment.h"
 
 #include "Scene\Scene.h"
@@ -107,3 +110,5 @@ using namespace DirectX;
 
 extern HWND hWnd;
 extern Vector3 mousePos;
+extern Vector3 mouseDir;
+extern bool mouseFocus;

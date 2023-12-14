@@ -23,6 +23,8 @@ public:
 
 	void Save(string path);
 	void Load(string path);
+
+	void Debug();
 private:
 	VertexShader* _vShader;
 	PixelShader* _pShader;

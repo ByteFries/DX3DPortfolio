@@ -39,6 +39,8 @@ struct Vector3
 		return Vector3(x - other.x, y - other.y, z - other.z);
 	}
 
+	
+
 	Vector3 operator*(float amount)
 	{
 		return Vector3(x * amount, y * amount, z * amount);
@@ -63,18 +65,48 @@ struct Vector3
 		z -= other.z;
 	}
 
+	void operator*=(float value)
+	{
+		x *= value;
+		y *= value;
+		z *= value;
+	}
+
+	bool operator==(const Vector3& other)
+	{
+		return (this->x == other.x) && (this->y == other.y) && (this->z == other.z);
+	}
+
 	Vector3 GetNormalized()
 	{
 		return XMVector3Normalize(*this);
+	}
+
+	float operator[](const UINT& index)
+	{
+		switch (index)
+		{
+		case 0:
+			return x;
+		case 1:
+			return y;
+		case 2:
+			return z;
+		default:
+			return 0.0f;
+		}
 	}
 
 	void Normalize()
 	{
 		float length = Length();
 
-		x /= length;
-		y /= length;
-		z /= length;
+		if (length)
+		{
+			x /= length;
+			y /= length;
+			z /= length;
+		}
 	}
 
 	float Length()

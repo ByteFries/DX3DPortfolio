@@ -15,6 +15,6 @@ private:
 
 	XMMATRIX _persMatrix;
 	MatrixBuffer* _pers;
-	SunBuffer* _sunBuffer;
+	LightBuffer* _lBuffer;
 };
 

@@ -14,6 +14,10 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 
+bool mouseFocus = false;
+XMFLOAT2 screenCenter = {};
+Vector3 mouseDir = Vector3(0.0f,0.0f,0.0f);
+
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -53,7 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         {
             if (msg.message == WM_QUIT)
                 break;
-
+            
             if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
             {
                 TranslateMessage(&msg);
@@ -118,12 +122,20 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
 
+   int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+   int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+   screenCenter.x = screenWidth * 0.5f;
+   screenCenter.y = screenHeight * 0.5f;
+   int x = (screenWidth - WIN_WIDTH) / 2;
+   int y = (screenHeight - WIN_HEIGHT) / 2;
+
    hWnd = CreateWindowW(
        szWindowClass,
        szTitle,
        WS_OVERLAPPEDWINDOW,
-       CW_USEDEFAULT,
-       0,
+       x,
+       y,
        rect.right - rect.left,
        rect.bottom - rect.top,
        nullptr,
@@ -165,11 +177,43 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
+    case WM_CREATE:
+        SetCapture(hWnd);
+        break;
+
     case WM_MOUSEMOVE:
     {
-        mousePos.x = LOWORD(lParam);
-        mousePos.y = HIWORD(lParam);
+        if (mouseFocus)
+        {
+            POINT cursorPos;
 
+            GetCursorPos(&cursorPos);
+
+            mouseDir.x = cursorPos.x - mousePos.x;
+            mouseDir.y = cursorPos.y - mousePos.y;
+
+            mousePos.x = cursorPos.x;
+            mousePos.y = cursorPos.y;
+
+            if (cursorPos.x <= screenCenter.x - WIN_WIDTH * 0.3f ||
+                cursorPos.x >= screenCenter.x + WIN_WIDTH * 0.3f)
+            {
+                mousePos.x = screenCenter.x;
+                SetCursorPos(screenCenter.x, mousePos.y);
+            }
+
+            if (cursorPos.y <= screenCenter.y - WIN_HEIGHT * 0.3f ||
+                cursorPos.y >= screenCenter.y + WIN_HEIGHT * 0.3f)
+            {
+                mousePos.y = screenCenter.y;
+                SetCursorPos(mousePos.x, screenCenter.y);
+            }
+        }
+        else
+        {
+            mousePos.x = LOWORD(lParam);
+            mousePos.y = HIWORD(lParam);
+        }
          break;
     }
     case WM_COMMAND:
@@ -198,7 +242,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_DESTROY:
+    {
+        ReleaseCapture();
         PostQuitMessage(0);
+    }
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

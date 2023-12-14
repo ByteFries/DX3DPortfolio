@@ -48,3 +48,8 @@ void Time::Update()
 		_oneSecCount = 0;
 	}
 }
+
+void Time::Debug()
+{
+	ImGui::Text("FPS : %d", _frameRate);
+}

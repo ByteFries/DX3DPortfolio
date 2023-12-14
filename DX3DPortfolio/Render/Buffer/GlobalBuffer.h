@@ -21,6 +21,40 @@ private:
 	} _data;
 };
 
+class WorldBuffer : public ConstantBuffer
+{
+public:
+	WorldBuffer()
+		:ConstantBuffer(&_data, sizeof(_data))
+	{
+		_data.matrix = XMMatrixIdentity();
+	}
+	~WorldBuffer() {}
+
+	void SetMatrix(XMMATRIX matrix)
+	{
+		_data.matrix = XMMatrixTranspose(matrix);
+	}
+
+	void SetAnimation(bool val)
+	{
+		_data.hasAnimation = val;
+	}
+
+	bool HasAnimation()
+	{
+		return _data.hasAnimation;
+	}
+
+private:
+	struct Data
+	{
+		XMMATRIX matrix;
+		int hasAnimation = 0;
+		int padding[3];
+	} _data;
+};
+
 class CameraBuffer : public ConstantBuffer
 {
 public:
@@ -70,28 +104,46 @@ private:
 	} _data;
 };
 
-class SunBuffer :public ConstantBuffer
+class LightBuffer :public ConstantBuffer
 {
 
 public:
-	SunBuffer()
+	struct LightData
+	{
+		XMFLOAT4 color = {1,1,1,1};
+
+		Vector3 direction;
+		int type;
+
+		Vector3 position;
+		float range;
+
+		float inner;
+		float outer;
+		float length;
+		int active;
+	};
+
+	LightBuffer()
 		:ConstantBuffer(&_data, sizeof(_data))
 	{
-		_data.L = {0, 1, 0};
+		_data.lights[0].direction = {0, -1, 0};
+		_data.lights[0].type = 0;
+		_data.lights[0].active = true;
+		_data.lightCount = 1;
 	}
 
-	~SunBuffer() {}
-
-	void SetDirection(Vector3 direction)
-	{
-		_data.L = -direction.GetNormalized();
-	}
+	~LightBuffer() {}
 
 private:
 	struct Data
 	{
-		Vector3 L;
-		float padding;
+		LightData lights[MAX_LIGHT];
+
+		int lightCount;
+		Vector3 ambientLight;
+		Vector3 ambientCeil;
+		int padding;
 	} _data;
 };
 
@@ -161,6 +213,21 @@ public:
 		return _data.hasNormalMap;
 	}
 
+	int& HasDiffuseMapRef()
+	{
+		return _data.hasDiffuseMap;
+	}
+
+	int& HasSpecularMapRef()
+	{
+		return _data.hasSpecularMap;
+	}
+
+	int& HasNormalMapRef()
+	{
+		return _data.hasNormalMap;
+	}
+
 	XMFLOAT4 GetDiffuseColor()
 	{
 		return _data.diffuseColor;
@@ -178,7 +245,28 @@ public:
 		return _data.emissive;
 	}
 
-	int GetShininess()
+	XMFLOAT4& GetDiffuseColorRef()
+	{
+		return _data.diffuseColor;
+	}
+	XMFLOAT4& GetSpecularColorRef()
+	{
+		return _data.specularColor;
+	}
+	XMFLOAT4& GetAmbientColorRef()
+	{
+		return _data.ambientColor;
+	}
+	XMFLOAT4& GetEmissiveColorRef()
+	{
+		return _data.emissive;
+	}
+
+	float GetShininess()
+	{
+		return _data.shininess;
+	}
+	float& GetShininessRef()
 	{
 		return _data.shininess;
 	}
@@ -194,7 +282,7 @@ private:
 		int hasDiffuseMap;
 		int hasSpecularMap;
 		int hasNormalMap;
-		int shininess;
+		float shininess;
 	} _data;
 };
 
@@ -245,4 +333,150 @@ private:
 		Vector3 direction = {};
 		float   padding = 0;
 	} _data;
+};
+
+class FrameBuffer : public ConstantBuffer
+{
+public:
+	FrameBuffer()
+		: ConstantBuffer(&_data, sizeof(Data))
+	{
+		_data.next.clipIndex = -1;
+	}
+
+	struct Frame
+	{
+		int   clipIndex = 0;
+		UINT  curFrame = 0;
+		UINT  nextFrame = 0;
+		float time = 0.0f;
+
+		float speed = 1.0f;
+		float padding3[3];
+	};
+
+	struct Data
+	{
+		float tweenTime = 0.0f;
+		float runningTime = 0.0f;
+		float padding1;
+		float padding2;
+
+		Frame cur, next;
+	};
+
+	const FrameBuffer::Frame GetCurFrame()
+	{
+		return _data.cur;
+	}
+
+	void SetCurFrame(Frame frame)
+	{
+		_data.cur = frame;
+	}
+
+	const FrameBuffer::Frame GetNextFrame()
+	{
+		return _data.next;
+	}
+
+	void SetNextFrame(Frame frame)
+	{
+		_data.next = frame;
+	}
+
+	FrameBuffer::Frame& GetCurFrameRef()
+	{
+		return _data.cur;
+	}
+
+	FrameBuffer::Frame& GetNextFrameRef()
+	{
+		return _data.next;
+	}
+
+	FrameBuffer::Data GetData()
+	{
+		return _data;
+	}
+
+	FrameBuffer::Data& GetDataRef()
+	{
+		return _data;
+	}
+
+	float GetTweenTime()
+	{
+		return _data.tweenTime;
+	}
+
+	float& GetTweenTimeRef()
+	{
+		return _data.tweenTime;
+	}
+
+	float GetRunningTime()
+	{
+		return _data.runningTime;
+	}
+
+	void SetTweenTime(float time)
+	{
+		_data.tweenTime = time;
+	}
+
+	void SetRunningTime(float time)
+	{
+		_data.runningTime = time;
+	}
+
+private:
+
+	Data _data;
+};
+
+class InstancingFrameBuffer : public ConstantBuffer
+{
+public:
+	InstancingFrameBuffer()
+		: ConstantBuffer(&_data, sizeof(Data))
+	{
+	}
+
+	struct Frame
+	{
+		int   clipIndex = 0;
+		UINT  curFrame = 0;
+		UINT  nextFrame = 0;
+		float time = 0.0f;
+
+		float speed = 1.0f;
+		float padding3[3];
+	};
+
+	struct Motion
+	{
+		Motion()
+		{
+			next.clipIndex = -1;
+		}
+
+		float takeTime = 0.0f;
+		float tweenTime = 0.0f;
+		float runningTime = 0.0f;
+		float padding = 0.0f;
+
+		Frame cur, next;
+	};
+
+	struct Data
+	{
+		Motion motion[MAX_INSTANCE];
+	} data;
+
+	InstancingFrameBuffer::Motion& GetMotion(int index) { return _data.motion[index]; }
+
+private:
+
+	Data _data;
 };

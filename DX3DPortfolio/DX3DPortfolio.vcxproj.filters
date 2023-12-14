@@ -51,7 +51,7 @@
     <ClInclude Include="Render\Material.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Render\Mesh.h">
+    <ClInclude Include="Render\StaticMesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Render\Buffer\VertexLayout.h">
@@ -78,10 +78,7 @@
     <ClInclude Include="Render\Shader\PixelShader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Transform.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Basic\Cube.h">
+    <ClInclude Include="Actor\Transform.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="System\Environment.h">
@@ -111,16 +108,7 @@
     <ClInclude Include="Render\Texture\Texture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\Basic\Quad.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Terrain\Terrain.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Basic\TextureCube.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Object\Basic\Sphere.h">
+    <ClInclude Include="Actor\Terrain\Terrain.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Render\Shader\ComputeShader.h">
@@ -147,16 +135,37 @@
     <ClInclude Include="Utility\Utility.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Model\ModelReader.h">
+    <ClInclude Include="Actor\Model\ModelReader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Model\ModelMesh.h">
+    <ClInclude Include="Render\ModelPart.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ModelExport\ModelType.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ModelExport\ModelExporter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Actor.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Model\ModelClip.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Model\Cat.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\CameraManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\SkeletalMesh.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Model\Enemy\Monster.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\ActorInstancing.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -188,7 +197,7 @@
     <ClCompile Include="Render\Material.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Mesh.cpp">
+    <ClCompile Include="Render\StaticMesh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Render\Buffer\ConstantBuffer.cpp">
@@ -209,10 +218,7 @@
     <ClCompile Include="Render\Shader\PixelShader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Transform.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Basic\Cube.cpp">
+    <ClCompile Include="Actor\Transform.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="System\Environment.cpp">
@@ -239,16 +245,7 @@
     <ClCompile Include="Render\Texture\Texture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\Basic\Quad.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Terrain\Terrain.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Basic\TextureCube.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Object\Basic\Sphere.cpp">
+    <ClCompile Include="Actor\Terrain\Terrain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Render\Shader\ComputeShader.cpp">
@@ -275,13 +272,34 @@
     <ClCompile Include="Utility\Utility.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Model\ModelReader.cpp">
+    <ClCompile Include="Actor\Model\ModelReader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Model\ModelMesh.cpp">
+    <ClCompile Include="Render\ModelPart.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ModelExport\ModelExporter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Actor.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Model\ModelClip.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Model\Cat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\CameraManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\SkeletalMesh.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Model\Enemy\Monster.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\ActorInstancing.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -299,15 +317,17 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="_Shader\VertexColor.hlsl" />
-    <FxCompile Include="_Shader\PixelColor.hlsl" />
-    <FxCompile Include="_Shader\VertexTexture.hlsl" />
-    <FxCompile Include="_Shader\PixelTexture.hlsl" />
-    <FxCompile Include="_Shader\VertexDefault.hlsl" />
-    <FxCompile Include="_Shader\PixelDefault.hlsl" />
-    <FxCompile Include="_Shader\ComputePicking.hlsl" />
-    <FxCompile Include="_Shader\VertexCollider.hlsl" />
-    <FxCompile Include="_Shader\PixelCollider.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexColor.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelColor.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexTexture.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelTexture.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexDefault.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelDefault.hlsl" />
+    <FxCompile Include="_Shader\Compute\ComputePicking.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexCollider.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelCollider.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexDefualtInstance.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelDefualtInstance.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="_Library\DirectXTex.lib" />
@@ -318,5 +338,6 @@
       <Filter>헤더 파일</Filter>
     </None>
     <None Include="_Library\assimp-vc143-mtd.dll" />
+    <None Include="_Shader\Header.hlsli" />
   </ItemGroup>
 </Project>

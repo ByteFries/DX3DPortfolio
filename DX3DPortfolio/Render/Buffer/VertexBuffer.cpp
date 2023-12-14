@@ -6,10 +6,15 @@ VertexBuffer::~VertexBuffer()
 	_buffer->Release();
 }
 
+void VertexBuffer::InstancingSetBuffer(UINT slot, D3D11_PRIMITIVE_TOPOLOGY type)
+{
+	DC->IASetPrimitiveTopology(type);
+	DC->IASetVertexBuffers(slot, 1, &_buffer, &_stride, &_offset);
+}
+
 void VertexBuffer::IASetBuffer(D3D11_PRIMITIVE_TOPOLOGY type)
 {
 	DC->IASetPrimitiveTopology(type);
-
 	DC->IASetVertexBuffers(0, 1, &_buffer, &_stride, &_offset);
 }
 

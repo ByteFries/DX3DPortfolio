@@ -10,6 +10,9 @@ public:
 	static float Delta() { return _timeElapsed; }
 
 	UINT GetFPS() { return _frameRate; }
+
+	void LockFPS(float val) { _scanningRate = val; }
+	void Debug();
 private:
 	static float _timeElapsed;
 

@@ -51,7 +51,7 @@ UINT BinaryReader::ReadUINT()
 {
     UINT data;
 
-    ReadFile(_file, &data, sizeof(UINT), &_size, nullptr);
+	ReadFile(_file, &data, sizeof(UINT), &_size, nullptr);
 
     return data;
 }

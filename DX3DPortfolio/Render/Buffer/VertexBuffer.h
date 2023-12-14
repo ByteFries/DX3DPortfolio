@@ -7,6 +7,8 @@ public:
 	~VertexBuffer();
 
 	void IASetBuffer(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	void InstancingSetBuffer(UINT slot = 1, D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
 
 	void UpdateVertices(void* data, UINT size);
 
