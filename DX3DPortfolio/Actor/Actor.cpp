@@ -16,7 +16,10 @@ Actor::~Actor()
 
 	delete _frameBuffer;
 
-	_srv->Release();
+	if (_srv)
+		_srv->Release();
+
+	if (_animationTexture)
 	_animationTexture->Release();
 }
 

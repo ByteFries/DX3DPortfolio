@@ -168,6 +168,18 @@
     <ClInclude Include="Actor\ActorInstancing.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Render\View\RenderTarget.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\View\DepthStencil.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Model\Enemy\Watcher.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Basic\Quad.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -302,6 +314,18 @@
     <ClCompile Include="Actor\ActorInstancing.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Render\View\RenderTarget.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\View\DepthStencil.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Model\Enemy\Watcher.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Basic\Quad.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="__Others\DX3DPortfolio.rc">
@@ -328,6 +352,8 @@
     <FxCompile Include="_Shader\Pixel\PixelCollider.hlsl" />
     <FxCompile Include="_Shader\Vertex\VertexDefualtInstance.hlsl" />
     <FxCompile Include="_Shader\Pixel\PixelDefualtInstance.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexReflection.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelReflection.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="_Library\DirectXTex.lib" />

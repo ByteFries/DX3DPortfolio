@@ -15,9 +15,7 @@ Quad::~Quad()
 void Quad::Render()
 {
 	_wBuffer->SetVSBuffer(0);
-
-
-	DC->DrawIndexed(_indices.size(), 0, 0);
+	_mesh->Render();
 }
 
 void Quad::Update()
@@ -31,19 +29,30 @@ void Quad::CreateVertices()
 	halfSize.x = _size.x * 0.5f;
 	halfSize.y = _size.y * 0.5f;
 
-	VertexTexture v;
+	VertexTextureNormalTangentBlend v;
 
 	v.pos = { -halfSize.x, +halfSize.y, 0.0f };
 	v.uv = { 0,0 };
+	v.normal = { 0,0,-1 };
+	v.tangent = { 1,0,0 };
 	_vertices.push_back(v);
+
 	v.pos = { +halfSize.x, +halfSize.y, 0.0f };
 	v.uv = { 1,0 };
+	v.normal = { 0,0,-1 };
+	v.tangent = { 1,0,0 };
 	_vertices.push_back(v);
+	
 	v.pos = { -halfSize.x, -halfSize.y, 0.0f };
 	v.uv = { 0,1 };
+	v.normal = { 0,0,-1 };
+	v.tangent = { 1,0,0 };
 	_vertices.push_back(v);
+
 	v.pos = { +halfSize.x, -halfSize.y, 0.0f };
 	v.uv = { 1,1 };
+	v.normal = { 0,0,-1 };
+	v.tangent = { 1,0,0 };
 	_vertices.push_back(v);
 
 	_indices.push_back(0);
@@ -53,4 +62,15 @@ void Quad::CreateVertices()
 	_indices.push_back(2);
 	_indices.push_back(1);
 	_indices.push_back(3);
+
+	ModelPart* modelPart = new ModelPart();
+	modelPart->CreateBuffers(_vertices, _indices);
+
+	Material* material = new Material();
+	material->SetShader(L"Default");
+
+	modelPart->SetMaterial(material);
+
+	_mesh = new StaticMesh();
+	_mesh->AddMesh(modelPart);
 }

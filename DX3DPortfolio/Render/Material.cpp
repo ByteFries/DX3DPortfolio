@@ -60,6 +60,12 @@ void Material::SetDiffuseMap(wstring path)
 	_mBuffer->SetDiffuseMap(true);
 }
 
+void Material::SetDiffuseMap(Texture* texture)
+{
+	_diffuseMap = texture;
+	_mBuffer->SetDiffuseMap(true);
+}
+
 void Material::SetSpecularMap(wstring path)
 {
 	_specularMap = Texture::Get(path);

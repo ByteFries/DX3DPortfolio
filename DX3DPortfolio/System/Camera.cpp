@@ -47,6 +47,23 @@ Ray Camera::ScreenPointToRay(Vector3 pos)
 	return ray;
 }
 
+void Camera::SetView()
+{
+	Transform::Update();
+
+	XMMATRIX viewMatrix = XMMatrixInverse(nullptr, _srt);
+
+	_view->SetMatrix(viewMatrix, _srt);
+	//_view->SetVSBuffer(1);
+	//_view->SetDSBuffer(1);
+	//_view->SetHSBuffer(1);
+}
+
+void Camera::SetVSBuffer(UINT slot)
+{
+	_view->SetVSBuffer(slot);
+}
+
 void Camera::Debug()
 {
 	Transform::Debug();

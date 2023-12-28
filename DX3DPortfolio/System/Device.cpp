@@ -18,6 +18,8 @@ Device::~Device()
 
 void Device::Clear()
 {
+	_dc->OMSetRenderTargets(1, &_renderTargetView, _depthStencilView);
+
 	float clearColor[4] = { 0.2f,0.2f,0.2f,1.0f };
 
 	_dc->ClearRenderTargetView(_renderTargetView, clearColor);

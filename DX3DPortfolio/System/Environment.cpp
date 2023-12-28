@@ -21,6 +21,27 @@ void Environment::SetPerspective()
 	_lBuffer->SetPSBuffer(0);
 }
 
+void Environment::SetViewport(UINT width, UINT height)
+{
+	D3D11_VIEWPORT viewPort;
+	viewPort.TopLeftX = 0.0f;
+	viewPort.TopLeftY = 0.0f;
+	viewPort.Width = width;
+	viewPort.Height = height;
+	viewPort.MinDepth = 0.0f;
+	viewPort.MaxDepth = 1.0f;
+
+	DC->RSSetViewports(1, &viewPort);
+}
+
+void Environment::SetEnvironment()
+{
+	_lBuffer->SetPSBuffer(0);
+	_pers->SetVSBuffer(2);
+
+	//StateManager::Get()->Set();
+}
+
 void Environment::CreateProjection()
 {
 	_pers = new MatrixBuffer();

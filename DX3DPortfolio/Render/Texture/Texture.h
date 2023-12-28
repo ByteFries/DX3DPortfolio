@@ -7,6 +7,7 @@ private:
 
 public:
 	static Texture* Get(wstring file);
+	static Texture* Get(wstring key, ID3D11ShaderResourceView* srv);
 	static void Delete();
 
 	wstring GetPath() { return _path; }

@@ -44,6 +44,16 @@ Texture* Texture::Get(wstring file)
 	return _textures[file];
 }
 
+Texture* Texture::Get(wstring key, ID3D11ShaderResourceView* srv)
+{
+	ScratchImage img;
+
+	_textures[key] = new Texture(srv, img);
+	_textures[key]->_path = key;
+
+	return _textures[key];
+}
+
 void Texture::Delete()
 {
 	for (pair<wstring, Texture*> pair : _textures)

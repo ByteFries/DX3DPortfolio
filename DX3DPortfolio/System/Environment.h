@@ -9,6 +9,9 @@ public:
 
 	XMMATRIX GetPersMatrix() { return _persMatrix; }
 
+	void SetViewport(UINT width = WIN_WIDTH, UINT height = WIN_HEIGHT);
+
+	void SetEnvironment();
 private:
 	void CreateProjection();
 	void CreateViewport();

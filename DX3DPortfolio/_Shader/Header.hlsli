@@ -81,7 +81,7 @@ struct Vertex44
     float4 data : DATA;
 };
 
-struct Veretx42
+struct Vertex42
 {
     float4 pos : POSITION;
     float2 data : DATA;

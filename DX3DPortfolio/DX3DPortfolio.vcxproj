@@ -131,8 +131,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Basic\Quad.h" />
     <ClInclude Include="Actor\Model\Enemy\Monster.h" />
     <ClInclude Include="Actor\ActorInstancing.h" />
+    <ClInclude Include="Render\View\DepthStencil.h" />
+    <ClInclude Include="Render\View\RenderTarget.h" />
     <ClInclude Include="Render\SkeletalMesh.h" />
     <ClInclude Include="System\CameraManager.h" />
     <ClInclude Include="Actor\Model\Cat.h" />
@@ -179,13 +182,17 @@
     <ClInclude Include="Render\Buffer\VertexBuffer.h" />
     <ClInclude Include="Render\Shader\VertexShader.h" />
     <ClInclude Include="Utility\Utility.h" />
+    <ClInclude Include="Actor\Model\Enemy\Watcher.h" />
     <ClInclude Include="_Include\DirectXTex.h" />
     <ClInclude Include="__Others\Resource.h" />
     <ClInclude Include="__Others\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Basic\Quad.cpp" />
     <ClCompile Include="Actor\Model\Enemy\Monster.cpp" />
     <ClCompile Include="Actor\ActorInstancing.cpp" />
+    <ClCompile Include="Render\View\DepthStencil.cpp" />
+    <ClCompile Include="Render\View\RenderTarget.cpp" />
     <ClCompile Include="Render\SkeletalMesh.cpp" />
     <ClCompile Include="System\CameraManager.cpp" />
     <ClCompile Include="Actor\Model\Cat.cpp" />
@@ -233,6 +240,7 @@
     <ClCompile Include="Render\Buffer\VertexBuffer.cpp" />
     <ClCompile Include="Render\Shader\VertexShader.cpp" />
     <ClCompile Include="Utility\Utility.cpp" />
+    <ClCompile Include="Actor\Model\Enemy\Watcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="__Others\DX3DPortfolio.rc" />
@@ -279,6 +287,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="_Shader\Pixel\PixelReflection.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="_Shader\Pixel\PixelTexture.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -312,6 +326,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="_Shader\Vertex\VertexReflection.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="_Shader\Vertex\VertexTexture.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>

@@ -12,6 +12,10 @@ public:
 
 	void SetTarget(Transform* transform) { _target = transform; }
 
+	void SetView();
+
+	void SetVSBuffer(UINT slot);
+
 	void Debug();
 private:
 	void FreeMode();

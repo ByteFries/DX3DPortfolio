@@ -52,8 +52,16 @@ void Program::Render()
 	else
 		StateManager::Get()->GetRasterizer()->ChangeState(D3D11_FILL_SOLID);
 
+	_scene->PreRender();
+
 	Device::Get()->Clear();
-	Environment::Get()->SetPerspective();
+
+	Environment::Get()->SetViewport();
+	//Environment::Get()->SetPerspective();
+
+
+	Environment::Get()->SetEnvironment();
+
 	_scene->Render();
 	_scene->PostRender();
 

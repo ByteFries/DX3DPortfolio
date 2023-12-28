@@ -6,6 +6,8 @@ public:
 	~MainScene();
 
 	void Update() override;
+
+	void PreRender() override;
 	void Render() override;
 	void PostRender() override;
 
@@ -15,4 +17,6 @@ private:
 	Cat* _cat;
 	Actor* _actor;
 	ActorInstancing* _instancing;
+	Watcher* _watcher;
+	Quad* quad;
 };

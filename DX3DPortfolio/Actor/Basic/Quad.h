@@ -7,11 +7,12 @@ public:
 
 	void Render();
 	void Update();
-
+	
+	StaticMesh* GetMesh() { return _mesh; }
 private:
 	void CreateVertices();
 
-	vector<VertexTexture> _vertices;
+	vector<VertexTextureNormalTangentBlend> _vertices;
 	vector<UINT> _indices;
 
 	XMFLOAT2 _size;

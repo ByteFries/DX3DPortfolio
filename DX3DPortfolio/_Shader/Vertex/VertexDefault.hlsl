@@ -14,7 +14,7 @@ LightVertexOutput main(VertexInput input)
 {
     LightVertexOutput result;
     
-    matrix transform;
+    float4x4 transform;
     
     [branch]
     if (hasAnimation)

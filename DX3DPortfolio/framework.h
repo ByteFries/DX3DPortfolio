@@ -78,6 +78,9 @@ using namespace DirectX;
 #include "Render\State\SamplerState.h"
 #include "Render\State\StateManager.h"
 
+#include "Render\View\DepthStencil.h"
+#include "Render\View\RenderTarget.h"
+
 #include "Actor\Transform.h"
 
 #include "Collider\Collider.h"
@@ -96,7 +99,9 @@ using namespace DirectX;
 #include "Actor\Model\ModelClip.h"
 #include "Actor\Actor.h"
 #include "Actor\ActorInstancing.h"
+
 #include "Actor\Model\Cat.h"
+#include "Actor\Model\Enemy\Watcher.h"
 
 #include "Actor\Terrain\Terrain.h"
 
