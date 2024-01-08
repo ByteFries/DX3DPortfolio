@@ -134,6 +134,7 @@
     <ClInclude Include="Actor\Basic\Quad.h" />
     <ClInclude Include="Actor\Model\Enemy\Monster.h" />
     <ClInclude Include="Actor\ActorInstancing.h" />
+    <ClInclude Include="Animation\BlendSpace.h" />
     <ClInclude Include="Render\View\DepthStencil.h" />
     <ClInclude Include="Render\View\RenderTarget.h" />
     <ClInclude Include="Render\SkeletalMesh.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="Actor\Basic\Quad.cpp" />
     <ClCompile Include="Actor\Model\Enemy\Monster.cpp" />
     <ClCompile Include="Actor\ActorInstancing.cpp" />
+    <ClCompile Include="Animation\BlendSpace.cpp" />
     <ClCompile Include="Render\View\DepthStencil.cpp" />
     <ClCompile Include="Render\View\RenderTarget.cpp" />
     <ClCompile Include="Render\SkeletalMesh.cpp" />

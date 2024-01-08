@@ -25,5 +25,7 @@ private:
 	static unordered_map<wstring, Texture*> _textures;
 
 	wstring _path;
+
+	bool _isRef = false;
 };
 

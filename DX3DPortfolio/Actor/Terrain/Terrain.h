@@ -9,7 +9,7 @@ public:
 	void Update();
 	void Render();
 
-	Material* GetMaterial() { return _mesh->GetPart(0)->GetMaterial(); }
+	Material* GetMaterial() { return _mesh->GetMaterial(0); }
 
 	bool Picking(Vector3 input, OUT Vector3* position);
 

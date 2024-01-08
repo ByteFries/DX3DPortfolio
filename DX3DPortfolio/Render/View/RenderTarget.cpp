@@ -18,6 +18,11 @@ RenderTarget::~RenderTarget()
 
 void RenderTarget::Set(DepthStencil* depthStencil, XMFLOAT4 clearColor)
 {
+	//ID3D11RenderTargetView* nullRTV = nullptr;
+	//ID3D11DepthStencilView* nullDSV = nullptr;
+	//
+	//DC->OMSetRenderTargets(1, &nullRTV, nullDSV);
+
 	DC->OMSetRenderTargets(1, &_rtv, depthStencil->GetDSV());
 
 	DC->ClearRenderTargetView(_rtv, (float*)&clearColor);

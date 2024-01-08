@@ -4,7 +4,7 @@
 Actor::Actor(string name)
 	:_name(name)
 {
-	ReadData();
+	ReadStaticMesh(name);
 }
 
 Actor::~Actor()
@@ -21,6 +21,11 @@ Actor::~Actor()
 
 	if (_animationTexture)
 	_animationTexture->Release();
+
+	for (ModelClip* clip : _clips)
+		delete clip;
+
+	_clips.clear();
 }
 
 void Actor::Render()
@@ -191,16 +196,20 @@ void Actor::CreateClipTransform(UINT index)
 	}
 }
 
-void Actor::ReadData()
+void Actor::ReadStaticMesh(string name)
 {
-	ModelData data;
-	ModelReader::ReadModel(data, _name);
 	_mesh = new StaticMesh();
-	_mesh->SetMesh(_name);
-	_bones = data.bones;
-	_nodes = data.nodes;
-	_boneMap = data.boneMap;
+	_mesh->SetMesh(name);
+	_mesh->SetShader(L"Default");
+}
 
+void Actor::ReadSkeletalMesh(string name)
+{
+	_mesh = new SkeletalMesh();
+	//_bones = data.bones;
+	//_nodes = data.nodes;
+	//_boneMap = data.boneMap;
+	_mesh->SetMesh(name);
 	_mesh->SetShader(L"Default");
 }
 

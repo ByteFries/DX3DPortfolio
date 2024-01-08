@@ -53,21 +53,26 @@ void Program::Render()
 		StateManager::Get()->GetRasterizer()->ChangeState(D3D11_FILL_SOLID);
 
 	_scene->PreRender();
-
+	
 	Device::Get()->Clear();
 
 	Environment::Get()->SetViewport();
-	//Environment::Get()->SetPerspective();
 
+	//Environment::Get()->SetPerspective();
 
 	Environment::Get()->SetEnvironment();
 
 	_scene->Render();
+
+	//Todo : Add Ortho
+
 	_scene->PostRender();
+	CAMERA->Render();
 
 	ImGui::Checkbox("WireFrame", &_wireFrame);
+	ImGui::Checkbox("Hide Camera", &CameraManager::_hideCamera);
 	Time::Get()->Debug();
-
+	CAMERA->Debug();
 	ImGui::Render();
 
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

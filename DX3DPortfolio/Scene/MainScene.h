@@ -13,10 +13,7 @@ public:
 
 private:
 	Terrain* _terrain;
-	ModelExporter* _exporter;
 	Cat* _cat;
-	Actor* _actor;
-	ActorInstancing* _instancing;
 	Watcher* _watcher;
-	Quad* quad;
+	Actor* actor;
 };

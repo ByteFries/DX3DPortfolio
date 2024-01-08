@@ -4,6 +4,7 @@
 Camera::Camera()
 {
 	_view = new CameraBuffer();
+
 }
 
 Camera::~Camera()
@@ -13,10 +14,23 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	if (!_target)
+	if (ImGui::GetIO().WantCaptureMouse)
+		return;
+
+	switch (_cameraMode)
+	{
+	case FREE:
 		FreeMode();
-	else
+		break;
+	case TARGET:
 		TargetMode();
+		break;
+	case STATIC:
+		StaticMode();
+		break;
+	default:
+		break;
+	}
 }
 
 Ray Camera::ScreenPointToRay(Vector3 pos)
@@ -54,7 +68,7 @@ void Camera::SetView()
 	XMMATRIX viewMatrix = XMMatrixInverse(nullptr, _srt);
 
 	_view->SetMatrix(viewMatrix, _srt);
-	//_view->SetVSBuffer(1);
+	_view->SetVSBuffer(1);
 	//_view->SetDSBuffer(1);
 	//_view->SetHSBuffer(1);
 }
@@ -66,9 +80,7 @@ void Camera::SetVSBuffer(UINT slot)
 
 void Camera::Debug()
 {
-	Transform::Debug();
-
-	if (ImGui::TreeNode("Camera Option"))
+	if (ImGui::TreeNode(_label.c_str()))
 	{
 
 		ImGui::Text("Camera Pos : %.3f, %.3f, %.3f", _translation.x, _translation.y, _translation.z);
@@ -78,6 +90,10 @@ void Camera::Debug()
 
 		ImGui::SliderFloat("Height", &_targetHeight, -10.0f, 100.0f);
 		ImGui::SliderFloat("Distance", &_targetDistance, -10.0f, 100.0f);
+
+		ImGui::SliderFloat("TargetDistance", &_targetDistance, 0.0f, 100.0f);
+		ImGui::SliderFloat("TargetHeight", &_targetHeight, 0.0f, 100.0f);
+		ImGui::DragFloat3("Offset", (float*) & _offset, 10.0f, 0.0f, 100.0f);
 
 
 		ImGui::TreePop();
@@ -91,47 +107,42 @@ void Camera::FreeMode()
 
 	if (KEY_PRESS('W'))
 	{
-		_translation += DELTA * _cameraSpeed * _forward;
+		_translation += DELTA * _moveSpeed * _forward;
 	}
 	if (KEY_PRESS('S'))
 	{
-		_translation += DELTA * _cameraSpeed * -1 * _forward;
+		_translation += DELTA * _moveSpeed * -1 * _forward;
 	}
 	if (KEY_PRESS('A'))
 	{
-		_translation += DELTA * _cameraSpeed * -1 * _right;
+		_translation += DELTA * _moveSpeed * -1 * _right;
 	}
 	if (KEY_PRESS('D'))
 	{
-		_translation += DELTA * _cameraSpeed * _right;
+		_translation += DELTA * _moveSpeed * _right;
 	}
 	if (KEY_PRESS('Q'))
 	{
-		_translation.y += DELTA * _cameraSpeed;
+		_translation.y += DELTA * _moveSpeed;
 	}
 	if (KEY_PRESS('E'))
 	{
-		_translation.y -= DELTA * _cameraSpeed;
+		_translation.y -= DELTA * _moveSpeed;
 	}
 
 	if (KEY_PRESS(VK_LBUTTON))
 	{
 		Vector3 dir = (mousePos - _oldMousePos).GetNormalized();
 
-		_rotation.y += dir.x * _cameraSpeed * DELTA;
-		_rotation.x += dir.y * _cameraSpeed * DELTA;
+		_rotation.y += dir.x * _rotSpeed * DELTA;
+		_rotation.x += dir.y * _rotSpeed * DELTA;
 	}
 
 	_oldMousePos = mousePos;
 	
-
 	Transform::Update();
-
-	XMVECTOR   eyePos = _translation;
-	XMVECTOR focusPos = _translation + _forward;
-	XMVECTOR upVector = _up;
-
-	XMMATRIX matrix = XMMatrixLookAtLH(eyePos, focusPos, upVector);
+	
+	XMMATRIX matrix = XMMatrixInverse(nullptr, _srt);
 
 	_view->SetMatrix(matrix, _srt);
 	_view->SetVSBuffer(1);
@@ -142,8 +153,8 @@ void Camera::TargetMode()
 	mouseDir.Normalize();
 	dir = mouseDir;
 
-	_rotation.y += mouseDir.x * _cameraSpeed * DELTA;
-	_rotation.x += mouseDir.y * _cameraSpeed * DELTA;
+	_rotation.y += mouseDir.x * _rotSpeed * DELTA;
+	_rotation.x += mouseDir.y * _rotSpeed * DELTA;
 
 	mouseDir.x = 0;
 	mouseDir.y = 0;
@@ -167,6 +178,16 @@ void Camera::TargetMode()
 
 	_view->SetMatrix(matrix, _srt);
 
+	_view->SetVSBuffer(1);
+}
+
+void Camera::StaticMode()
+{
+	Transform::Update();
+
+	XMMATRIX matrix = XMMatrixInverse(nullptr, _srt);
+
+	_view->SetMatrix(matrix, _srt);
 	_view->SetVSBuffer(1);
 }
 

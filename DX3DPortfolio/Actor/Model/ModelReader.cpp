@@ -23,9 +23,8 @@ void ModelReader::ReadModelParts(ModelData& data, string name)
 			part->SetName(meshName + to_string(i));
 
 			UINT materialIndex = reader.ReadUINT();
-			part->SetMaterial(data.materials[materialIndex]);
+			part->SetMaterialSlot(materialIndex);
 
-			
 			UINT count = reader.ReadUINT();
 
 			vector<ModelVertex> vertices;

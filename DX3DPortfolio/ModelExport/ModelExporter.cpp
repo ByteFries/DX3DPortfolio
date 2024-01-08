@@ -42,14 +42,26 @@ void ModelExporter::ExportClip(string file)
 
 	assert(_scene != nullptr);
 
+	vector<string> clipNames;
+
 	for (UINT i = 0; i < _scene->mNumAnimations; i++)
 	{
 		Clip* clip = ReadClip(_scene->mAnimations[i]);
 
 		WriteClip(clip, file + to_string(i));
 
+		clipNames.push_back(clip->name);
+
 		delete clip;
 	}
+
+	string savePath = "Actor/Model/Data/" + _name + "/Clip/" + "ClipNames.clip";
+
+	BinaryWriter data(savePath);
+
+	data.WriteData(clipNames.size());
+
+	data.WriteData(clipNames.data(), sizeof(string) * clipNames.size());
 }
 
 void ModelExporter::ExportMaterial()

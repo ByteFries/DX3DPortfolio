@@ -271,6 +271,11 @@ public:
 		return _data.shininess;
 	}
 
+	void SetLightAffect(bool val)
+	{
+		_data.affectByLight = val;
+	}
+
 private:
 	struct Data
 	{
@@ -283,6 +288,9 @@ private:
 		int hasSpecularMap;
 		int hasNormalMap;
 		float shininess;
+		
+		int affectByLight = true;
+		Vector3 padding;
 	} _data;
 };
 

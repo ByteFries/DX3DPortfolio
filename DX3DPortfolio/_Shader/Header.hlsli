@@ -26,6 +26,8 @@ cbuffer MaterialBuffer : register(b1)
     int hasSpecular;
     int hasNormal;
     float shininess;
+    
+    int affectByLight;
 }
 
 struct Frame
@@ -232,14 +234,18 @@ struct LightMaterial
 struct LightData
 {
     float4 color;
+    
     float3 direction;
     int type;
+    
     float3 position;
     float range;
+    
     float inner;
     float outer;
     float length;
     int active;
+    
 };
 
 #define MAX_LIGHT 10
@@ -305,6 +311,8 @@ LightMaterial GetLightMaterial(LightVertexOutput input)
     
     result.viewPos = input.viewPos;
     result.worldPos = input.worldPos;
+    
+    result.emissive = emissive;
     
     return result;
 }

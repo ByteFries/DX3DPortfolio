@@ -17,6 +17,8 @@ void Collider::Render()
 	if (_hidden)
 		return;
 
+	_wBuffer->SetVSBuffer(0);
+
 	_mesh->Render(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 
 	DC->DrawIndexed(_indices.size(), 0, 0);

@@ -69,8 +69,9 @@ void Quad::CreateVertices()
 	Material* material = new Material();
 	material->SetShader(L"Default");
 
-	modelPart->SetMaterial(material);
+	modelPart->SetMaterialSlot(0);
 
 	_mesh = new StaticMesh();
 	_mesh->AddMesh(modelPart);
+	_mesh->AddMaterial(material);
 }

@@ -15,15 +15,15 @@ public:
 	void Render(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	void RenderInstanced(UINT count);
 
-	Material* GetMaterial() { return _material; }
-
 	void SetName(string name) { _name = name; }
 	string GetName() { return _name; }
 
-	void SetMaterial(Material* material) { _material = material; }
+	void SetMaterialSlot(UINT slot) { _materialSlot = slot; }
 
 	template<typename T>
 	void CreateBuffers(vector<T> vertices, vector<UINT> indices);
+
+	UINT GetMaterialSlot() { return _materialSlot; }
 
 protected:
 	string _name;
@@ -31,7 +31,7 @@ protected:
 
 	VertexBuffer* _vBuffer;
 	IndexBuffer* _iBuffer;
-	Material* _material;
+	UINT _materialSlot;
 };
 
 template<typename T>

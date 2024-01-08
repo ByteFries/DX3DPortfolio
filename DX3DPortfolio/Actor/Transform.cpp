@@ -1,7 +1,8 @@
 #include "framework.h"
 #include "Transform.h"
 
-Transform::Transform()
+Transform::Transform(string label)
+	:_label(label)
 {
 	_wBuffer = new WorldBuffer();
 }
@@ -47,19 +48,18 @@ void Transform::Update()
 
 void Transform::Debug()
 {
-	ImGui::DragFloat3("Scale", (float*)&_scale, 0.01f, 0.01f, 100.0f);
-	//ImGui::DragFloat3("Rotation",    (float*)&rotation,    0.01f,    -XM_2PI,    XM_2PI);
+	if (ImGui::TreeNode(_label.c_str()))
+	{
+		ImGui::DragFloat3("Scale", (float*)&_scale, 0.01f, 0.01f, 100.0f);
 
-	ImGui::SliderAngle("RotationX", &_rotation.x);
-	ImGui::SliderAngle("RotationY", &_rotation.y);
-	ImGui::SliderAngle("RotationZ", &_rotation.z);
+		ImGui::SliderAngle("RotationX", &_rotation.x);
+		ImGui::SliderAngle("RotationY", &_rotation.y);
+		ImGui::SliderAngle("RotationZ", &_rotation.z);
 
-	ImGui::DragFloat3("Translation", (float*)&_translation, 0.01f, -WIN_WIDTH, WIN_WIDTH);
+		ImGui::DragFloat3("Translation", (float*)&_translation, 0.01f, -WIN_WIDTH, WIN_WIDTH);
 
-	//if (ImGui::BeginMenu("transform"))
-	//{
-	//	
-	//
-	//	ImGui::EndMenu();
-	//}
+		ImGui::TreePop();
+	}
+
+	
 }

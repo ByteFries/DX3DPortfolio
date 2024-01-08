@@ -40,7 +40,7 @@ public:
 
 	void Render();
 
-	void SetColor(float r, float g, float b) { _mesh->GetPart(0)->GetMaterial()->GetMaterialBuffer()->SetDiffuseColor( r, g, b, 1.0f ); }
+	void SetColor(float r, float g, float b) { _mesh->GetMaterial(0)->GetMaterialBuffer()->SetDiffuseColor( r, g, b, 1.0f ); }
 
 protected:
 	StaticMesh*	  _mesh;

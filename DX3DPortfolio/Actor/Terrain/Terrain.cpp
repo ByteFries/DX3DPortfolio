@@ -11,7 +11,7 @@ Terrain::Terrain(XMFLOAT2 size)
 
 Terrain::Terrain(wstring HeightMap)
 {
-	_heightMap = Texture::Get(L"_Texture/HeightMap/HeightMap.png");
+	_heightMap = Texture::Get(HeightMap);
 
 	_height = _heightMap->GetSize().y;
 	_width = _heightMap->GetSize().x;
@@ -249,13 +249,14 @@ void Terrain::CreateVertices()
 
 	ModelPart* part = new ModelPart();
 	part->CreateBuffers(_vertices, _indices);
-
+	
 	Material* material = new Material();
 	material->SetShader(L"Default");
-	part->SetMaterial(material);
+	part->SetMaterialSlot(0);
 
 	_mesh = new StaticMesh();
 	_mesh->AddMesh(part);
+	_mesh->AddMaterial(material);
 }
 
 void Terrain::CreateCompute()

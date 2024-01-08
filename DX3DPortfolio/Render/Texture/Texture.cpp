@@ -10,7 +10,8 @@ Texture::Texture(ID3D11ShaderResourceView* srv, ScratchImage& image)
 
 Texture::~Texture()
 {
-	_srv->Release();
+	if (!_isRef)
+		_srv->Release();
 }
 
 Texture* Texture::Get(wstring file)
@@ -50,6 +51,7 @@ Texture* Texture::Get(wstring key, ID3D11ShaderResourceView* srv)
 
 	_textures[key] = new Texture(srv, img);
 	_textures[key]->_path = key;
+	_textures[key]->_isRef = true;
 
 	return _textures[key];
 }

@@ -2,7 +2,7 @@
 class Transform
 {
 public:
-	Transform();
+	Transform(string lable = "NoNamed");
 	virtual ~Transform();
 
 	void Update();
@@ -18,6 +18,7 @@ public:
 
 	const Vector3 GetWorldPos() { return _worldTranslation; }
 	const Vector3 GetWorldScale() { return _worldScale; }
+	const Vector3 GetWorldRotation() { return _worldRotation; }
 
 	Vector3	  Forward() { return _forward; }
 	Vector3	 Backward() { return _forward * -1; }
@@ -26,6 +27,7 @@ public:
 	Vector3		   Up() { return _up; }
 	Vector3		 Down() { return _up * -1; }
 
+	void SetLabel(string label) { _label = label; }
 protected:
 	Vector3 _pivot = {};
 
@@ -40,6 +42,8 @@ protected:
 	Vector3 _worldScale = { 1.0f, 1.0f, 1.0f };
 	Vector3 _worldRotation = { 0.0f, 0.0f, 0.0f };
 	Vector3 _worldTranslation = { 0.0f, 0.0f, 0.0f };
+
+	string _label = "";
 
 };
 

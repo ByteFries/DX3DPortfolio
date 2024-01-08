@@ -11,10 +11,12 @@ public:
 	void Render();
 	void PostRender();
 
+	void Debug();
 private:
 	RenderTarget* _renderTarget;
 	DepthStencil* _depthStencil;
 	Quad* _screen;
+
 	class Camera* _camera;
 
 };

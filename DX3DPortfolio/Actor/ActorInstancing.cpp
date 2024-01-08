@@ -16,7 +16,10 @@ ActorInstancing::~ActorInstancing()
 	delete _instanceBuffer;
 
 	for (Data data : _datas)
-		delete data.transform;
+	{
+		if (!data.transformRef)
+			delete data.transform;
+	}
 
 	_datas.clear();
 
@@ -53,13 +56,22 @@ void ActorInstancing::Render()
 	_mesh->RenderInstanced(_drawCount);
 }
 
-void ActorInstancing::Add(Vector3 position)
+void ActorInstancing::Add(Vector3 position, Transform* transform)
 {
 	Data data;
 
-	data.transform = new Transform();
-	data.transform->_scale *= 0.01f;
+	if (transform)
+	{
+		data.transform = transform;
+		data.transformRef = true;
+	}
+	else
+	{
+		data.transform = new Transform();
+	}
+
 	data.transform->_translation = position;
+	
 	data.isActive = true;
 	data.index = _datas.size() + 1;
 	

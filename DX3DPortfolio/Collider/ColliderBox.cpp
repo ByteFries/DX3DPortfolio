@@ -186,10 +186,11 @@ void ColliderBox::CreateMesh()
 	material->SetShader(L"Collider");
 	material->GetMaterialBuffer()->SetDiffuseColor(0.0f, 1.0f, 0.0f, 0.0f);
 
-	part->SetMaterial(material);
+	part->SetMaterialSlot(0);
 
 	_mesh = new StaticMesh();
 	_mesh->AddMesh(part);
+	_mesh->AddMaterial(material);
 }
 
 bool ColliderBox::Block(ColliderBox* other)

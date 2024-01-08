@@ -47,10 +47,10 @@ void Environment::CreateProjection()
 	_pers = new MatrixBuffer();
 
 	_persMatrix = XMMatrixPerspectiveFovLH(
-		XM_PIDIV4,
+		XM_PIDIV2,
 		WIN_WIDTH / WIN_HEIGHT,
 		0.1f,
-		1000.0f
+		2000.0f
 	);
 
 	_pers->SetMatrix(_persMatrix);
