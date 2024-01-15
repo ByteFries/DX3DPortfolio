@@ -10,7 +10,6 @@ Cat::Cat()
 	AddClip("Walk");
 	AddClip("Jump");
 
-	CreateAnimationTexture();
 }
 
 Cat::~Cat()

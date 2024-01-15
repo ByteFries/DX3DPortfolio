@@ -2,6 +2,32 @@
 
 class ModelExporter
 {
+	struct KeyFrame
+	{
+		string boneName;
+	
+		vector<KeyTransform> transforms;
+	};
+
+	struct ClipData
+	{
+		string name;
+	
+		UINT frameCount;
+	
+		float ticksPerSecond;
+		float duration;
+	
+		vector<KeyFrame*> keyFrame;
+	};
+
+	struct ClipNode
+	{
+		aiString name;
+	
+		vector<KeyTransform> keyFrame;
+	};
+
 public:
 	ModelExporter(string name);
 	~ModelExporter();
@@ -21,11 +47,10 @@ private:
 
 	void WriteMesh();
 
+	ClipData* ReadClip(aiAnimation* animation);
+	void WriteClip(ClipData* clip, string file);
 
-	Clip* ReadClip(aiAnimation* animation);
-	void WriteClip(Clip* clip, string file);
-
-	void ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& clipNodes);
+	void ReadKeyFrame(ClipData* clip, aiNode* node, vector<ClipNode>& clipNodes);
 
 private:
 	string _name;

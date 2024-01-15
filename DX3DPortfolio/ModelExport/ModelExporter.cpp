@@ -27,7 +27,7 @@ void ModelExporter::ExportModel()
 
 	for (UINT i = 0; i < _scene->mNumAnimations; i++)
 	{
-		Clip* clip = ReadClip(_scene->mAnimations[i]);
+		ClipData* clip = ReadClip(_scene->mAnimations[i]);
 
 		WriteClip(clip, _name + to_string(i));
 
@@ -46,7 +46,7 @@ void ModelExporter::ExportClip(string file)
 
 	for (UINT i = 0; i < _scene->mNumAnimations; i++)
 	{
-		Clip* clip = ReadClip(_scene->mAnimations[i]);
+		ClipData* clip = ReadClip(_scene->mAnimations[i]);
 
 		WriteClip(clip, file + to_string(i));
 
@@ -388,9 +388,9 @@ void ModelExporter::WriteMesh()
 	}
 }
 
-Clip* ModelExporter::ReadClip(aiAnimation* animation)
+ModelExporter::ClipData* ModelExporter::ReadClip(aiAnimation* animation)
 {
-	Clip* clip = new Clip();
+	ClipData* clip = new ClipData();
 	clip->name           = animation->mName.C_Str();
 	clip->ticksPerSecond = animation->mTicksPerSecond;
 	clip->frameCount     = animation->mDuration + 1;
@@ -474,7 +474,6 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 				node.keyFrame.push_back(transform);
 		}
 
-		//TODO: Edit
 		if (node.keyFrame.size() < clip->frameCount)
 		{
 			UINT count = clip->frameCount - node.keyFrame.size();
@@ -500,7 +499,7 @@ Clip* ModelExporter::ReadClip(aiAnimation* animation)
 	return clip;
 }
 
-void ModelExporter::WriteClip(Clip* clip, string file)
+void ModelExporter::WriteClip(ClipData* clip, string file)
 {
 	string savePath = "Actor/Model/Data/" + _name + "/Clip/" + file + ".clip";
 
@@ -527,7 +526,7 @@ void ModelExporter::WriteClip(Clip* clip, string file)
 	clip->keyFrame.clear();
 }
 
-void ModelExporter::ReadKeyFrame(Clip* clip, aiNode* node, vector<ClipNode>& clipNodes)
+void ModelExporter::ReadKeyFrame(ClipData* clip, aiNode* node, vector<ClipNode>& clipNodes)
 {
 	KeyFrame* keyFrame = new KeyFrame();
 

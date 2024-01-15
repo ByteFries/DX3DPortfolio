@@ -2,26 +2,17 @@
 class BlendSpace
 {
 public:
-	enum State
-	{
-		IDLE,
-		WALK,
-		JUMP
-	};
-
-	BlendSpace();
+	BlendSpace(string actorName);
 	~BlendSpace();
 
-	void Update();
+	void Update(int speed, int direction);
 
-	void AddClip(string clipName);
+	void AddAnimation(string animName, int speed, int direction);
 
 private:
-	State _state;
+	string _actorName;
 
-	FrameBuffer* _frameBuffer;
+	vector<vector<AnimSequence*>> _sequences;
 
-
-	ID3D11Texture2D* _animationTexture;
-	ID3D11ShaderResourceView* _srv;
+	int _maxSpeed, _minSpeed;
 };

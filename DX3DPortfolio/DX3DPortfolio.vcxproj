@@ -135,6 +135,8 @@
     <ClInclude Include="Actor\Model\Enemy\Monster.h" />
     <ClInclude Include="Actor\ActorInstancing.h" />
     <ClInclude Include="Animation\BlendSpace.h" />
+    <ClInclude Include="Animation\AnimSequence.h" />
+    <ClInclude Include="Animation\AnimManager.h" />
     <ClInclude Include="Render\View\DepthStencil.h" />
     <ClInclude Include="Render\View\RenderTarget.h" />
     <ClInclude Include="Render\SkeletalMesh.h" />
@@ -193,6 +195,8 @@
     <ClCompile Include="Actor\Model\Enemy\Monster.cpp" />
     <ClCompile Include="Actor\ActorInstancing.cpp" />
     <ClCompile Include="Animation\BlendSpace.cpp" />
+    <ClCompile Include="Animation\AnimSequence.cpp" />
+    <ClCompile Include="Animation\AnimManager.cpp" />
     <ClCompile Include="Render\View\DepthStencil.cpp" />
     <ClCompile Include="Render\View\RenderTarget.cpp" />
     <ClCompile Include="Render\SkeletalMesh.cpp" />

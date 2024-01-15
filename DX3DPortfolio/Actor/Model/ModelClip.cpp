@@ -10,23 +10,21 @@ ModelClip::ModelClip(ClipData data)
 	_name = data.name;
 	_duration = data.duration;
 	_frameCount = data.frameCount;
-	_keyFrames = data.keyFrames;
+	_keyTransforms = data.keyTransforms;
 	_ticksPerSec = data.ticksPerSecond;
 }
 
 ModelClip::~ModelClip()
 {
-	for (pair<string, KeyFrame*> frame : _keyFrames)
-		delete frame.second;
-	_keyFrames.clear();
+	_keyTransforms.clear();
 }
 
-KeyFrame* ModelClip::GetKeyFrames(string name)
+vector<KeyTransform> ModelClip::GetKeyTransforms(string name)
 {
-	if (_keyFrames.count(name) == 0)
-		return nullptr;
-
-	return _keyFrames[name];
+	if (_keyTransforms.count(name) == 0)
+		return vector<KeyTransform>();
+	
+	return _keyTransforms[name];
 }
 
 void ModelClip::Update(FrameBuffer::Data& data)

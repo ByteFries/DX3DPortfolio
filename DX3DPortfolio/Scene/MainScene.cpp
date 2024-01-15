@@ -3,9 +3,9 @@
 
 MainScene::MainScene()
 {	
-	ModelExporter* exporter = new ModelExporter("cat");
-	exporter->ExportModel();
-	delete exporter;
+	//ModelExporter* exporter = new ModelExporter("cat");
+	//exporter->ExportModel();
+	//delete exporter;
 	
 	_terrain = new Terrain(L"_Texture/HeightMap/HeightMap.png");
 	

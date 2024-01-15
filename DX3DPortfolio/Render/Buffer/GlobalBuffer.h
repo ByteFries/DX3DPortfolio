@@ -367,7 +367,7 @@ public:
 	{
 		float tweenTime = 0.0f;
 		float runningTime = 0.0f;
-		float padding1;
+		float takeTime = 0.0f;
 		float padding2;
 
 		Frame cur, next;
@@ -436,6 +436,29 @@ public:
 	void SetRunningTime(float time)
 	{
 		_data.runningTime = time;
+	}
+
+	void SetTakeTime(float time)
+	{
+		_data.takeTime = time;
+	}
+
+	void InitDatas()
+	{
+		_data.cur.clipIndex = 0;
+		_data.cur.curFrame = 0;
+		_data.cur.nextFrame = 0;
+		_data.cur.speed = 0;
+		_data.cur.time = 0;
+
+		_data.next.clipIndex = 0;
+		_data.next.curFrame = 0;
+		_data.next.nextFrame = 0;
+		_data.next.speed = 0;
+		_data.next.time = 0;
+
+		_data.runningTime = 0;
+		_data.tweenTime = 0;
 	}
 
 private:

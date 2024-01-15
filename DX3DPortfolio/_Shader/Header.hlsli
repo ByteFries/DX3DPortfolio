@@ -1,3 +1,4 @@
+
 cbuffer World : register(b0)
 {
     matrix world;
@@ -47,7 +48,7 @@ struct Motion
 {
     float tweenTime;
     float runningTime;
-    float padding1;
+    float takeTime;
     float padding2;
     
     Frame cur, next;
@@ -95,6 +96,122 @@ Texture2D normalMap : register(t2);
 
 SamplerState samp : register(s0);
 
+float4x4 TranslationMatrix(float3 translation)
+{
+    return float4x4(
+        float4(1.0f, 0.0f, 0.0f, 0.0f),
+        float4(0.0f, 1.0f, 0.0f, 0.0f),
+        float4(0.0f, 0.0f, 1.0f, 0.0f),
+        float4(translation, 1.0f)
+    );
+}
+
+float4x4 QuaternionToRotationMatrix(float4 quaternion)
+{
+    quaternion = normalize(quaternion);
+
+    float x = quaternion.x;
+    float y = quaternion.y;
+    float z = quaternion.z;
+    float w = quaternion.w;
+
+    float xx = x * x;
+    float yy = y * y;
+    float zz = z * z;
+    float xy = x * y;
+    float xz = x * z;
+    float yz = y * z;
+    float wx = w * x;
+    float wy = w * y;
+    float wz = w * z;
+
+    float4x4 rotationMatrix;
+
+    rotationMatrix[0] = float4(1.0 - 2.0 * (yy + zz), 2.0 * (xy - wz), 2.0 * (xz + wy), 0.0);
+    rotationMatrix[1] = float4(2.0 * (xy + wz), 1.0 - 2.0 * (xx + zz), 2.0 * (yz - wx), 0.0);
+    rotationMatrix[2] = float4(2.0 * (xz - wy), 2.0 * (yz + wx), 1.0 - 2.0 * (xx + yy), 0.0);
+    rotationMatrix[3] = float4(0.0, 0.0, 0.0, 1.0);
+
+    return rotationMatrix;
+}
+
+float4x4 ScaleMatrix(float3 scale)
+{
+    return float4x4(
+        float4(scale.x, 0.0f, 0.0f, 0.0f),
+        float4(0.0f, scale.y, 0.0f, 0.0f),
+        float4(0.0f, 0.0f, scale.z, 0.0f),
+        float4(0.0f, 0.0f, 0.0f, 1.0f)
+    );
+}
+
+float4x4 CombinedTransformMatrix(float3 translation, float4 quaternion, float3 scale)
+{
+    return mul(mul(TranslationMatrix(translation), QuaternionToRotationMatrix(quaternion)), ScaleMatrix(scale));
+}
+
+float3 ExtractTranslation(float4x4 origin)
+{
+    return origin[3].xyz;
+}
+
+float3 ExtractScale(float4x4 origin)
+{
+    float3 scale;
+    scale.x = length(origin[0].xyz);
+    scale.y = length(origin[1].xyz);
+    scale.z = length(origin[2].xyz);
+    
+    return scale;
+}
+
+float4 ExtractRotation(float4x4 origin)
+{
+    float3 scale = ExtractScale(origin);
+    
+    origin[0] /= float4(scale, 1.0);
+    origin[1] /= float4(scale, 1.0);
+    origin[2] /= float4(scale, 1.0);
+
+    float4 quaternion;
+    float trace = origin[0].x +  origin[1].y + origin[2].z;
+    
+    if (trace > 0.0)
+    {
+        float s = 0.5 / sqrt(trace + 1.0);
+        quaternion.w = 0.25 / s;
+        quaternion.x = (origin[2].y - origin[1].z) * s;
+        quaternion.y = (origin[0].z - origin[2].x) * s;
+        quaternion.z = (origin[1].x - origin[0].y) * s;
+    }
+    else if (origin[0].x > origin[1].y && origin[0].x > origin[2].z)
+    {
+        float s = 2.0 * sqrt(1.0 + origin[0].x - origin[1].y - origin[2].z);
+        quaternion.w = (origin[2].y - origin[1].z) / s;
+        quaternion.x = 0.25 * s;
+        quaternion.y = (origin[0].y + origin[1].x) / s;
+        quaternion.z = (origin[0].z + origin[2].x) / s;
+    }
+    else if (origin[1].y > origin[2].z)
+    {
+        float s = 2.0 * sqrt(1.0 + origin[1].y - origin[0].x - origin[2].z);
+        quaternion.w = (origin[0].z - origin[2].x) / s;
+        quaternion.x = (origin[0].y + origin[1].x) / s;
+        quaternion.y = 0.25 * s;
+        quaternion.z = (origin[1].z + origin[2].y) / s;
+    }
+    else
+    {
+        float s = 2.0 * sqrt(1.0 + origin[2].z - origin[0].x - origin[1].y);
+        quaternion.w = (origin[1].x - origin[0].y) / s;
+        quaternion.x = (origin[0].z + origin[2].x) / s;
+        quaternion.y = (origin[1].z + origin[2].y) / s;
+        quaternion.z = 0.25 * s;
+    }
+    
+    return quaternion;
+}
+
 matrix SkinWorld(float4 indices, float4 weights)
 {
     matrix transform = 0;
@@ -114,7 +231,6 @@ matrix SkinWorld(float4 indices, float4 weights)
 
         cur = matrix(c0, c1, c2, c3);
         
-        
         n0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
         n1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
         n2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
@@ -122,7 +238,11 @@ matrix SkinWorld(float4 indices, float4 weights)
 
         next = matrix(n0, n1, n2, n3);
         
-        curAnim = lerp(cur, next, motion.cur.time);
+        float3 lerpS = lerp(ExtractScale(cur), ExtractScale(next), motion.cur.time);
+        float4 lerpR = lerp(ExtractRotation(cur), ExtractRotation(next), motion.cur.time);
+        float3 lerpT = lerp(ExtractTranslation(cur), ExtractTranslation(next), motion.cur.time);
+        
+        curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
         
         [flatten]
         if (motion.next.clipIndex > -1)
@@ -141,7 +261,11 @@ matrix SkinWorld(float4 indices, float4 weights)
         
             next = matrix(n0, n1, n2, n3);
         
-            nextAnim = lerp(cur, next, motion.next.time);
+            lerpS = lerp(ExtractScale(cur), ExtractScale(next), motion.cur.time);
+            lerpR = lerp(ExtractRotation(cur), ExtractRotation(next), motion.cur.time);
+            lerpT = lerp(ExtractTranslation(cur), ExtractTranslation(next), motion.cur.time);
+            
+            nextAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
             
             curAnim = lerp(curAnim, nextAnim, motion.tweenTime);
         }

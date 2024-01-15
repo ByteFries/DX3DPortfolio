@@ -15,7 +15,7 @@ struct ClipData
 	UINT frameCount;
 	float ticksPerSecond;
 	float duration;
-	unordered_map<string, KeyFrame*> keyFrames;
+	unordered_map<string, vector<KeyTransform>> keyTransforms;
 };
 
 namespace ModelReader

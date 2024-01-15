@@ -1,25 +1,25 @@
 #pragma once
-class ModelClip
+class AnimSequence
 {
 public:
-	ModelClip();
-	ModelClip(ClipData data);
-	~ModelClip();
+	AnimSequence(string actorName, string animName);
+	~AnimSequence();
 
-	vector<KeyTransform> GetKeyTransforms(string name);
+	void Update(FrameBuffer::Data& frame);
+	void UpdateNextFrame(FrameBuffer::Data& frame);
 
-	void Update(FrameBuffer::Data& data);
-
-	const string GetName() { return _name; }
 	const UINT GetFrameCount() { return _frameCount; }
 	float GetTicksPerSec() { return _ticksPerSec; }
 	float GetDuration() { return _duration; }
 
+	vector<KeyTransform> GetKeyTransforms(string key) { return _keyTransforms[key]; }
+
 private:
-	string _name = "";
+	string _animName;
 	UINT _frameCount = 0;
 	float _ticksPerSec = 0.0f;
 	float _duration = 0.0f;
 
 	unordered_map<string, vector<KeyTransform>> _keyTransforms = {};
 };
+

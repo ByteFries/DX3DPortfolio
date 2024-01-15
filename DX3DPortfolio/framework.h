@@ -97,6 +97,10 @@ using namespace DirectX;
 
 #include "Actor\Model\ModelReader.h"
 #include "Actor\Model\ModelClip.h"
+
+#include "Animation\AnimSequence.h"
+#include "Animation\AnimManager.h"
+
 #include "Actor\Actor.h"
 #include "Actor\ActorInstancing.h"
 

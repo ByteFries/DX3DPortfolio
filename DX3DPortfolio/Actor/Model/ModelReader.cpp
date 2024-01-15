@@ -19,7 +19,6 @@ void ModelReader::ReadModelParts(ModelData& data, string name)
 		for (int i = 0; i < size; i++)
 		{
 			ModelPart* part = new ModelPart;
-
 			part->SetName(meshName + to_string(i));
 
 			UINT materialIndex = reader.ReadUINT();
@@ -97,20 +96,21 @@ void ModelReader::ReadClip(ClipData& data)
 
 	for (UINT i = 0; i < keyFrameCount; i++)
 	{
-		KeyFrame* keyFrame = new KeyFrame;
-		keyFrame->boneName = reader.ReadString();
+		string boneName = reader.ReadString();
 
 		UINT keyTransformCount = reader.ReadUINT();
+		
+		vector<KeyTransform> transforms;
 
 		if (keyTransformCount > 0)
 		{
-			keyFrame->transforms.resize(keyTransformCount);
+			transforms.resize(keyTransformCount);
 
-			void* ptr = (void*)keyFrame->transforms.data();
+			void* ptr = (void*)transforms.data();
 			reader.ReadData(&ptr, sizeof(KeyTransform) * keyTransformCount);
 		}
 
-		data.keyFrames.emplace(keyFrame->boneName, keyFrame);
+		data.keyTransforms[boneName] = transforms;
 	}
 }
 

@@ -75,31 +75,6 @@ struct KeyTransform
 	Vector3 position;
 };
 
-struct KeyFrame
-{
-	string boneName;
-
-	vector<KeyTransform> transforms;
-};
-
-struct ClipNode
-{
-	vector<KeyTransform> keyFrame;
-	aiString name;
-};
-
-struct Clip
-{
-	string name;
-
-	UINT frameCount;
-
-	float ticksPerSecond;
-	float duration;
-
-	vector<KeyFrame*> keyFrame;
-};
-
 struct ClipTransform
 {
 	XMMATRIX transform[MAX_FRAME_KEY][MAX_BONE];

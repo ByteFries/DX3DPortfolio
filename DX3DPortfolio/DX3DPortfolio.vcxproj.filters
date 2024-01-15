@@ -183,6 +183,12 @@
     <ClInclude Include="Animation\BlendSpace.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Animation\AnimSequence.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation\AnimManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -330,6 +336,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Animation\BlendSpace.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\AnimSequence.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Animation\AnimManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
