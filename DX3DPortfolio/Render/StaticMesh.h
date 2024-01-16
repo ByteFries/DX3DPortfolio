@@ -9,10 +9,9 @@ public:
 	void AddMesh(ModelPart* part);
 	void AddMaterial(Material* material);
 
-	virtual void Render(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	virtual void RenderInstanced(int count);
+	void Render(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	void RenderInstanced(int count);
 
-	virtual void Update();
 
 	ModelPart* GetPart(UINT slot) { return _parts[slot]; }
 	Material* GetMaterial(UINT slot) { return _materials[slot]; }

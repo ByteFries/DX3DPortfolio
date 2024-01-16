@@ -53,10 +53,6 @@ void StaticMesh::RenderInstanced(int count)
 	}
 }
 
-void StaticMesh::Update()
-{
-}
-
 void StaticMesh::SetShader(wstring path)
 {
 	for (Material* mat : _materials)

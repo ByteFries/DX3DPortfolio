@@ -5,10 +5,6 @@ public:
 	SkeletalMesh(string name);
 	~SkeletalMesh();
 
-	virtual void Render(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) override;
-
-	virtual void Update() override;
-
 	const vector<class NodeData>& GetNodes() { return _nodes; }
 	const vector<class BoneData>& GetBones() { return _bones; }
 	const map<string, UINT>& GetBoneMap() { return _boneMap; }

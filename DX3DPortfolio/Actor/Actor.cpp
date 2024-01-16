@@ -43,24 +43,6 @@ void Actor::Debug()
 	//}
 }
 
-void Actor::AddClip(string animName, float speed, float direction)
-{
-	if (!_animManager)
-	{
-		SkeletalMesh* mesh = dynamic_cast<SkeletalMesh*>(_mesh);
-
-		if (mesh)
-		{
-			_animManager = new AnimManager(mesh);
-			_wBuffer->SetAnimation(true);
-		}
-		else
-			return;
-	}
-
-	_animManager->AddAnimation(_name, animName, speed, direction);
-}
-
 void Actor::PlayClip(State state, float speed, float takeTime)
 {
 	if (!_animManager)

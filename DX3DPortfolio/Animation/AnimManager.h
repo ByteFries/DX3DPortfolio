@@ -8,14 +8,13 @@ public:
 	void AddAnimation(string actorName, string animName, float speed, float direction);
 	void PlaySequence(Actor::State state, float speed, float takeTime);
 
-	void Update(float speed = 0, float direction = 0);
+	void Update();
 	void SetSubResources();
 
 	void CreateTexture();
 
 	void SetTarget(class Actor* target) { _target = target; }
 private:
-	void CreateClipTransform(int index);
 	void CreateSequenceSRV(int index);
 	
 	SkeletalMesh*& _meshRef;

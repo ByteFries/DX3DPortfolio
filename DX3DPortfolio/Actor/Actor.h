@@ -17,13 +17,16 @@ public:
 
 	void Debug();
 
-	void AddClip(string animName, float speed = 0.0f, float dirction = 0.0f);
 	void PlayClip(State state, float speed = 1, float takeTime = 0.2f);
 
 	void SetMesh(StaticMesh* mesh) { _mesh = mesh; }
 
-protected:
+	////// MoveComponent //////
+	float _speed = 0.0f;
+	float _direction = 0.0f;
+	bool _onGround = true;
 
+protected:
 	string _name;
 	StaticMesh* _mesh;
 
@@ -32,4 +35,6 @@ protected:
 	map<string, UINT> _boneMap;
 
 	class AnimManager* _animManager;
+
+	
 };

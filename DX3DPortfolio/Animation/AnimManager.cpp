@@ -48,7 +48,7 @@ void AnimManager::PlaySequence(Actor::State state, float speed, float takeTime)
 	_frameBuffer->SetRunningTime(0.0f);
 }
 
-void AnimManager::Update(float speed, float direction)
+void AnimManager::Update()
 {
 	if (!_animationTexture)
 		return;
@@ -56,7 +56,9 @@ void AnimManager::Update(float speed, float direction)
 	if (!_sequences.size())
 		return;
 
-	_sequences[speed]->Update(_frameBuffer->GetDataRef());
+	int index = _target->_speed / _sequences.size();
+
+	_sequences[index]->Update(_frameBuffer->GetDataRef());
 
 	int nextIndex = _frameBuffer->GetNextFrame().clipIndex;
 
@@ -83,7 +85,7 @@ void AnimManager::CreateTexture()
 
 	for (UINT i = 0; i < sequenceCount; i++)
 	{
-		CreateClipTransform(i);
+		CreateSequenceSRV(i);
 	}
 
 	D3D11_TEXTURE2D_DESC desc = {};
@@ -148,7 +150,7 @@ void AnimManager::CreateTexture()
 	_frameBuffer->InitDatas();
 }
 
-void AnimManager::CreateClipTransform(int index)
+void AnimManager::CreateSequenceSRV(int index)
 {
 	AnimSequence* sequence = _sequences[index];
 	SequenceTransforms* nodeTransforms = new SequenceTransforms[_sequences.size()];

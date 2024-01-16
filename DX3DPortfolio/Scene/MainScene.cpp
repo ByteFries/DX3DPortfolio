@@ -14,7 +14,6 @@ MainScene::MainScene()
 	
 	_watcher = new Watcher();
 	actor = new Actor("cat");
-	actor->AddClip();
 }
 
 MainScene::~MainScene()

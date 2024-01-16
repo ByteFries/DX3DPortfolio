@@ -2,18 +2,27 @@
 #include "Cat.h"
 
 Cat::Cat()
-	:Actor("cat_ver13")
+	:Actor("cat")
 {
 	_scale *= 0.01f;
 
-	AddClip("Idle");
-	AddClip("Walk");
-	AddClip("Jump");
+	_mesh = new SkeletalMesh("cat");
 
+	SkeletalMesh* mesh = dynamic_cast<SkeletalMesh*>(_mesh);
+
+	if (mesh)
+	{
+		_animManager = new AnimManager(mesh);
+
+		_animManager->AddAnimation(_name, "Idle", 0, 0);
+		_animManager->AddAnimation(_name, "Walk", 100, 0);
+		//_animManager->AddAnimation(_name, "Jump", );
+	}
 }
 
 Cat::~Cat()
 {
+	delete _mesh;
 }
 
 void Cat::Update()

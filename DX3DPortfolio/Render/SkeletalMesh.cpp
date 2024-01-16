@@ -10,15 +10,6 @@ SkeletalMesh::~SkeletalMesh()
 {
 }
 
-void SkeletalMesh::Render(D3D11_PRIMITIVE_TOPOLOGY type)
-{
-
-}
-
-void SkeletalMesh::Update()
-{
-}
-
 void SkeletalMesh::ReadMesh()
 {
 	ModelData data;
