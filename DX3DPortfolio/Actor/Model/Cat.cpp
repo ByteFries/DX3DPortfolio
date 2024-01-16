@@ -130,16 +130,16 @@ void Cat::KeyInput()
 
 	_translation += _forward * _speed * DELTA;
 
-	if (KEY_DOWN(VK_SPACE))
-	{
-		if (_state != JUMP)
-			_jumpPower = 1.0f;
-
-		PlayClip(JUMP);
-	}
-
-	if (_state != JUMP && !walk)
-		PlayClip(IDLE);
+	//if (KEY_DOWN(VK_SPACE))
+	//{
+	//	if (_state != JUMP)
+	//		_jumpPower = 1.0f;
+	//
+	//	PlayClip(JUMP);
+	//}
+	//
+	//if (_state != JUMP && !walk)
+	//	PlayClip(IDLE);
 }
 
 void Cat::Move()

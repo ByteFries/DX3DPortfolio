@@ -1,6 +1,12 @@
 #include "framework.h"
 #include "StaticMesh.h"
 
+StaticMesh::StaticMesh(string name)
+	:_name(name)
+{
+	ReadMesh();
+}
+
 StaticMesh::StaticMesh()
 {
 	_name = "None";
@@ -17,15 +23,6 @@ StaticMesh::~StaticMesh()
 	_parts.clear();
 
 	_materials.clear();
-}
-
-void StaticMesh::SetMesh(string path)
-{
-	ModelData data;
-	ModelReader::ReadModel(data, path);
-	_name = path;
-	_parts = data.parts;
-	_materials = data.materials;
 }
 
 void StaticMesh::AddMesh(ModelPart* part)
@@ -64,4 +61,15 @@ void StaticMesh::SetShader(wstring path)
 {
 	for (Material* mat : _materials)
 		mat->SetShader(path);
+}
+
+void StaticMesh::ReadMesh()
+{
+	ModelData data;
+	data.meshName = _name;
+
+	ModelReader::ReadModel(data);
+
+	_parts = data.parts;
+	_materials = data.materials;
 }

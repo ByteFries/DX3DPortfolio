@@ -75,7 +75,19 @@ struct KeyTransform
 	Vector3 position;
 };
 
-struct ClipTransform
+struct SequenceTransforms
 {
 	XMMATRIX transform[MAX_FRAME_KEY][MAX_BONE];
+};
+
+struct KeySRT
+{
+	XMFLOAT4 scale;
+	XMFLOAT4 rotate;
+	XMFLOAT4 translation;
+};
+
+struct SequenceSRT
+{
+	KeySRT SRTs[MAX_FRAME_KEY][MAX_BONE];
 };

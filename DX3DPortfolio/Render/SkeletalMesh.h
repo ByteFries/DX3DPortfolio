@@ -2,7 +2,7 @@
 class SkeletalMesh : public StaticMesh
 {
 public:
-	SkeletalMesh();
+	SkeletalMesh(string name);
 	~SkeletalMesh();
 
 	virtual void Render(D3D11_PRIMITIVE_TOPOLOGY type = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST) override;
@@ -16,10 +16,9 @@ public:
 	bool HasBone(string boneName) { return _boneMap.count(boneName) != 0 ? true : false; }
 
 private:
-	//Animation
+	virtual void ReadMesh() override;
 
 	vector<NodeData> _nodes;
 	vector<BoneData> _bones;
 	map<string, UINT> _boneMap;
-
 };

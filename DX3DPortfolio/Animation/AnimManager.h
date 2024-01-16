@@ -16,13 +16,16 @@ public:
 	void SetTarget(class Actor* target) { _target = target; }
 private:
 	void CreateClipTransform(int index);
+	void CreateSequenceSRV(int index);
 	
 	SkeletalMesh*& _meshRef;
 
 	vector<AnimSequence*> _sequences = {};
 
-	ClipTransform* _clipTransforms = nullptr;
-	ClipTransform* _nodeTransforms = nullptr;
+	//ClipTransform* _clipTransforms = nullptr;
+	//ClipTransform* _nodeTransforms = nullptr;
+
+	SequenceSRT* _sequenceSRTs = nullptr;
 
 	FrameBuffer* _frameBuffer = nullptr;
 	ID3D11Texture2D* _animationTexture = nullptr;

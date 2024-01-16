@@ -14,5 +14,5 @@ namespace Utility
 
 	void CreateFolder(string path);
 
-
+	XMFLOAT4 XMVECTORToXMFLOAT4(DirectX::XMVECTOR vector);
 };

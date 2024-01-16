@@ -1,10 +1,10 @@
 #include "framework.h"
+#include "Animation/AnimManager.h"
 #include "Actor.h"
 
 Actor::Actor(string name)
 	:_name(name)
 {
-	ReadStaticMesh(name);
 }
 
 Actor::~Actor()
@@ -67,21 +67,4 @@ void Actor::PlayClip(State state, float speed, float takeTime)
 		return;
 
 	_animManager->PlaySequence(state, speed, takeTime);
-}
-
-void Actor::ReadStaticMesh(string name)
-{
-	_mesh = new StaticMesh();
-	_mesh->SetMesh(name);
-	_mesh->SetShader(L"Default");
-}
-
-void Actor::ReadSkeletalMesh(string name)
-{
-	_mesh = new SkeletalMesh();
-	//_bones = data.bones;
-	//_nodes = data.nodes;
-	//_boneMap = data.boneMap;
-	_mesh->SetMesh(name);
-	_mesh->SetShader(L"Default");
 }

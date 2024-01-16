@@ -50,8 +50,8 @@ void ActorInstancing::Render()
 
 	_frameBuffer->SetVSBuffer(3);
 	
-	if (_srv)
-		DC->VSSetShaderResources(0, 1, &_srv);
+	//if (_srv)
+	//	DC->VSSetShaderResources(0, 1, &_srv);
 
 	_mesh->RenderInstanced(_drawCount);
 }

@@ -85,3 +85,10 @@ void Utility::CreateFolder(string path)
 		}
 	}
 }
+
+XMFLOAT4 Utility::XMVECTORToXMFLOAT4(DirectX::XMVECTOR vector)
+{
+	DirectX::XMFLOAT4 result;
+	DirectX::XMStoreFloat4(&result, vector);
+	return result;
+}

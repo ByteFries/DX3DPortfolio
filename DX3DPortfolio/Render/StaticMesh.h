@@ -2,10 +2,10 @@
 class StaticMesh
 {
 public:
+	StaticMesh(string name);
 	StaticMesh();
 	virtual ~StaticMesh();
 
-	void SetMesh(string path);
 	void AddMesh(ModelPart* part);
 	void AddMaterial(Material* material);
 
@@ -23,6 +23,8 @@ public:
 	void SetShader(UINT slot, wstring path) { _materials[slot]->SetShader(path); }
 
 protected:
+	virtual void ReadMesh();
+
 	string _name;
 	vector<ModelPart*> _parts;
 	vector<Material*> _materials;

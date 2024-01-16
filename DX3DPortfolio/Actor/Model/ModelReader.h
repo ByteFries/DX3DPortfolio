@@ -1,6 +1,7 @@
 #pragma once
 struct ModelData
 {
+	string meshName;
 	vector<Material*> materials;
 	vector<ModelPart*> parts;
 	vector<NodeData> nodes;
@@ -20,8 +21,8 @@ struct ClipData
 
 namespace ModelReader
 {
-	void ReadModel(class ModelData& data, string name);
-	void ReadMaterials(ModelData& data, string name);
-	void ReadModelParts(ModelData& data, string name);
+	void ReadModel(class ModelData& data);
+	void ReadMaterials(ModelData& data);
+	void ReadModelParts(ModelData& data);
 	void ReadClip(ClipData& data);
 };

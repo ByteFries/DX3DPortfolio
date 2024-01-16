@@ -1,9 +1,9 @@
 #include "framework.h"
 #include "ModelReader.h"
 
-void ModelReader::ReadModelParts(ModelData& data, string name)
+void ModelReader::ReadModelParts(ModelData& data)
 {
-	BinaryReader listReader("Actor/Model/Data/" + name + "/Mesh/MeshList.list");
+	BinaryReader listReader("Actor/Model/Data/" + data.meshName + "/Mesh/MeshList.list");
 	UINT size = listReader.ReadUINT();
 
 	vector<ModelPart*> parts;
@@ -12,7 +12,7 @@ void ModelReader::ReadModelParts(ModelData& data, string name)
 	{
 		string meshName = listReader.ReadString();
 
-		BinaryReader reader("Actor/Model/Data/" + name + "/Mesh/" + meshName +".mesh");
+		BinaryReader reader("Actor/Model/Data/" + data.meshName + "/Mesh/" + meshName +".mesh");
 
 		UINT size = reader.ReadUINT();
 
@@ -50,7 +50,7 @@ void ModelReader::ReadModelParts(ModelData& data, string name)
 	}
 
 	{
-		BinaryReader reader("Actor/Model/Data/" + name + "/Mesh/Nodes.node");
+		BinaryReader reader("Actor/Model/Data/" + data.meshName + "/Mesh/Nodes.node");
 		UINT size = reader.ReadUINT();
 		data.nodes.resize(size);
 
@@ -64,7 +64,7 @@ void ModelReader::ReadModelParts(ModelData& data, string name)
 	}
 
 	{
-		BinaryReader reader("Actor/Model/Data/" + name + "/Mesh/Bones.bone");
+		BinaryReader reader("Actor/Model/Data/" + data.meshName + "/Mesh/Bones.bone");
 
 		UINT size = reader.ReadUINT();
 
@@ -114,9 +114,9 @@ void ModelReader::ReadClip(ClipData& data)
 	}
 }
 
-void ModelReader::ReadMaterials(ModelData& data, string name)
+void ModelReader::ReadMaterials(ModelData& data)
 {
-	BinaryReader reader("Actor/Model/Data/" + name + "/Material/MaterialList.list");
+	BinaryReader reader("Actor/Model/Data/" + data.meshName + "/Material/MaterialList.list");
 
 	UINT size = reader.ReadUINT();
 
@@ -126,7 +126,7 @@ void ModelReader::ReadMaterials(ModelData& data, string name)
 	{
 		Material* material = new Material();
 
-		string file = "Actor/Model/Data/" + name + "/Material/" + reader.ReadString() + ".mat";
+		string file = "Actor/Model/Data/" + data.meshName + "/Material/" + reader.ReadString() + ".mat";
 	
 		material->Load(file);
 
@@ -136,8 +136,8 @@ void ModelReader::ReadMaterials(ModelData& data, string name)
 	data.materials = materials;
 }
 
-void ModelReader::ReadModel(ModelData& data, string name)
+void ModelReader::ReadModel(ModelData& data)
 {
-	ReadMaterials(data, name);
-	ReadModelParts(data, name);
+	ReadMaterials(data);
+	ReadModelParts(data);
 }

@@ -96,13 +96,12 @@ using namespace DirectX;
 #include "ModelExport\ModelExporter.h"
 
 #include "Actor\Model\ModelReader.h"
-#include "Actor\Model\ModelClip.h"
-
-#include "Animation\AnimSequence.h"
-#include "Animation\AnimManager.h"
 
 #include "Actor\Actor.h"
 #include "Actor\ActorInstancing.h"
+
+#include "Animation\AnimSequence.h"
+#include "Animation\AnimManager.h"
 
 #include "Actor\Model\Cat.h"
 #include "Actor\Model\Enemy\Watcher.h"

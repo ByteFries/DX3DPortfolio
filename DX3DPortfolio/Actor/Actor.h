@@ -20,9 +20,9 @@ public:
 	void AddClip(string animName, float speed = 0.0f, float dirction = 0.0f);
 	void PlayClip(State state, float speed = 1, float takeTime = 0.2f);
 
+	void SetMesh(StaticMesh* mesh) { _mesh = mesh; }
+
 protected:
-	void ReadStaticMesh(string name);
-	void ReadSkeletalMesh(string name);
 
 	string _name;
 	StaticMesh* _mesh;
@@ -31,5 +31,5 @@ protected:
 	vector<BoneData> _bones;
 	map<string, UINT> _boneMap;
 
-	AnimManager* _animManager;
+	class AnimManager* _animManager;
 };

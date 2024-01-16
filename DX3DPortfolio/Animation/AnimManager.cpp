@@ -17,6 +17,8 @@ AnimManager::~AnimManager()
 	//delete[] _nodeTransform;
 	//delete[] _clipTransform;
 
+	delete[] _sequenceSRTs;
+
 	delete _frameBuffer;
 
 	if (_srv)
@@ -73,12 +75,13 @@ void AnimManager::SetSubResources()
 
 void AnimManager::CreateTexture()
 {
-	UINT clipCount = _sequences.size();
+	UINT sequenceCount = _sequences.size();
 
-	_clipTransforms = new ClipTransform[clipCount];
-	_nodeTransforms = new ClipTransform[clipCount];
+	delete[] _sequenceSRTs;
 
-	for (UINT i = 0; i < clipCount; i++)
+	_sequenceSRTs = new SequenceSRT[sequenceCount];
+
+	for (UINT i = 0; i < sequenceCount; i++)
 	{
 		CreateClipTransform(i);
 	}
@@ -87,38 +90,38 @@ void AnimManager::CreateTexture()
 
 	desc.Width = MAX_BONE * 4;
 	desc.Height = MAX_FRAME_KEY;
-	desc.ArraySize = clipCount;
+	desc.ArraySize = sequenceCount;
 	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	desc.Usage = D3D11_USAGE_IMMUTABLE;
 	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	desc.MipLevels = 1;
 	desc.SampleDesc.Count = 1;
 
-	UINT pageSize = MAX_BONE * sizeof(XMMATRIX) * MAX_FRAME_KEY;
+	UINT pageSize = MAX_BONE * sizeof(KeySRT) * MAX_FRAME_KEY;
 
-	void* ptr = VirtualAlloc(nullptr, pageSize * clipCount, MEM_RESERVE, PAGE_READWRITE);
+	void* ptr = VirtualAlloc(nullptr, pageSize * sequenceCount, MEM_RESERVE, PAGE_READWRITE);
 
-	for (UINT c = 0; c < clipCount; c++)
+	for (UINT i = 0; i < sequenceCount; i++)
 	{
-		UINT start = c * pageSize;
+		UINT start = i * pageSize;
 
-		for (UINT i = 0; i < MAX_FRAME_KEY; i++)
+		for (UINT j = 0; j < MAX_FRAME_KEY; j++)
 		{
-			void* temp = (BYTE*)ptr + MAX_BONE * i * sizeof(XMMATRIX) + start;
+			void* temp = (BYTE*)ptr + MAX_BONE * j * sizeof(KeySRT) + start;
 
-			VirtualAlloc(temp, MAX_BONE * sizeof(XMMATRIX), MEM_COMMIT, PAGE_READWRITE);
-			memcpy(temp, _clipTransforms[c].transform[i], MAX_BONE * sizeof(XMMATRIX));
+			VirtualAlloc(temp, MAX_BONE * sizeof(KeySRT), MEM_COMMIT, PAGE_READWRITE);
+			memcpy(temp, _sequenceSRTs[i].SRTs[j], MAX_BONE * sizeof(KeySRT));
 		}
 	}
 
-	D3D11_SUBRESOURCE_DATA* subResource = new D3D11_SUBRESOURCE_DATA[clipCount];
+	D3D11_SUBRESOURCE_DATA* subResource = new D3D11_SUBRESOURCE_DATA[sequenceCount];
 
-	for (UINT c = 0; c < clipCount; c++)
+	for (UINT c = 0; c < sequenceCount; c++)
 	{
 		void* temp = (BYTE*)ptr + c * pageSize;
 
 		subResource[c].pSysMem = temp;
-		subResource[c].SysMemPitch = MAX_BONE * sizeof(XMMATRIX);
+		subResource[c].SysMemPitch = MAX_BONE * sizeof(KeySRT);
 		subResource[c].SysMemSlicePitch = pageSize;
 	}
 
@@ -135,7 +138,7 @@ void AnimManager::CreateTexture()
 	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
 	srvDesc.Texture2DArray.MipLevels = 1;
-	srvDesc.Texture2DArray.ArraySize = clipCount;
+	srvDesc.Texture2DArray.ArraySize = sequenceCount;
 
 	if (_srv)
 		_srv->Release();
@@ -148,7 +151,9 @@ void AnimManager::CreateTexture()
 void AnimManager::CreateClipTransform(int index)
 {
 	AnimSequence* sequence = _sequences[index];
-
+	SequenceTransforms* nodeTransforms = new SequenceTransforms[_sequences.size()];
+	//SequenceTransforms* sequenceTransforms = new SequenceTransforms[_sequences.size()];
+	
 	for (UINT f = 0; f < sequence->GetFrameCount(); f++)
 	{
 		UINT nodeIndex = 0;
@@ -179,9 +184,9 @@ void AnimManager::CreateClipTransform(int index)
 			if (parentIndex < 0)
 				parentWorld = XMMatrixIdentity();
 			else
-				parentWorld = _nodeTransforms[index].transform[f][parentIndex];
+				parentWorld = nodeTransforms[index].transform[f][parentIndex];
 
-			_nodeTransforms[index].transform[f][nodeIndex] = animWorld * parentWorld;
+			nodeTransforms[index].transform[f][nodeIndex] = animWorld * parentWorld;
 
 			vector<BoneData> bones = _meshRef->GetBones();
 
@@ -192,12 +197,24 @@ void AnimManager::CreateClipTransform(int index)
 
 				XMMATRIX transform = bones[boneIndex].offset;
 
-				transform *= _nodeTransforms[index].transform[f][nodeIndex];
+				transform *= nodeTransforms[index].transform[f][nodeIndex];
 
-				_clipTransforms[index].transform[f][boneIndex] = transform;
+				XMVECTOR S;
+				XMVECTOR R;
+				XMVECTOR T;
+
+				XMMatrixDecompose(&S, &R, &T, transform);
+
+				_sequenceSRTs->SRTs[f][boneIndex].scale = Utility::XMVECTORToXMFLOAT4(S);
+				_sequenceSRTs->SRTs[f][boneIndex].rotate = Utility::XMVECTORToXMFLOAT4(R);
+				_sequenceSRTs->SRTs[f][boneIndex].translation = Utility::XMVECTORToXMFLOAT4(T);
+
+				//sequenceTransforms[index].transform[f][boneIndex] = transform;
 			}
 
 			nodeIndex++;
 		}
 	}
+
+	delete[] nodeTransforms;
 }
