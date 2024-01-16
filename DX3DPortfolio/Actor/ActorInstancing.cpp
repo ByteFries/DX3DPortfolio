@@ -6,6 +6,7 @@ ActorInstancing::ActorInstancing(string name)
 {
 	_instanceDatas.resize(MAX_INSTANCE);
 	_instanceBuffer = new VertexBuffer(_instanceDatas);
+	_mesh = new StaticMesh();
 	_mesh->SetShader(L"DefualtInstance");
 
 	_frameBuffer = new InstancingFrameBuffer();
@@ -24,6 +25,8 @@ ActorInstancing::~ActorInstancing()
 	_datas.clear();
 
 	delete _frameBuffer;
+
+	delete _mesh;
 }
 
 void ActorInstancing::Update()

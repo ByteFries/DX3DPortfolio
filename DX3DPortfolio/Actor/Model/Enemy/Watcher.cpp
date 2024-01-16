@@ -27,6 +27,8 @@ Watcher::Watcher()
 	_screen->_translation.z = 0.3f;
 	_screen->GetMesh()->GetMaterial(0)->GetMaterialBuffer()->SetLightAffect(false);
 	_screen->SetLabel("Screen");
+
+	_mesh = new StaticMesh();
 }
 
 Watcher::~Watcher()
@@ -34,6 +36,7 @@ Watcher::~Watcher()
 	delete _renderTarget;
 	delete _depthStencil;
 	delete _screen;
+	delete _mesh;
 }
 
 void Watcher::Update()

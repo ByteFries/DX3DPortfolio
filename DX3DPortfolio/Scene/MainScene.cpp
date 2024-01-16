@@ -13,14 +13,17 @@ MainScene::MainScene()
 	_terrain->GetMaterial()->SetNormalMap(L"_Texture/IMG/Floor_normal.png");
 	
 	_watcher = new Watcher();
-	actor = new Actor("cat");
+	//actor = new Actor("cat");
+
+	_cat = new Cat();
 }
 
 MainScene::~MainScene()
 {
 	delete _terrain;
 	delete _watcher;
-	delete actor;
+	delete _cat;
+	//delete actor;
 }
 
 void MainScene::Update()
@@ -29,7 +32,8 @@ void MainScene::Update()
 
 	_watcher->Update();
 
-	actor->Update();
+	_cat->Update();
+	//actor->Update();
 }
 
 void MainScene::PreRender()
@@ -47,7 +51,9 @@ void MainScene::Render()
 	
 	_terrain->Render();
 
-	actor->Render();
+	//actor->Render();
+
+	_cat->Render();
 }
 
 void MainScene::PostRender()
