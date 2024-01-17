@@ -9,8 +9,6 @@ Actor::Actor(string name)
 
 Actor::~Actor()
 {
-	delete _mesh;
-	delete _animManager;
 }
 
 void Actor::Render()

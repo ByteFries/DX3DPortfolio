@@ -1,5 +1,5 @@
 #pragma once
-class SkeletalMesh : public StaticMesh
+class SkeletalMesh : public Mesh
 {
 public:
 	SkeletalMesh(string name);

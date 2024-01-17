@@ -71,6 +71,7 @@ using namespace DirectX;
 #include "Render\Material.h"
 
 #include "Render\ModelPart.h"
+#include "Render\Mesh.h"
 #include "Render\StaticMesh.h"
 #include "Render\SkeletalMesh.h"
 

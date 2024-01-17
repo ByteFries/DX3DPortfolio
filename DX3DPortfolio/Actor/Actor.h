@@ -19,7 +19,7 @@ public:
 
 	void PlayClip(State state, float speed = 1, float takeTime = 0.2f);
 
-	void SetMesh(StaticMesh* mesh) { _mesh = mesh; }
+	void SetMesh(Mesh* mesh) { _mesh = mesh; }
 
 	////// MoveComponent //////
 	float _speed = 0.0f;
@@ -28,7 +28,7 @@ public:
 
 protected:
 	string _name;
-	StaticMesh* _mesh;
+	Mesh* _mesh;
 
 	vector<NodeData> _nodes;
 	vector<BoneData> _bones;

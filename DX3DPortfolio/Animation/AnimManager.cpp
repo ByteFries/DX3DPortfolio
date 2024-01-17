@@ -56,6 +56,9 @@ void AnimManager::Update()
 	if (!_sequences.size())
 		return;
 
+	if (!_target)
+		return;
+
 	int index = _target->_speed / _sequences.size();
 
 	_sequences[index]->Update(_frameBuffer->GetDataRef());
@@ -88,17 +91,6 @@ void AnimManager::CreateTexture()
 		CreateSequenceSRV(i);
 	}
 
-	D3D11_TEXTURE2D_DESC desc = {};
-
-	desc.Width = MAX_BONE * 4;
-	desc.Height = MAX_FRAME_KEY;
-	desc.ArraySize = sequenceCount;
-	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	desc.Usage = D3D11_USAGE_IMMUTABLE;
-	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	desc.MipLevels = 1;
-	desc.SampleDesc.Count = 1;
-
 	UINT pageSize = MAX_BONE * sizeof(KeySRT) * MAX_FRAME_KEY;
 
 	void* ptr = VirtualAlloc(nullptr, pageSize * sequenceCount, MEM_RESERVE, PAGE_READWRITE);
@@ -109,10 +101,10 @@ void AnimManager::CreateTexture()
 
 		for (UINT j = 0; j < MAX_FRAME_KEY; j++)
 		{
-			void* temp = (BYTE*)ptr + MAX_BONE * j * sizeof(KeySRT) + start;
+			void* tmp = (BYTE*)ptr + MAX_BONE * j * sizeof(KeySRT) + start;
 
-			VirtualAlloc(temp, MAX_BONE * sizeof(KeySRT), MEM_COMMIT, PAGE_READWRITE);
-			memcpy(temp, _sequenceSRTs[i].SRTs[j], MAX_BONE * sizeof(KeySRT));
+			VirtualAlloc(tmp, MAX_BONE * sizeof(KeySRT), MEM_COMMIT, PAGE_READWRITE);
+			memcpy(tmp, _sequenceSRTs[i].SRTs[j], MAX_BONE * sizeof(KeySRT));
 		}
 	}
 
@@ -130,10 +122,21 @@ void AnimManager::CreateTexture()
 	if (_animationTexture)
 		_animationTexture->Release();
 
+	D3D11_TEXTURE2D_DESC desc = {};
+
+	desc.Width = MAX_BONE * 3;
+	desc.Height = MAX_FRAME_KEY;
+	desc.ArraySize = sequenceCount;
+	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	desc.Usage = D3D11_USAGE_IMMUTABLE;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	desc.MipLevels = 1;
+	desc.SampleDesc.Count = 1;
+
 	DEVICE->CreateTexture2D(&desc, subResource, &_animationTexture);
 
 	delete[] subResource;
-	VirtualFree(ptr, 0, MEM_RELEASE); // 0 ?
+	VirtualFree(ptr, 0, MEM_RELEASE);
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
 
@@ -170,7 +173,7 @@ void AnimManager::CreateSequenceSRV(int index)
 			{
 				XMMATRIX S = XMMatrixScaling(transforms[f].scale.x, transforms[f].scale.y, transforms[f].scale.z);
 				XMMATRIX R = XMMatrixRotationQuaternion(XMLoadFloat4(&transforms[f].rotation));
-				XMMATRIX T = XMMatrixTranslation(transforms[f].position.x, transforms[f].position.y, transforms[f].position.z);
+ 				XMMATRIX T = XMMatrixTranslation(transforms[f].position.x, transforms[f].position.y, transforms[f].position.z);
 
 				animWorld = S * R * T;
 			}
@@ -216,6 +219,11 @@ void AnimManager::CreateSequenceSRV(int index)
 
 			nodeIndex++;
 		}
+	}
+
+	for (UINT i = 0; i < _sequences.size(); ++i)
+	{
+		delete[] nodeTransforms[i].transform;
 	}
 
 	delete[] nodeTransforms;

@@ -326,26 +326,26 @@ matrix SkinWorld(float4 indices, float4 weights)
         nextR = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
         nextT = transformMap.Load(int4(indices[i] * 4 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
         
-        lerpS = lerp(curS, nextS, motion.cur.time);
+        lerpS = lerp(curS.xyz, nextS.xyz, motion.cur.time);
         lerpR = lerp(curR, nextR, motion.cur.time);
-        lerpT = lerp(curT, nextT, motion.cur.time);
+        lerpT = lerp(curT.xyz, nextT.xyz, motion.cur.time);
         
         curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
         
         [flatten]
         if (motion.next.clipIndex > -1)
         {
-            lerpS = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
-            lerpR = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
-            lerpT = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
+            curS = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
+            curR = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
+            curT = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
         
             nextS = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.nextFrame, motion.next.clipIndex, 0));
             nextR = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
             nextT = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
             
-            lerpS = lerp(curS, nextS, motion.cur.time);
+            lerpS = lerp(curS.xyz, nextS.xyz, motion.cur.time);
             lerpR = lerp(curR, nextR, motion.cur.time);
-            lerpT = lerp(curT, nextT, motion.cur.time);
+            lerpT = lerp(curT.xyz, nextT.xyz, motion.cur.time);
             
             nextAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
             

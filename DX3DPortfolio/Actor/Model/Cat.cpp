@@ -4,8 +4,6 @@
 Cat::Cat()
 	:Actor("cat")
 {
-	_scale *= 0.01f;
-
 	_mesh = new SkeletalMesh("cat");
 
 	SkeletalMesh* mesh = dynamic_cast<SkeletalMesh*>(_mesh);
@@ -18,7 +16,10 @@ Cat::Cat()
 		_animManager->AddAnimation(_name, "cat1", 100, 0);
 		//_animManager->AddAnimation(_name, "Jump", );
 		_animManager->CreateTexture();
+		_animManager->SetTarget(this);
+		_animManager->PlaySequence(State::IDLE, 0, 0.2f);
 
+		_wBuffer->SetAnimation(true);
 	}
 }
 
@@ -29,7 +30,7 @@ Cat::~Cat()
 
 void Cat::Update()
 {
-	KeyInput();
+	//KeyInput();
 
 	//Physics();
 

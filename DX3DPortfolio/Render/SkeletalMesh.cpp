@@ -2,8 +2,9 @@
 #include "SkeletalMesh.h"
 
 SkeletalMesh::SkeletalMesh(string name)
-	:StaticMesh(name)
+	:Mesh(name)
 {
+	ReadMesh();
 }
 
 SkeletalMesh::~SkeletalMesh()
@@ -22,4 +23,6 @@ void SkeletalMesh::ReadMesh()
 	_bones = data.bones;
 	_boneMap = data.boneMap;
 	_nodes = data.nodes;
+
+	SetShader(L"Default");
 }

@@ -17,7 +17,7 @@ public:
 private:
 	void CreateSequenceSRV(int index);
 	
-	SkeletalMesh*& _meshRef;
+	SkeletalMesh* _meshRef;
 
 	vector<AnimSequence*> _sequences = {};
 

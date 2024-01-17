@@ -28,7 +28,7 @@ Watcher::Watcher()
 	_screen->GetMesh()->GetMaterial(0)->GetMaterialBuffer()->SetLightAffect(false);
 	_screen->SetLabel("Screen");
 
-	_mesh = new StaticMesh();
+	_mesh = new StaticMesh(_name);
 }
 
 Watcher::~Watcher()
