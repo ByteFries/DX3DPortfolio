@@ -10,6 +10,7 @@ struct VertexInput
     float4 weights : WEIGHTS;
 };
 
+
 LightVertexOutput main(VertexInput input)
 {
     LightVertexOutput result;
@@ -18,7 +19,9 @@ LightVertexOutput main(VertexInput input)
     
     [branch]
     if (hasAnimation)
+    {
         transform = mul(SkinWorld(input.indices, input.weights), world);
+    }
     else
         transform = world;
     

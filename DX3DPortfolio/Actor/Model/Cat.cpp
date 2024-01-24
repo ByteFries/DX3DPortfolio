@@ -2,23 +2,24 @@
 #include "Cat.h"
 
 Cat::Cat()
-	:Actor("cat")
+	:Actor("test")
 {
-	_mesh = new SkeletalMesh("cat");
+	_mesh = new SkeletalMesh("test");
 
 	SkeletalMesh* mesh = dynamic_cast<SkeletalMesh*>(_mesh);
 
 	if (mesh)
 	{
 		_animManager = new AnimManager(mesh);
-
-		_animManager->AddAnimation(_name, "cat0", 0, 0);
-		_animManager->AddAnimation(_name, "cat1", 100, 0);
+	
+		_animManager->AddAnimation(_name, "test0", 0, 0);
+		//_animManager->AddAnimation(_name, "cat1", 100, 0);
 		//_animManager->AddAnimation(_name, "Jump", );
 		_animManager->CreateTexture();
+		_animManager->CreateMatrixTexture();
 		_animManager->SetTarget(this);
 		_animManager->PlaySequence(State::IDLE, 0, 0.2f);
-
+	
 		_wBuffer->SetAnimation(true);
 	}
 }
@@ -26,6 +27,7 @@ Cat::Cat()
 Cat::~Cat()
 {
 	delete _mesh;
+	delete _animManager;
 }
 
 void Cat::Update()

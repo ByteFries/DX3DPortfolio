@@ -67,6 +67,7 @@ cbuffer FrameInstancingBuffer : register(b4)
 }
 
 Texture2DArray transformMap : register(t0);
+Texture2DArray matrixMap : register(t1);
 
 struct VertexDefault
 {
@@ -157,7 +158,72 @@ float4x4 QuaternionToRotationMatrix(float4 quaternion)
     return rotationMatrix;
 }
 
-float4x4 ScaleMatrix(float3 scale)
+float4x4 GetTranslationMatrix(float3 translation)
+{
+    float4x4 M;
+    
+    M[0][0] = 1.0f;
+    M[0][1] = 0.0f;
+    M[0][2] = 0.0f;
+    M[0][3] = 0.0f;
+
+    M[1][0] = 0.0f;
+    M[1][1] = 1.0f;
+    M[1][2] = 0.0f;
+    M[1][3] = 0.0f;
+
+    M[2][0] = 0.0f;
+    M[2][1] = 0.0f;
+    M[2][2] = 1.0f;
+    M[2][3] = 0.0f;
+
+    M[3][0] = translation.x;
+    M[3][1] = translation.y;
+    M[3][2] = translation.z;
+    M[3][3] = 1.0f;
+    
+    return M;
+}
+
+float4x4 GetQuatRotationMatrix(float4 quat)
+{
+    float qx = quat.x;
+    float qxx = qx * qx;
+
+    float qy = quat.y;
+    float qyy = qy * qy;
+
+    float qz = quat.z;
+    float qzz = qz * qz;
+
+    float qw = quat.w;
+
+    float4x4 M;
+    
+    M[0][0] = 1.f - 2.f * qyy - 2.f * qzz;
+    M[0][1] = 2.f * qx * qy + 2.f * qz * qw;
+    M[0][2] = 2.f * qx * qz - 2.f * qy * qw;
+    M[0][3] = 0.f;
+
+    M[1][0] = 2.f * qx * qy - 2.f * qz * qw;
+    M[1][1] = 1.f - 2.f * qxx - 2.f * qzz;
+    M[1][2] = 2.f * qy * qz + 2.f * qx * qw;
+    M[1][3] = 0.f;
+
+    M[2][0] = 2.f * qx * qz + 2.f * qy * qw;
+    M[2][1] = 2.f * qy * qz - 2.f * qx * qw;
+    M[2][2] = 1.f - 2.f * qxx - 2.f * qyy;
+    M[2][3] = 0.f;
+
+    M[3][0] = 0.f;
+    M[3][1] = 0.f;
+    M[3][2] = 0.f;
+    M[3][3] = 1.0f;
+    
+    return M;
+}
+
+float4x4 GetScaleMatrix(float3 scale)
 {
     return float4x4(
         float4(scale.x, 0.0f, 0.0f, 0.0f),
@@ -169,73 +235,8 @@ float4x4 ScaleMatrix(float3 scale)
 
 float4x4 CombinedTransformMatrix(float3 translation, float4 quaternion, float3 scale)
 {
-    return mul(mul(TranslationMatrix(translation), QuaternionToRotationMatrix(quaternion)), ScaleMatrix(scale));
+    return mul(mul(GetTranslationMatrix(translation), GetQuatRotationMatrix(quaternion)), GetScaleMatrix(scale));
 }
-
-/*
-float3 ExtractTranslation(float4x4 origin)
-{
-    return origin[3].xyz;
-}
-
-float3 ExtractScale(float4x4 origin)
-{
-    float3 scale;
-    scale.x = length(origin[0].xyz);
-    scale.y = length(origin[1].xyz);
-    scale.z = length(origin[2].xyz);
-    
-    return scale;
-}
-
-
-float4 ExtractRotation(float4x4 origin)
-{
-    float3 scale = ExtractScale(origin);
-    
-    origin[0] /= float4(scale, 1.0);
-    origin[1] /= float4(scale, 1.0);
-    origin[2] /= float4(scale, 1.0);
-
-    float4 quaternion;
-    float trace = origin[0].x +  origin[1].y + origin[2].z;
-    
-    if (trace > 0.0)
-    {
-        float s = 0.5 / sqrt(trace + 1.0);
-        quaternion.w = 0.25 / s;
-        quaternion.x = (origin[2].y - origin[1].z) * s;
-        quaternion.y = (origin[0].z - origin[2].x) * s;
-        quaternion.z = (origin[1].x - origin[0].y) * s;
-    }
-    else if (origin[0].x > origin[1].y && origin[0].x > origin[2].z)
-    {
-        float s = 2.0 * sqrt(1.0 + origin[0].x - origin[1].y - origin[2].z);
-        quaternion.w = (origin[2].y - origin[1].z) / s;
-        quaternion.x = 0.25 * s;
-        quaternion.y = (origin[0].y + origin[1].x) / s;
-        quaternion.z = (origin[0].z + origin[2].x) / s;
-    }
-    else if (origin[1].y > origin[2].z)
-    {
-        float s = 2.0 * sqrt(1.0 + origin[1].y - origin[0].x - origin[2].z);
-        quaternion.w = (origin[0].z - origin[2].x) / s;
-        quaternion.x = (origin[0].y + origin[1].x) / s;
-        quaternion.y = 0.25 * s;
-        quaternion.z = (origin[1].z + origin[2].y) / s;
-    }
-    else
-    {
-        float s = 2.0 * sqrt(1.0 + origin[2].z - origin[0].x - origin[1].y);
-        quaternion.w = (origin[1].x - origin[0].y) / s;
-        quaternion.x = (origin[0].z + origin[2].x) / s;
-        quaternion.y = (origin[1].z + origin[2].y) / s;
-        quaternion.z = 0.25 * s;
-    }
-    
-    return quaternion;
-}
-*/
 
 
 /*
@@ -303,11 +304,20 @@ matrix SkinWorld(float4 indices, float4 weights)
     return transform;
 }
 */
+float4x4 IdentityMatrix()
+{
+    return float4x4(
+        float4(1.0f, 0.0f, 0.0f, 0.0f),
+        float4(0.0f, 1.0f, 0.0f, 0.0f),
+        float4(0.0f, 0.0f, 1.0f, 0.0f),
+        float4(0.0f, 0.0f, 0.0f, 1.0f)
+    );
+}
 
 matrix SkinWorld(float4 indices, float4 weights)
 {
     matrix transform = 0;
-    matrix curAnim, nextAnim;
+    matrix curAnim, nextAnim, testAnim;
     
     float4 curS, curR, curT;
     float4 nextS, nextR, nextT;
@@ -315,42 +325,58 @@ matrix SkinWorld(float4 indices, float4 weights)
     float3 lerpS, lerpT;
     float4 lerpR;
     
-    [unroll]                   
+    float4 cur1, cur2, cur3, cur4;
+    
+    [unroll]
     for (int i = 0; i < 4; i++)
     {
-        curS = transformMap.Load(int4(indices[i] * 4 + 0, motion.cur.curFrame, motion.cur.clipIndex, 0));
-        curR = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.curFrame, motion.cur.clipIndex, 0));
-        curT = transformMap.Load(int4(indices[i] * 4 + 2, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        curR = transformMap.Load(int4(indices[i] * 3 + 1, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.curFrame, motion.cur.clipIndex, 0));
         
-        nextS = transformMap.Load(int4(indices[i] * 4 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        nextR = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        nextT = transformMap.Load(int4(indices[i] * 4 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        float3 s = curS.xyz;
+        float3 t = curT.xyz;
         
-        lerpS = lerp(curS.xyz, nextS.xyz, motion.cur.time);
-        lerpR = lerp(curR, nextR, motion.cur.time);
-        lerpT = lerp(curT.xyz, nextT.xyz, motion.cur.time);
+        curAnim = CombinedTransformMatrix(t, curR, s);
         
-        curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
+        cur1 = matrixMap.Load(int4(indices[i] * 4 + 0, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        cur2 = matrixMap.Load(int4(indices[i] * 4 + 1, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        cur3 = matrixMap.Load(int4(indices[i] * 4 + 2, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        cur4 = matrixMap.Load(int4(indices[i] * 4 + 3, motion.cur.curFrame, motion.cur.clipIndex, 0));
         
-        [flatten]
-        if (motion.next.clipIndex > -1)
-        {
-            curS = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
-            curR = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
-            curT = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
+        testAnim = matrix(cur1, cur2, cur3, cur4);
         
-            nextS = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.nextFrame, motion.next.clipIndex, 0));
-            nextR = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
-            nextT = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
-            
-            lerpS = lerp(curS.xyz, nextS.xyz, motion.cur.time);
-            lerpR = lerp(curR, nextR, motion.cur.time);
-            lerpT = lerp(curT.xyz, nextT.xyz, motion.cur.time);
-            
-            nextAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
-            
-            curAnim = lerp(curAnim, nextAnim, motion.tweenTime);
-        }
+        curAnim = curAnim - testAnim + IdentityMatrix();
+        
+        //nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        //nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        //nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        
+        //lerpS = lerp(curS.xyz, nextS.xyz, motion.cur.time);
+        //lerpR = lerp(curR, nextR, motion.cur.time);
+        //lerpT = lerp(curT.xyz, nextT.xyz, motion.cur.time);
+        //
+        //curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
+        
+        //[flatten]
+        //if (motion.next.clipIndex > -1)
+        //{
+        //    curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
+        //    curR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
+        //    curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
+        //
+        //    nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.nextFrame, motion.next.clipIndex, 0));
+        //    nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
+        //    nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
+        //    
+        //    lerpS = lerp(curS.xyz, nextS.xyz, motion.next.time);
+        //    lerpR = lerp(curR, nextR, motion.next.time);
+        //    lerpT = lerp(curT.xyz, nextT.xyz, motion.next.time);
+        //    
+        //    nextAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
+        //    
+        //    curAnim = lerp(curAnim, nextAnim, motion.tweenTime);
+        //}
         
         transform += mul(weights[i], curAnim);
     }
@@ -384,7 +410,6 @@ matrix SkinWorld(uint instanceIndex, float4 indices, float4 weights)
         c3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.cur.curFrame, motion.cur.clipIndex, 0));
 
         cur = matrix(c0, c1, c2, c3);
-        
         
         n0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
         n1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));

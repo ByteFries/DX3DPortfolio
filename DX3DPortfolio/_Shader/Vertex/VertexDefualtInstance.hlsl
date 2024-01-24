@@ -21,7 +21,7 @@ LightVertexOutput main(VertexInput input)
     matrix transform;
     
     if (input.animation)
-        transform = mul(SkinWorld(input.indices, input.weights), input.transform);
+        transform = mul(SkinWorld(input.index, input.indices, input.weights), input.transform);
     else
         transform = input.transform;
     

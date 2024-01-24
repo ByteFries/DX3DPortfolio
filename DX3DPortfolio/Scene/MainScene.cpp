@@ -3,7 +3,7 @@
 
 MainScene::MainScene()
 {	
-	//ModelExporter* exporter = new ModelExporter("cat");
+	//ModelExporter* exporter = new ModelExporter("test");
 	//exporter->ExportModel();
 	//delete exporter;
 	
@@ -16,6 +16,8 @@ MainScene::MainScene()
 	//actor = new Actor("cat");
 
 	_cat = new Cat();
+
+
 }
 
 MainScene::~MainScene()
