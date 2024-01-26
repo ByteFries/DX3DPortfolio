@@ -91,11 +91,3 @@ struct SequenceSRT
 {
 	KeySRT SRTs[MAX_FRAME_KEY][MAX_BONE];
 };
-
-
-
-
-struct ClipTransform
-{
-	XMMATRIX transform[MAX_FRAME_KEY][MAX_BONE];
-};

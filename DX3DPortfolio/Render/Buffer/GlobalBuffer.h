@@ -346,12 +346,6 @@ private:
 class FrameBuffer : public ConstantBuffer
 {
 public:
-	FrameBuffer()
-		: ConstantBuffer(&_data, sizeof(Data))
-	{
-		_data.next.clipIndex = -1;
-	}
-
 	struct Frame
 	{
 		int   clipIndex = 0;
@@ -372,6 +366,13 @@ public:
 
 		Frame cur, next;
 	};
+
+
+	FrameBuffer()
+		: ConstantBuffer(&_data, sizeof(Data))
+	{
+		_data.next.clipIndex = -1;
+	}
 
 	const FrameBuffer::Frame GetCurFrame()
 	{

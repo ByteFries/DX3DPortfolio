@@ -376,8 +376,8 @@ matrix SkinWorld(float4 indices, float4 weights)
     matrix transform = 0;
     matrix curAnim, nextAnim, testAnim;
     
-    float4 curS, curR, curT;
-    float4 nextS, nextR, nextT;
+    float3 curS, nextS, curT, nextT;
+    float4 curR, nextR;
     
     float3 lerpS, lerpT;
     float4 lerpR;
@@ -394,42 +394,38 @@ matrix SkinWorld(float4 indices, float4 weights)
         float3 s = curS.xyz;
         float3 t = curT.xyz;
         
-        curAnim = CombinedTransformMatrix(t, curR, s);
-        curAnim = TransposeMatrix(curAnim);      
+        nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        
+        lerpS = lerp(curS, nextS, motion.cur.time);
+        lerpR = lerp(curR, nextR, motion.cur.time);
+        lerpT = lerp(curT, nextT, motion.cur.time);
+        
+        curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
+        curAnim = TransposeMatrix(curAnim);
+        
+        [flatten]
+        if (motion.next.clipIndex > -1)
+        {
+            curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
+            curR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
+            curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
+        
+            nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.nextFrame, motion.next.clipIndex, 0));
+            nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
+            nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
+            
+            lerpS = lerp(curS, nextS.xyz, motion.next.time);
+            lerpR = lerp(curR, nextR, motion.next.time);
+            lerpT = lerp(curT, nextT.xyz, motion.next.time);
+            
+            nextAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
+            
+            curAnim = lerp(curAnim, nextAnim, motion.tweenTime);
+        }
         
         transform += mul(weights[i], curAnim);
-        
-        //nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        //nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        //nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        
-        //lerpS = lerp(curS.xyz, nextS.xyz, motion.cur.time);
-        //lerpR = lerp(curR, nextR, motion.cur.time);
-        //lerpT = lerp(curT.xyz, nextT.xyz, motion.cur.time);
-        //
-        //curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
-        
-        //[flatten]
-        //if (motion.next.clipIndex > -1)
-        //{
-        //    curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
-        //    curR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
-        //    curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
-        //
-        //    nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.nextFrame, motion.next.clipIndex, 0));
-        //    nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
-        //    nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
-        //    
-        //    lerpS = lerp(curS.xyz, nextS.xyz, motion.next.time);
-        //    lerpR = lerp(curR, nextR, motion.next.time);
-        //    lerpT = lerp(curT.xyz, nextT.xyz, motion.next.time);
-        //    
-        //    nextAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
-        //    
-        //    curAnim = lerp(curAnim, nextAnim, motion.tweenTime);
-        //}
-        
-            //transform += mul(weights[i], curAnim);
     }
     
     return transform;

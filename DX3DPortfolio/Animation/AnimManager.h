@@ -12,30 +12,22 @@ public:
 	void SetSubResources();
 
 	void CreateTexture();
-	void CreateMatrixTexture();
 
 	void SetTarget(class Actor* target) { _target = target; }
+
+	void Debug();
 private:
 	void CreateSequenceSRV(int index);
-
-	void CreateTransform(int index);
 	
 	SkeletalMesh* _meshRef;
 
 	vector<AnimSequence*> _sequences = {};
 
-	ClipTransform* _clipTransforms = nullptr;
-	ClipTransform* _nodeTransforms = nullptr;
-
 	SequenceSRT* _sequenceSRTs = nullptr;
 
 	FrameBuffer* _frameBuffer = nullptr;
 	ID3D11Texture2D* _animationTexture = nullptr;
-	ID3D11Texture2D* _matTexture = nullptr;
 	ID3D11ShaderResourceView* _srv = nullptr;
-	ID3D11ShaderResourceView* _matSrv = nullptr;
-
-
 
 	Actor* _target;
 

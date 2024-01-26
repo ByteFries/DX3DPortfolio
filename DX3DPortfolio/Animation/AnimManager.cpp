@@ -15,21 +15,15 @@ AnimManager::~AnimManager()
 
 	_sequences.clear();
 
-	delete[] _nodeTransforms;
-	delete[] _clipTransforms;
-
 	delete[] _sequenceSRTs;
 
 	delete _frameBuffer;
 
+	if (_animationTexture)
+		_animationTexture->Release();
+
 	if (_srv)
 		_srv->Release();
-
-	if (_matSrv)
-		_matSrv->Release();
-
-	if (_matTexture)
-		_matTexture->Release();
 }
 
 void AnimManager::AddAnimation(string actorName, string animName, float speed, float direction)
@@ -49,6 +43,7 @@ void AnimManager::PlaySequence(Actor::State state, float speed, float takeTime)
 	FrameBuffer::Frame& nextFrame = _frameBuffer->GetNextFrameRef();
 	nextFrame.clipIndex = state;
 	nextFrame.speed = speed;
+	_frameBuffer->SetTakeTime(takeTime);
 	_frameBuffer->SetRunningTime(0.0f);
 }
 
@@ -65,7 +60,7 @@ void AnimManager::Update()
 
 	int index = _target->_speed / _sequences.size();
 
-	_sequences[index]->Update(_frameBuffer->GetDataRef());
+	_sequences[0]->Update(_frameBuffer->GetDataRef());
 
 	int nextIndex = _frameBuffer->GetNextFrame().clipIndex;
 
@@ -80,7 +75,6 @@ void AnimManager::SetSubResources()
 {
 	_frameBuffer->SetVSBuffer(3);
 	DC->VSSetShaderResources(0, 1, &_srv);
-	DC->VSSetShaderResources(1, 1, &_matSrv);
 }
 
 void AnimManager::CreateTexture()
@@ -157,80 +151,16 @@ void AnimManager::CreateTexture()
 	DEVICE->CreateShaderResourceView(_animationTexture, &srvDesc, &_srv);
 
 	_frameBuffer->InitDatas();
-}
 
-
-void AnimManager::CreateMatrixTexture()
-{
-	UINT clipCount = _sequences.size();
-
-	_clipTransforms = new ClipTransform[clipCount];
-	_nodeTransforms = new ClipTransform[clipCount];
-
-	for (UINT i = 0; i < clipCount; i++)
-	{
-		CreateTransform(i);
-	}
-
-	D3D11_TEXTURE2D_DESC desc = {};
-
-	desc.Width = MAX_BONE * 4;
-	desc.Height = MAX_FRAME_KEY;
-	desc.ArraySize = clipCount;
-	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	desc.Usage = D3D11_USAGE_IMMUTABLE;
-	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	desc.MipLevels = 1;
-	desc.SampleDesc.Count = 1;
-
-	UINT pageSize = MAX_BONE * sizeof(XMMATRIX) * MAX_FRAME_KEY;
-
-	void* ptr = VirtualAlloc(nullptr, pageSize * clipCount, MEM_RESERVE, PAGE_READWRITE);
-
-	for (UINT c = 0; c < clipCount; c++)
-	{
-		UINT start = c * pageSize;
-
-		for (UINT i = 0; i < MAX_FRAME_KEY; i++)
-		{
-			void* temp = (BYTE*)ptr + MAX_BONE * i * sizeof(XMMATRIX) + start;
-
-			VirtualAlloc(temp, MAX_BONE * sizeof(XMMATRIX), MEM_COMMIT, PAGE_READWRITE);
-			memcpy(temp, _clipTransforms[c].transform[i], MAX_BONE * sizeof(XMMATRIX));
-		}
-	}
-
-	D3D11_SUBRESOURCE_DATA* subResource = new D3D11_SUBRESOURCE_DATA[clipCount];
-
-	for (UINT c = 0; c < clipCount; c++)
-	{
-		void* temp = (BYTE*)ptr + c * pageSize;
-
-		subResource[c].pSysMem = temp;
-		subResource[c].SysMemPitch = MAX_BONE * sizeof(XMMATRIX);
-		subResource[c].SysMemSlicePitch = pageSize;
-	}
-
-	DEVICE->CreateTexture2D(&desc, subResource, &_matTexture);
-
-	delete[] subResource;
-	VirtualFree(ptr, 0, MEM_RELEASE); // 0 ?
-
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-
-	srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-	srvDesc.Texture2DArray.MipLevels = 1;
-	srvDesc.Texture2DArray.ArraySize = clipCount;
-
-	DEVICE->CreateShaderResourceView(_matTexture, &srvDesc, &_matSrv);
+	FrameBuffer::Frame& frame = _frameBuffer->GetCurFrameRef();
+	frame.speed = 0.1f;
+	_frameBuffer->SetTakeTime(0.2f);
 }
 
 void AnimManager::CreateSequenceSRV(int index)
 {
 	AnimSequence* sequence = _sequences[index];
 	SequenceTransforms* nodeTransforms = new SequenceTransforms[_sequences.size()];
-	//SequenceTransforms* sequenceTransforms = new SequenceTransforms[_sequences.size()];
 	
 	for (UINT f = 0; f < sequence->GetFrameCount(); f++)
 	{
@@ -296,60 +226,20 @@ void AnimManager::CreateSequenceSRV(int index)
 	delete[] nodeTransforms;
 }
 
-void AnimManager::CreateTransform(int index)
+void AnimManager::Debug()
 {
-	AnimSequence* sequence = _sequences[index];
+	FrameBuffer::Frame frame = _frameBuffer->GetCurFrame();
 
-	for (UINT f = 0; f < sequence->GetFrameCount(); f++)
-	{
-		UINT nodeIndex = 0;
-
-		for (NodeData node : _meshRef->GetNodes())
-		{
-			XMMATRIX animWorld;
-
-			vector<KeyTransform> transforms = sequence->GetKeyTransforms(node.name);
-
-			if (transforms.size() > 0)
-			{
-				XMMATRIX S = XMMatrixScaling(transforms[f].scale.x, transforms[f].scale.y, transforms[f].scale.z);
-				XMMATRIX R = XMMatrixRotationQuaternion(XMLoadFloat4(&transforms[f].rotation));
-				XMMATRIX T = XMMatrixTranslation(transforms[f].position.x, transforms[f].position.y, transforms[f].position.z);
-
-				animWorld = S * R * T;
-			}
-			else
-			{
-				animWorld = XMMatrixIdentity();
-			}
-
-			XMMATRIX parentWorld;
-
-			int parentIndex = node.parent;
-
-			if (parentIndex < 0)
-				parentWorld = XMMatrixIdentity();
-			else
-				parentWorld = _nodeTransforms[index].transform[f][parentIndex];
-
-			_nodeTransforms[index].transform[f][nodeIndex] = animWorld * parentWorld;
-
-			vector<BoneData> bones = _meshRef->GetBones();
-
-			if (_meshRef->HasBone(node.name))
-			{
-				auto map = _meshRef->GetBoneMap();
-
-				UINT boneIndex = map[node.name];
-
-				XMMATRIX transform = bones[boneIndex].offset;
-
-				transform *= _nodeTransforms[index].transform[f][nodeIndex];
-
-				_clipTransforms[index].transform[f][boneIndex] = transform;
-			}
-
-			nodeIndex++;
-		}
-	}
+	//if (ImGui::TreeNode(_animName.c_str()))
+	//{
+	//	ImGui::DragFloat3("Scale", (float*)&_scale, 0.01f, 0.01f, 100.0f);
+	//
+	//	ImGui::SliderAngle("RotationX", &_rotation.x);
+	//	ImGui::SliderAngle("RotationY", &_rotation.y);
+	//	ImGui::SliderAngle("RotationZ", &_rotation.z);
+	//
+	//	ImGui::DragFloat3("Translation", (float*)&_translation, 0.01f, -WIN_WIDTH, WIN_WIDTH);
+	//
+	//	ImGui::TreePop();
+	//}
 }
