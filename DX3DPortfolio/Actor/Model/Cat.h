@@ -7,6 +7,7 @@ public:
 	~Cat();
 
 	void Update();
+	void Render();
 
 	void Physics();
 
@@ -22,5 +23,6 @@ private:
 	float _curRotation = FLT_MAX;
 	float _rotAngle = FLT_MAX;
 	float _rotTime = 0;
+
 };
 

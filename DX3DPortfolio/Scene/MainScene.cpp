@@ -13,11 +13,10 @@ MainScene::MainScene()
 	_terrain->GetMaterial()->SetNormalMap(L"_Texture/IMG/Floor_normal.png");
 	
 	_watcher = new Watcher();
+
 	//actor = new Actor("cat");
 
 	_cat = new Cat();
-
-
 }
 
 MainScene::~MainScene()
@@ -61,4 +60,6 @@ void MainScene::Render()
 void MainScene::PostRender()
 {
 	_watcher->Debug();
+
+	_cat->Debug();
 }

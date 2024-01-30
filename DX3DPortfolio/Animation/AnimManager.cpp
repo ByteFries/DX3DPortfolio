@@ -35,8 +35,8 @@ void AnimManager::AddAnimation(string actorName, string animName, float speed, f
 
 void AnimManager::PlaySequence(Actor::State state, float speed, float takeTime)
 {
-	if (_state == state)
-		return;
+	//if (_state == state)
+	//	return;
 
 	_state = state;
 
@@ -58,6 +58,9 @@ void AnimManager::Update()
 	if (!_target)
 		return;
 
+	if (_stop)
+		return;
+
 	int index = _target->_speed / _sequences.size();
 
 	_sequences[0]->Update(_frameBuffer->GetDataRef());
@@ -68,7 +71,6 @@ void AnimManager::Update()
 		return;
 
 	_sequences[nextIndex]->UpdateNextFrame(_frameBuffer->GetDataRef());
-
 }
 
 void AnimManager::SetSubResources()
@@ -228,18 +230,18 @@ void AnimManager::CreateSequenceSRV(int index)
 
 void AnimManager::Debug()
 {
-	FrameBuffer::Frame frame = _frameBuffer->GetCurFrame();
+	int index = _target->_speed / _sequences.size();
 
-	//if (ImGui::TreeNode(_animName.c_str()))
-	//{
-	//	ImGui::DragFloat3("Scale", (float*)&_scale, 0.01f, 0.01f, 100.0f);
-	//
-	//	ImGui::SliderAngle("RotationX", &_rotation.x);
-	//	ImGui::SliderAngle("RotationY", &_rotation.y);
-	//	ImGui::SliderAngle("RotationZ", &_rotation.z);
-	//
-	//	ImGui::DragFloat3("Translation", (float*)&_translation, 0.01f, -WIN_WIDTH, WIN_WIDTH);
-	//
-	//	ImGui::TreePop();
-	//}
+	FrameBuffer::Frame& frame = _frameBuffer->GetCurFrameRef();
+
+	if (ImGui::TreeNode(_sequences[index]->GetName().c_str()))
+	{
+		ImGui::Checkbox("Stop", &_stop);
+
+		ImGui::DragInt("CurFrame", (int*)&frame.curFrame);
+		ImGui::DragInt("NextFrame", (int*)&frame.nextFrame);
+		ImGui::DragFloat("Speed", &frame.speed);
+	
+		ImGui::TreePop();
+	}
 }

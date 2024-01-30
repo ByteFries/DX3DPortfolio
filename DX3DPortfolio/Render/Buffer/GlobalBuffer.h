@@ -348,7 +348,7 @@ class FrameBuffer : public ConstantBuffer
 public:
 	struct Frame
 	{
-		int   clipIndex = 0;
+		int   clipIndex = -1;
 		UINT  curFrame = 0;
 		UINT  nextFrame = 0;
 		float time = 0.0f;

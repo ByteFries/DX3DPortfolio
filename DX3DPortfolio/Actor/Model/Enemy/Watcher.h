@@ -18,6 +18,5 @@ private:
 	Quad* _screen;
 
 	class Camera* _camera;
-
 };
 

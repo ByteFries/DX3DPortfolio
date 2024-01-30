@@ -2,22 +2,23 @@
 #include "Cat.h"
 
 Cat::Cat()
-	:Actor("test")
+	:Actor("cat")
 {
-	_mesh = new SkeletalMesh("test");
+	_mesh = new SkeletalMesh("cat");
 
 	SkeletalMesh* mesh = dynamic_cast<SkeletalMesh*>(_mesh);
+
 
 	if (mesh)
 	{
 		_animManager = new AnimManager(mesh);
 	
-		_animManager->AddAnimation(_name, "test0", 0, 0);
+		_animManager->AddAnimation(_name, "cat0", 0, 0);
 		//_animManager->AddAnimation(_name, "cat1", 100, 0);
 		//_animManager->AddAnimation(_name, "Jump", );
 		_animManager->CreateTexture();
 		_animManager->SetTarget(this);
-		_animManager->PlaySequence(State::IDLE, 0.2f, 0.2f);
+		_animManager->PlaySequence(State::IDLE, 1.0f, 1.0f);
 	
 		_wBuffer->SetAnimation(true);
 	}
@@ -38,6 +39,11 @@ void Cat::Update()
 	Actor::Update();
 }
 
+void Cat::Render()
+{
+	Actor::Render();
+}
+
 void Cat::Physics()
 {
 	_jumpPower -= DELTA * 4.0f;
@@ -50,7 +56,15 @@ void Cat::Physics()
 
 void Cat::Debug()
 {
-	Transform::Debug();
+	if (ImGui::TreeNode(_name.c_str()))
+	{
+		Transform::Debug();
+
+		_animManager->Debug();
+
+		ImGui::TreePop();
+	}
+
 }
 
 void Cat::KeyInput()

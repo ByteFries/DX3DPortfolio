@@ -12,11 +12,9 @@ public:
 	float GetTicksPerSec() { return _ticksPerSec; }
 	float GetDuration() { return _duration; }
 
-	string GetName(string name) { return _animName; }
+	string GetName() { return _animName; }
 
 	vector<KeyTransform> GetKeyTransforms(string key) { return _keyTransforms[key]; }
-
-	
 
 private:
 	string _animName;

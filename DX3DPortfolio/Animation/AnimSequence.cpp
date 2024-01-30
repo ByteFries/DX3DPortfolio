@@ -30,7 +30,6 @@ void AnimSequence::Update(FrameBuffer::Data& frame)
 		++frame.cur.curFrame %= (_frameCount - 1);
 		frame.cur.nextFrame = (frame.cur.curFrame + 1) % (_frameCount);
 		frame.cur.time = 0.0f;
-		frame.next.speed = frame.cur.speed;
 	}
 }
 
@@ -41,6 +40,7 @@ void AnimSequence::UpdateNextFrame(FrameBuffer::Data& frame)
 	if (frame.tweenTime >= 1.0f)
 	{
 		frame.cur = frame.next;
+
 		frame.tweenTime = 0.0f;
 
 		frame.next.clipIndex = -1;

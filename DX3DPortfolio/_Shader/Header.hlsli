@@ -97,90 +97,9 @@ Texture2D normalMap : register(t2);
 
 SamplerState samp : register(s0);
 
-float4x4 TranslationMatrix(float3 translation)
-{
-    return float4x4(
-        float4(1.0f, 0.0f, 0.0f, 0.0f),
-        float4(0.0f, 1.0f, 0.0f, 0.0f),
-        float4(0.0f, 0.0f, 1.0f, 0.0f),
-        float4(translation, 1.0f)
-    );
-}
-
-float4x4 RotationMatrix(float3 angles)
-{
-    float cosX = cos(angles.x);
-    float sinX = sin(angles.x);
-
-    float cosY = cos(angles.y);
-    float sinY = sin(angles.y);
-
-    float cosZ = cos(angles.z);
-    float sinZ = sin(angles.z);
-
-    float4x4 rotationMatrix =
-    {
-        cosY * cosZ, cosY * sinZ, -sinY, 0.0f,
-        sinX * sinY * cosZ - cosX * sinZ, sinX * sinY * sinZ + cosX * cosZ, sinX * cosY, 0.0f,
-        cosX * sinY * cosZ + sinX * sinZ, cosX * sinY * sinZ - sinX * cosZ, cosX * cosY, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f
-    };
-
-    return rotationMatrix;
-}
-
-float4x4 QuaternionToRotationMatrix(float4 quaternion)
-{
-    quaternion = normalize(quaternion);
-
-    float x = quaternion.x;
-    float y = quaternion.y;
-    float z = quaternion.z;
-    float w = quaternion.w;
-
-    float xx = x * x;
-    float yy = y * y;
-    float zz = z * z;
-    float xy = x * y;
-    float xz = x * z;
-    float yz = y * z;
-    float wx = w * x;
-    float wy = w * y;
-    float wz = w * z;
-
-    float4x4 rotationMatrix;
-
-    rotationMatrix[0] = float4(1.0 - 2.0 * (yy + zz), 2.0 * (xy - wz), 2.0 * (xz + wy), 0.0);
-    rotationMatrix[1] = float4(2.0 * (xy + wz), 1.0 - 2.0 * (xx + zz), 2.0 * (yz - wx), 0.0);
-    rotationMatrix[2] = float4(2.0 * (xz - wy), 2.0 * (yz + wx), 1.0 - 2.0 * (xx + yy), 0.0);
-    rotationMatrix[3] = float4(0.0, 0.0, 0.0, 1.0);
-
-    return rotationMatrix;
-}
-
 float4x4 GetTranslationMatrix(float3 translation)
 {
     float4x4 M;
-    
-    //M[0][0] = 1.0f;
-    //M[0][1] = 0.0f;
-    //M[0][2] = 0.0f;
-    //M[0][3] = 0.0f;
-    //
-    //M[1][0] = 0.0f;
-    //M[1][1] = 1.0f;
-    //M[1][2] = 0.0f;
-    //M[1][3] = 0.0f;
-    //
-    //M[2][0] = 0.0f;
-    //M[2][1] = 0.0f;
-    //M[2][2] = 1.0f;
-    //M[2][3] = 0.0f;
-    //
-    //M[3][0] = translation.x;
-    //M[3][1] = translation.y;
-    //M[3][2] = translation.z;
-    //M[3][3] = 1.0f;
     
     M[0][0] = 1.0f;
     M[1][0] = 0.0f;
@@ -239,26 +158,6 @@ float4x4 GetQuatRotationMatrix(float4 quat)
     M[1][3] = 0.f;
     M[2][3] = 0.f;
     M[3][3] = 1.0f;
-    
-    //M[0][0] = 1.f - 2.f * qyy - 2.f * qzz;
-    //M[0][1] = 2.f * qx * qy + 2.f * qz * qw;
-    //M[0][2] = 2.f * qx * qz - 2.f * qy * qw;
-    //M[0][3] = 0.f;
-    //
-    //M[1][0] = 2.f * qx * qy - 2.f * qz * qw;
-    //M[1][1] = 1.f - 2.f * qxx - 2.f * qzz;
-    //M[1][2] = 2.f * qy * qz + 2.f * qx * qw;
-    //M[1][3] = 0.f;
-    //
-    //M[2][0] = 2.f * qx * qz + 2.f * qy * qw;
-    //M[2][1] = 2.f * qy * qz - 2.f * qx * qw;
-    //M[2][2] = 1.f - 2.f * qxx - 2.f * qyy;
-    //M[2][3] = 0.f;
-    //
-    //M[3][0] = 0.f;
-    //M[3][1] = 0.f;
-    //M[3][2] = 0.f;
-    //M[3][3] = 1.0f;
     
     return M;
 }
@@ -353,6 +252,23 @@ matrix SkinWorld(float4 indices, float4 weights)
     return transform;
 }
 */
+
+float4 slerp(float4 q1, float4 q2, float t)
+{
+    q1 = normalize(q1);
+    q2 = normalize(q2);
+    
+    float dotProduct = dot(q1, q2);
+    
+    float theta = acos(dotProduct);
+    
+    float sinTheta = sin(theta);
+    float weight1 = sin((1.0 - t) * theta) / sinTheta;
+    float weight2 = sin(t * theta) / sinTheta;
+
+    return q1 * weight1 + q2 * weight2;
+}
+
 float4x4 IdentityMatrix()
 {
     return float4x4(
@@ -361,14 +277,6 @@ float4x4 IdentityMatrix()
         float4(0.0f, 0.0f, 1.0f, 0.0f),
         float4(0.0f, 0.0f, 0.0f, 1.0f)
     );
-}
-
-bool CompareMatrices(float4x4 mat1, float4x4 mat2)
-{
-    return all(mat1[0] == mat2[0]) &&
-           all(mat1[1] == mat2[1]) &&
-           all(mat1[2] == mat2[2]) &&
-           all(mat1[3] == mat2[3]);
 }
 
 matrix SkinWorld(float4 indices, float4 weights)
@@ -387,21 +295,20 @@ matrix SkinWorld(float4 indices, float4 weights)
     [unroll]
     for (int i = 0; i < 4; i++)
     {
-        curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.curFrame, motion.cur.clipIndex, 0)).xyz;
         curR = transformMap.Load(int4(indices[i] * 3 + 1, motion.cur.curFrame, motion.cur.clipIndex, 0));
-        curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.curFrame, motion.cur.clipIndex, 0)).xyz;
         
-        float3 s = curS.xyz;
-        float3 t = curT.xyz;
-        
-        nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0)).xyz;
         nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0)).xyz;
         
         lerpS = lerp(curS, nextS, motion.cur.time);
+        float4 tmp = slerp(curR, nextR, motion.cur.time);
         lerpR = lerp(curR, nextR, motion.cur.time);
+        lerpR = tmp * 0.00000000000000000000000000000000000001f;
         lerpT = lerp(curT, nextT, motion.cur.time);
-        
+    
         curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
         curAnim = TransposeMatrix(curAnim);
         
@@ -430,7 +337,6 @@ matrix SkinWorld(float4 indices, float4 weights)
     
     return transform;
 }
-
 
 cbuffer FrameInstancingBuffer : register(b4)
 {
