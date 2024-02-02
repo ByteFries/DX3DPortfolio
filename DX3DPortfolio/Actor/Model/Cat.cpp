@@ -2,20 +2,18 @@
 #include "Cat.h"
 
 Cat::Cat()
-	:Actor("cat")
+	:Actor("test")
 {
-	_mesh = new SkeletalMesh("cat");
+	_mesh = new SkeletalMesh("test");
 
 	SkeletalMesh* mesh = dynamic_cast<SkeletalMesh*>(_mesh);
-
 
 	if (mesh)
 	{
 		_animManager = new AnimManager(mesh);
 	
-		_animManager->AddAnimation(_name, "cat0", 0, 0);
-		//_animManager->AddAnimation(_name, "cat1", 100, 0);
-		//_animManager->AddAnimation(_name, "Jump", );
+		_animManager->AddAnimation(_name, "test0", 0, 0);
+		_animManager->AddAnimation(_name, "Running0", 0, 0);
 		_animManager->CreateTexture();
 		_animManager->SetTarget(this);
 		_animManager->PlaySequence(State::IDLE, 1.0f, 1.0f);
@@ -35,6 +33,11 @@ void Cat::Update()
 	//KeyInput();
 
 	//Physics();
+
+	if (KEY_PRESS('Y'))
+	{
+		_animManager->PlaySequence(State::WALK, 0.2f, 0.2f);
+	}
 
 	Actor::Update();
 }

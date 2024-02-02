@@ -4,7 +4,7 @@
 MainScene::MainScene()
 {	
 	//ModelExporter* exporter = new ModelExporter("test");
-	//exporter->ExportModel();
+	//exporter->ExportClip("Running");
 	//delete exporter;
 	
 	_terrain = new Terrain(L"_Texture/HeightMap/HeightMap.png");

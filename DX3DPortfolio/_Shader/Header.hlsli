@@ -187,72 +187,6 @@ float4x4 TransposeMatrix(float4x4 m)
     );
 }
 
-/*
-matrix SkinWorld(float4 indices, float4 weights)
-{
-    matrix transform = 0;
-    matrix curAnim, nextAnim;
-    matrix cur, next;
-  
-    float4 c0, c1, c2, c3;
-    float4 n0, n1, n2, n3;
-      
-    [unroll]
-    for (int i = 0; i < 4; i++)
-    {
-        c0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.cur.curFrame, motion.cur.clipIndex, 0));
-        c1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.curFrame, motion.cur.clipIndex, 0));
-        c2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.cur.curFrame, motion.cur.clipIndex, 0));
-        c3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.cur.curFrame, motion.cur.clipIndex, 0));
-
-        cur = matrix(c0, c1, c2, c3);
-      
-        n0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        n1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        n2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        n3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-
-        next = matrix(n0, n1, n2, n3);
-      
-        float3 lerpS = lerp(ExtractScale(cur), ExtractScale(next), motion.cur.time);
-        float4 lerpR = lerp(ExtractRotation(cur), ExtractRotation(next), motion.cur.time);
-        float3 lerpT = lerp(ExtractTranslation(cur), ExtractTranslation(next), motion.cur.time);
-      
-        curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
-      
-        [flatten]
-        if (motion.next.clipIndex > -1)
-        {
-            c0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
-            c1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
-            c2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
-            c3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.next.curFrame, motion.next.clipIndex, 0));
-      
-            cur = matrix(c0, c1, c2, c3);
-      
-            n0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.nextFrame, motion.next.clipIndex, 0));
-            n1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
-            n2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
-            n3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.next.nextFrame, motion.next.clipIndex, 0));
-      
-            next = matrix(n0, n1, n2, n3);
-      
-            lerpS = lerp(ExtractScale(cur), ExtractScale(next), motion.cur.time);
-            lerpR = lerp(ExtractRotation(cur), ExtractRotation(next), motion.cur.time);
-            lerpT = lerp(ExtractTranslation(cur), ExtractTranslation(next), motion.cur.time);
-          
-            nextAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
-          
-            curAnim = lerp(curAnim, nextAnim, motion.tweenTime);
-        }
-      
-        transform += mul(weights[i], curAnim);
-    }
-  
-    return transform;
-}
-*/
-
 float4 slerp(float4 q1, float4 q2, float t)
 {
     q1 = normalize(q1);
@@ -260,13 +194,24 @@ float4 slerp(float4 q1, float4 q2, float t)
     
     float dotProduct = dot(q1, q2);
     
+    if (dotProduct <= -0.9f)
+    {
+        return normalize(lerp(q1, -q2, t));
+    }
+    
     float theta = acos(dotProduct);
     
-    float sinTheta = sin(theta);
-    float weight1 = sin((1.0 - t) * theta) / sinTheta;
-    float weight2 = sin(t * theta) / sinTheta;
+    if (theta < 0.0001f || abs(theta - 3.14159265358979323846f) < 0.0001f)
+    {
+        return lerp(q1, q2, t);
+    }
+    else
+    {
+        float weight1 = sin((1.0 - t) * theta) / sin(theta);
+        float weight2 = sin(t * theta) / sin(theta);
 
-    return q1 * weight1 + q2 * weight2;
+        return q1 * weight1 + q2 * weight2;
+    }
 }
 
 float4x4 IdentityMatrix()
@@ -282,7 +227,7 @@ float4x4 IdentityMatrix()
 matrix SkinWorld(float4 indices, float4 weights)
 {
     matrix transform = 0;
-    matrix curAnim, nextAnim, testAnim;
+    matrix animMatrix;
     
     float3 curS, nextS, curT, nextT;
     float4 curR, nextR;
@@ -304,14 +249,9 @@ matrix SkinWorld(float4 indices, float4 weights)
         nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0)).xyz;
         
         lerpS = lerp(curS, nextS, motion.cur.time);
-        float4 tmp = slerp(curR, nextR, motion.cur.time);
-        lerpR = lerp(curR, nextR, motion.cur.time);
-        lerpR = tmp * 0.00000000000000000000000000000000000001f;
+        lerpR = slerp(curR, nextR, motion.cur.time);
         lerpT = lerp(curT, nextT, motion.cur.time);
     
-        curAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
-        curAnim = TransposeMatrix(curAnim);
-        
         [flatten]
         if (motion.next.clipIndex > -1)
         {
@@ -323,16 +263,19 @@ matrix SkinWorld(float4 indices, float4 weights)
             nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
             nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
             
-            lerpS = lerp(curS, nextS.xyz, motion.next.time);
-            lerpR = lerp(curR, nextR, motion.next.time);
-            lerpT = lerp(curT, nextT.xyz, motion.next.time);
+            float3 nextLerpS = lerp(curS, nextS, motion.next.time);
+            float4 nextLerpR = slerp(curR, nextR, motion.next.time);
+            float3 nextLerpT = lerp(curT, nextT, motion.next.time);
             
-            nextAnim = CombinedTransformMatrix(lerpT, lerpR, lerpS);
-            
-            curAnim = lerp(curAnim, nextAnim, motion.tweenTime);
+            lerpS = lerp(curS, nextLerpS, motion.tweenTime);
+            lerpR = slerp(curR, nextLerpR, motion.tweenTime);
+            lerpT = lerp(curT, nextLerpT, motion.tweenTime);
         }
         
-        transform += mul(weights[i], curAnim);
+        animMatrix = CombinedTransformMatrix(lerpT, lerpR, lerpS);
+        animMatrix = TransposeMatrix(animMatrix);
+        
+        transform += mul(weights[i], animMatrix);
     }
     
     return transform;
