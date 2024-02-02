@@ -61,12 +61,11 @@ void AnimManager::Update()
 	if (_stop)
 		return;
 
-	int index = _target->_speed / _sequences.size();
-
-	_sequences[0]->Update(_frameBuffer->GetDataRef());
-
+	int index = _frameBuffer->GetCurFrame().clipIndex;
 	int nextIndex = _frameBuffer->GetNextFrame().clipIndex;
 
+	_sequences[index]->Update(_frameBuffer->GetDataRef());
+	
 	if (nextIndex < 0)
 		return;
 

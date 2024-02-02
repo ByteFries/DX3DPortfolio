@@ -359,7 +359,7 @@ public:
 
 	struct Data
 	{
-		float tweenTime = 0.0f;
+		float tweenTime = 0.3f;
 		float runningTime = 0.0f;
 		float takeTime = 0.0f;
 		float padding2;

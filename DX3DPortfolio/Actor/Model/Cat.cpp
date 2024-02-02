@@ -36,7 +36,7 @@ void Cat::Update()
 
 	if (KEY_PRESS('Y'))
 	{
-		_animManager->PlaySequence(State::WALK, 0.2f, 0.2f);
+		_animManager->PlaySequence(State::WALK, 1.0f, 1.0f);
 	}
 
 	Actor::Update();
