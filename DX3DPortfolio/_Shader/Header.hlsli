@@ -198,6 +198,13 @@ float4 slerp(float4 q1, float4 q2, float t)
     {
         return normalize(lerp(q1, -q2, t));
     }
+    else if (abs(dotProduct) < 0.0024f)
+    {
+        float4 axis = float4(normalize(cross(q1.xyz, float3(1, 0, 0))), 0);
+        float angle = 3.14159265358979323846f * t;
+        float4 result = normalize(q1 * cos(angle / 2) + axis * sin(angle / 2));
+        return result;
+    }
     
     float theta = acos(dotProduct);
     
@@ -210,7 +217,9 @@ float4 slerp(float4 q1, float4 q2, float t)
         float weight1 = sin((1.0 - t) * theta) / sin(theta);
         float weight2 = sin(t * theta) / sin(theta);
 
-        return q1 * weight1 + q2 * weight2;
+        float sum = weight1 + weight2;
+        
+        return normalize(q1 * weight1 + q2 * weight2);
     }
 }
 
@@ -255,21 +264,21 @@ matrix SkinWorld(float4 indices, float4 weights)
         [flatten]
         if (motion.next.clipIndex > -1)
         {
-            curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
+            curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.curFrame, motion.next.clipIndex, 0)).xyz;
             curR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
-            curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
+            curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.curFrame, motion.next.clipIndex, 0)).xyz;
         
-            nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.nextFrame, motion.next.clipIndex, 0));
+            nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.nextFrame, motion.next.clipIndex, 0)).xyz;
             nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
-            nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
+            nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0)).xyz;
             
             float3 nextLerpS = lerp(curS, nextS, motion.next.time);
             float4 nextLerpR = slerp(curR, nextR, motion.next.time);
             float3 nextLerpT = lerp(curT, nextT, motion.next.time);
             
-            lerpS = lerp(curS, nextLerpS, motion.tweenTime);
-            lerpR = slerp(curR, nextLerpR, motion.tweenTime);
-            lerpT = lerp(curT, nextLerpT, motion.tweenTime);
+            lerpS = lerp(lerpS, nextLerpS, motion.tweenTime);
+            lerpR = slerp(lerpR, nextLerpR, motion.tweenTime);
+            lerpT = lerp(lerpT, nextLerpT, motion.tweenTime);
         }
         
         animMatrix = CombinedTransformMatrix(lerpT, lerpR, lerpS);

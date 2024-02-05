@@ -49,6 +49,7 @@ void AnimManager::PlaySequence(Actor::State state, float speed, float takeTime)
 	}
 
 	FrameBuffer::Frame& nextFrame = _frameBuffer->GetNextFrameRef();
+
 	nextFrame.clipIndex = state;
 	nextFrame.speed = speed;
 	_frameBuffer->SetTakeTime(takeTime);
@@ -106,6 +107,7 @@ void AnimManager::CreateTexture()
 			void* tmp = (BYTE*)ptr + MAX_BONE * j * sizeof(KeySRT) + start;
 
 	    	VirtualAlloc(tmp, MAX_BONE * sizeof(KeySRT), MEM_COMMIT, PAGE_READWRITE);
+
 			memcpy(tmp, _sequenceSRTs[i].SRTs[j], MAX_BONE * sizeof(KeySRT));
 		}
 	}
@@ -213,9 +215,9 @@ void AnimManager::CreateSequenceSRV(int index)
 
 				XMMatrixDecompose(&S, &R, &T, transform);
 
-				_sequenceSRTs->SRTs[f][boneIndex].scale = Utility::XMVECTORToXMFLOAT4(S);
-				_sequenceSRTs->SRTs[f][boneIndex].rotate = Utility::XMVECTORToXMFLOAT4(R);
-				_sequenceSRTs->SRTs[f][boneIndex].translation = Utility::XMVECTORToXMFLOAT4(T);
+				_sequenceSRTs[index].SRTs[f][boneIndex].scale = Utility::XMVECTORToXMFLOAT4(S);
+				_sequenceSRTs[index].SRTs[f][boneIndex].rotate = Utility::XMVECTORToXMFLOAT4(R);
+				_sequenceSRTs[index].SRTs[f][boneIndex].translation = Utility::XMVECTORToXMFLOAT4(T);
 			}
 
 			nodeIndex++;

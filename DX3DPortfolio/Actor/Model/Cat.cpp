@@ -41,12 +41,12 @@ void Cat::Update()
 
 	if (KEY_PRESS('1'))
 	{
-		_animManager->PlaySequence(State::IDLE, 0.5f, 1.0f);
+		_animManager->PlaySequence(State::IDLE, 1.0f, 1.0f);
 	}
 
 	if (KEY_PRESS('2'))
 	{
-		_animManager->PlaySequence(State::WALK, 0.5f, 1.0f);
+		_animManager->PlaySequence(State::WALK, 1.0f, 1.0f);
 	}
 
 	Actor::Update();

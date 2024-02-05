@@ -33,7 +33,7 @@ private:
 
 	Actor* _target;
 
-	Actor::State _state = Actor::State::IDLE; // MoveComp 로 이동할 예정
+	Actor::State _state = Actor::State::NONE; // MoveComp 로 이동할 예정
 
 	bool _stop = false;
 };
