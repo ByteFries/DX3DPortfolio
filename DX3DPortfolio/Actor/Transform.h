@@ -2,7 +2,7 @@
 class Transform
 {
 public:
-	Transform(string lable = "NoNamed");
+	Transform(string lable = "Transform");
 	virtual ~Transform();
 
 	void Update();

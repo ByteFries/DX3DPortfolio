@@ -13,12 +13,17 @@ Actor::~Actor()
 
 void Actor::Render()
 {
-	_wBuffer->SetVSBuffer(0);
-
-	if (_animManager)
+	if (_animManager->CanUse())
 	{
 		_animManager->SetSubResources();
+		_wBuffer->SetAnimation(true);
+
 	}
+	else
+		_wBuffer->SetAnimation(false);
+
+	_wBuffer->SetVSBuffer(0);
+
 
 	_mesh->Render();
 }

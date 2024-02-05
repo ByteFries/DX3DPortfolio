@@ -60,6 +60,4 @@ void Transform::Debug()
 
 		ImGui::TreePop();
 	}
-
-	
 }

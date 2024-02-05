@@ -12,7 +12,7 @@ MainScene::MainScene()
 	_terrain->GetMaterial()->SetDiffuseMap(L"_Texture/IMG/Floor.png");
 	_terrain->GetMaterial()->SetNormalMap(L"_Texture/IMG/Floor_normal.png");
 	
-	_watcher = new Watcher();
+	//_watcher = new Watcher();
 
 	//actor = new Actor("cat");
 
@@ -22,7 +22,7 @@ MainScene::MainScene()
 MainScene::~MainScene()
 {
 	delete _terrain;
-	delete _watcher;
+	//delete _watcher;
 	delete _cat;
 	//delete actor;
 }
@@ -31,7 +31,7 @@ void MainScene::Update()
 {
 	_terrain->Update();
 
-	_watcher->Update();
+	//_watcher->Update();
 
 	_cat->Update();
 	//actor->Update();
@@ -39,7 +39,7 @@ void MainScene::Update()
 
 void MainScene::PreRender()
 {
-	_watcher->PreRender();
+	//_watcher->PreRender();
 
 	_terrain->Render();
 }
@@ -48,7 +48,7 @@ void MainScene::Render()
 {
 	MAIN_CAMERA->SetView();
 	
-	_watcher->Render();
+	//_watcher->Render();
 	
 	_terrain->Render();
 
@@ -59,7 +59,7 @@ void MainScene::Render()
 
 void MainScene::PostRender()
 {
-	_watcher->Debug();
+	//_watcher->Debug();
 
 	_cat->Debug();
 }

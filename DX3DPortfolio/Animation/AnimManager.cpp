@@ -35,10 +35,18 @@ void AnimManager::AddAnimation(string actorName, string animName, float speed, f
 
 void AnimManager::PlaySequence(Actor::State state, float speed, float takeTime)
 {
-	//if (_state == state)
-	//	return;
+	if (_state == state)
+		return;
 
 	_state = state;
+
+	FrameBuffer::Frame& curFrame = _frameBuffer->GetCurFrameRef();
+
+	if (curFrame.clipIndex == -1)
+	{
+		curFrame.clipIndex = state;
+		curFrame.speed = speed;
+	}
 
 	FrameBuffer::Frame& nextFrame = _frameBuffer->GetNextFrameRef();
 	nextFrame.clipIndex = state;
@@ -49,13 +57,7 @@ void AnimManager::PlaySequence(Actor::State state, float speed, float takeTime)
 
 void AnimManager::Update()
 {
-	if (!_animationTexture)
-		return;
-
-	if (!_sequences.size())
-		return;
-
-	if (!_target)
+	if (!CanUse())
 		return;
 
 	if (_stop)
@@ -103,7 +105,7 @@ void AnimManager::CreateTexture()
 		{
 			void* tmp = (BYTE*)ptr + MAX_BONE * j * sizeof(KeySRT) + start;
 
-			VirtualAlloc(tmp, MAX_BONE * sizeof(KeySRT), MEM_COMMIT, PAGE_READWRITE);
+	    	VirtualAlloc(tmp, MAX_BONE * sizeof(KeySRT), MEM_COMMIT, PAGE_READWRITE);
 			memcpy(tmp, _sequenceSRTs[i].SRTs[j], MAX_BONE * sizeof(KeySRT));
 		}
 	}
@@ -152,10 +154,6 @@ void AnimManager::CreateTexture()
 	DEVICE->CreateShaderResourceView(_animationTexture, &srvDesc, &_srv);
 
 	_frameBuffer->InitDatas();
-
-	FrameBuffer::Frame& frame = _frameBuffer->GetCurFrameRef();
-	frame.speed = 0.1f;
-	_frameBuffer->SetTakeTime(0.2f);
 }
 
 void AnimManager::CreateSequenceSRV(int index)
@@ -243,4 +241,17 @@ void AnimManager::Debug()
 	
 		ImGui::TreePop();
 	}
+}
+
+bool AnimManager::CanUse()
+{
+	if (!_animationTexture ||
+		!_sequences.size() ||
+		!_target		   ||
+		_state == Actor::State::NONE)
+	{
+		return false;
+	}
+
+	return true;
 }

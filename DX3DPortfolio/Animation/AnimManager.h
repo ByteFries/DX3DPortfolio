@@ -16,6 +16,8 @@ public:
 	void SetTarget(class Actor* target) { _target = target; }
 
 	void Debug();
+
+	bool CanUse();
 private:
 	void CreateSequenceSRV(int index);
 	
@@ -31,7 +33,7 @@ private:
 
 	Actor* _target;
 
-	Actor::State _state; // MoveComp 로 이동할 예정
+	Actor::State _state = Actor::State::IDLE; // MoveComp 로 이동할 예정
 
 	bool _stop = false;
 };

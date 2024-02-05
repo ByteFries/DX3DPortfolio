@@ -6,17 +6,22 @@ Cat::Cat()
 {
 	_mesh = new SkeletalMesh("test");
 
+	_scale *= 0.01f;
+
+	_translation.z += 2.0f;
+
+
 	SkeletalMesh* mesh = dynamic_cast<SkeletalMesh*>(_mesh);
 
 	if (mesh)
 	{
 		_animManager = new AnimManager(mesh);
 	
-		_animManager->AddAnimation(_name, "test0", 0, 0);
 		_animManager->AddAnimation(_name, "Running0", 0, 0);
+		_animManager->AddAnimation(_name, "test0", 0, 0);
 		_animManager->CreateTexture();
 		_animManager->SetTarget(this);
-		_animManager->PlaySequence(State::IDLE, 1.0f, 1.0f);
+		_animManager->PlaySequence(State::IDLE, 0.5f, 1.0f);
 	
 		_wBuffer->SetAnimation(true);
 	}
@@ -34,9 +39,14 @@ void Cat::Update()
 
 	//Physics();
 
-	if (KEY_PRESS('Y'))
+	if (KEY_PRESS('1'))
 	{
-		_animManager->PlaySequence(State::WALK, 1.0f, 1.0f);
+		_animManager->PlaySequence(State::IDLE, 0.5f, 1.0f);
+	}
+
+	if (KEY_PRESS('2'))
+	{
+		_animManager->PlaySequence(State::WALK, 0.5f, 1.0f);
 	}
 
 	Actor::Update();

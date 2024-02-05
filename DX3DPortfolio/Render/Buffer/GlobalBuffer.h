@@ -359,7 +359,7 @@ public:
 
 	struct Data
 	{
-		float tweenTime = 0.3f;
+		float tweenTime = 0.0f;
 		float runningTime = 0.0f;
 		float takeTime = 0.0f;
 		float padding2;
@@ -448,11 +448,11 @@ public:
 	{
 		_data.cur.clipIndex = 0;
 		_data.cur.curFrame = 0;
-		_data.cur.nextFrame = 0;
-		_data.cur.speed = 0;
+		_data.cur.nextFrame = 1;
+		_data.cur.speed = 1.0;
 		_data.cur.time = 0;
 
-		_data.next.clipIndex = 0;
+		_data.next.clipIndex = -1;
 		_data.next.curFrame = 0;
 		_data.next.nextFrame = 0;
 		_data.next.speed = 0;
@@ -493,7 +493,7 @@ public:
 			next.clipIndex = -1;
 		}
 
-		float takeTime = 0.0f;
+		float takeTime = 0.0f;  //애니메이션 변경 시간
 		float tweenTime = 0.0f;
 		float runningTime = 0.0f;
 		float padding = 0.0f;

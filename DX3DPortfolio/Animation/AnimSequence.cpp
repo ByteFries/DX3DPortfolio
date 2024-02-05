@@ -47,7 +47,7 @@ void AnimSequence::UpdateNextFrame(FrameBuffer::Data& frame)
 		frame.next.curFrame = 0;
 		frame.next.nextFrame = 1;
 		frame.next.time = 0.0f;
-		frame.next.speed = 1.0f;
+		frame.next.speed = 0.5f;
 	}
 	else
 	{

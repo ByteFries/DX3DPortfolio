@@ -6,7 +6,8 @@ public:
 	{
 		IDLE,
 		WALK,
-		JUMP
+		JUMP,
+		NONE
 	};
 
 	Actor(string name);
