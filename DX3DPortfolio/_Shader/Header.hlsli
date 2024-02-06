@@ -187,6 +187,85 @@ float4x4 TransposeMatrix(float4x4 m)
     );
 }
 
+//TQuat<T> TQuat<T>::Slerp_NotNormalized(const TQuat<T>& Quat1, const TQuat<T>& Quat2, T Slerp)
+//{
+//	// Get cosine of angle between quats.
+//	const T RawCosom =
+//		Quat1.X * Quat2.X +
+//		Quat1.Y * Quat2.Y +
+//		Quat1.Z * Quat2.Z +
+//		Quat1.W * Quat2.W;
+//	// Unaligned quats - compensate, results in taking shorter route.
+//	const T Cosom = FMath::FloatSelect(RawCosom, RawCosom, -RawCosom);
+//
+//	T Scale0, Scale1;
+//
+//	if (Cosom < T(0.9999f))
+//	{
+//		const T Omega = FMath::Acos(Cosom);
+//		const T InvSin = T(1.f) / FMath::Sin(Omega);
+//		Scale0 = FMath::Sin((T(1.f) - Slerp) * Omega) * InvSin;
+//		Scale1 = FMath::Sin(Slerp * Omega) * InvSin;
+//	}
+//	else
+//	{
+//		// Use linear interpolation.
+//		Scale0 = T(1.0f) - Slerp;
+//		Scale1 = Slerp;
+//	}
+//
+//	// In keeping with our flipped Cosom:
+//	Scale1 = FMath::FloatSelect(RawCosom, Scale1, -Scale1);
+//
+//	TQuat<T> Result;
+//
+//	Result.X = Scale0 * Quat1.X + Scale1 * Quat2.X;
+//	Result.Y = Scale0 * Quat1.Y + Scale1 * Quat2.Y;
+//	Result.Z = Scale0 * Quat1.Z + Scale1 * Quat2.Z;
+//	Result.W = Scale0 * Quat1.W + Scale1 * Quat2.W;
+//
+//	return Result;
+//}
+
+float4 Slerp(float4 q1, float4 q2, float t)
+{
+    q1 = normalize(q1);
+    q2 = normalize(q2);
+    
+    float originAngle = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+    
+    float angle = originAngle >= 0.0f ? originAngle : (-1 * originAngle);
+    
+    float weight1, weight2;
+    
+    if (angle < (0.9f))
+    {
+        const float omega = acos(angle);
+        const float invSin = 1.0f / sin(omega);
+        
+        weight1 = sin(1.0f - t) * omega * invSin;
+        weight2 = sin(t * omega) * invSin;
+    }
+    else
+    {
+        weight1 = 1.0f - t;
+        weight2 = t;
+    }
+    
+    weight2 = originAngle >= 0.0f ? weight2 : (-1 * weight2);
+    
+    float4 result;
+    
+    result.x = weight1 * q1.x + weight2 * q2.x;
+    result.y = weight1 * q1.y + weight2 * q2.y;
+    result.z = weight1 * q1.z + weight2 * q2.z;
+    result.w = weight1 * q1.w + weight2 * q2.w;
+    
+    result = normalize(result);
+    
+    return result;
+}
+
 float4 slerp(float4 q1, float4 q2, float t)
 {
     q1 = normalize(q1);
@@ -201,8 +280,11 @@ float4 slerp(float4 q1, float4 q2, float t)
     else if (abs(dotProduct) < 0.0024f)
     {
         float4 axis = float4(normalize(cross(q1.xyz, float3(1, 0, 0))), 0);
+        
         float angle = 3.14159265358979323846f * t;
+        
         float4 result = normalize(q1 * cos(angle / 2) + axis * sin(angle / 2));
+        
         return result;
     }
     
@@ -258,7 +340,7 @@ matrix SkinWorld(float4 indices, float4 weights)
         nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0)).xyz;
         
         lerpS = lerp(curS, nextS, motion.cur.time);
-        lerpR = slerp(curR, nextR, motion.cur.time);
+        lerpR = Slerp(curR, nextR, motion.cur.time);
         lerpT = lerp(curT, nextT, motion.cur.time);
     
         [flatten]
@@ -273,11 +355,11 @@ matrix SkinWorld(float4 indices, float4 weights)
             nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0)).xyz;
             
             float3 nextLerpS = lerp(curS, nextS, motion.next.time);
-            float4 nextLerpR = slerp(curR, nextR, motion.next.time);
+            float4 nextLerpR = Slerp(curR, nextR, motion.next.time);
             float3 nextLerpT = lerp(curT, nextT, motion.next.time);
             
             lerpS = lerp(lerpS, nextLerpS, motion.tweenTime);
-            lerpR = slerp(lerpR, nextLerpR, motion.tweenTime);
+            lerpR = Slerp(lerpR, nextLerpR, motion.tweenTime);
             lerpT = lerp(lerpT, nextLerpT, motion.tweenTime);
         }
         
