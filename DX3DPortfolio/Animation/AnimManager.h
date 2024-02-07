@@ -6,7 +6,7 @@ public:
 	~AnimManager();
 
 	void AddAnimation(string actorName, string animName, float speed, float direction);
-	void PlaySequence(Actor::State state, float speed, float takeTime);
+	void PlaySequence(int index, float speed, float takeTime);
 
 	void Update();
 	void SetSubResources();
@@ -33,7 +33,7 @@ private:
 
 	Actor* _target;
 
-	Actor::State _state = Actor::State::NONE; // MoveComp 로 이동할 예정
+	UINT _index = 0; // MoveComp 로 이동할 예정
 
 	bool _stop = false;
 };

@@ -19,6 +19,9 @@ Cat::Cat()
 	
 		_animManager->AddAnimation(_name, "Running0", 0, 0);
 		_animManager->AddAnimation(_name, "test0", 0, 0);
+		_animManager->AddAnimation(_name, "Dancing0", 0, 0);
+		_animManager->AddAnimation(_name, "Defeated0", 0, 0);
+		_animManager->AddAnimation(_name, "FingerTest0", 0, 0);
 		_animManager->CreateTexture();
 		_animManager->SetTarget(this);
 		_animManager->PlaySequence(State::IDLE, 0.5f, 1.0f);
@@ -44,9 +47,24 @@ void Cat::Update()
 		_animManager->PlaySequence(State::IDLE, 1.0f, 1.0f);
 	}
 
-	if (KEY_PRESS('2'))
+	else if (KEY_PRESS('2'))
 	{
 		_animManager->PlaySequence(State::WALK, 1.0f, 1.0f);
+	}
+
+	else if (KEY_PRESS('3'))
+	{
+		_animManager->PlaySequence(2, 1.0f, 1.0f);
+	}
+
+	else if (KEY_PRESS('4'))
+	{
+		_animManager->PlaySequence(3, 1.0f, 1.0f);
+	}
+
+	else if (KEY_PRESS('5'))
+	{
+		_animManager->PlaySequence(4, 1.0f, 1.0f);
 	}
 
 	Actor::Update();

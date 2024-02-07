@@ -33,24 +33,24 @@ void AnimManager::AddAnimation(string actorName, string animName, float speed, f
 	_sequences.push_back(sequence);
 }
 
-void AnimManager::PlaySequence(Actor::State state, float speed, float takeTime)
+void AnimManager::PlaySequence(int index, float speed, float takeTime)
 {
-	if (_state == state)
+	if (_index == index)
 		return;
 
-	_state = state;
+	_index = index;
 
 	FrameBuffer::Frame& curFrame = _frameBuffer->GetCurFrameRef();
 
 	if (curFrame.clipIndex == -1)
 	{
-		curFrame.clipIndex = state;
+		curFrame.clipIndex = index;
 		curFrame.speed = speed;
 	}
 
 	FrameBuffer::Frame& nextFrame = _frameBuffer->GetNextFrameRef();
 
-	nextFrame.clipIndex = state;
+	nextFrame.clipIndex = index;
 	nextFrame.speed = speed;
 	_frameBuffer->SetTakeTime(takeTime);
 	_frameBuffer->SetRunningTime(0.0f);
@@ -249,8 +249,7 @@ bool AnimManager::CanUse()
 {
 	if (!_animationTexture ||
 		!_sequences.size() ||
-		!_target		   ||
-		_state == Actor::State::NONE)
+		!_target)
 	{
 		return false;
 	}
