@@ -206,11 +206,11 @@ float4 Slerp(float4 q1, float4 q2, float t)
     
     if (abs(angle - 1.0f) < epsilon)
     {
-        const float omega = acos(angle);
-        const float invSin = 1.0f / sin(omega);
+        const float theta = acos(angle);
+        const float invSin = 1.0f / sin(theta);
         
-        weight1 = sin(1.0f - t) * omega * invSin;
-        weight2 = sin(t * omega) * invSin;
+        weight1 = sin(1.0f - t) * theta * invSin;
+        weight2 = sin(t * theta) * invSin;
     }
     else
     {
@@ -232,44 +232,83 @@ float4 Slerp(float4 q1, float4 q2, float t)
     return result;
 }
 
-float4 slerp(float4 q1, float4 q2, float t)
+float4 QuaternionSlerp(float4 q1, float4 q2, float t)
 {
+    // Quaternion을 정규화합니다.
     q1 = normalize(q1);
     q2 = normalize(q2);
-    
+
+    // 두 Quaternion 사이의 내적을 계산합니다.
     float dotProduct = dot(q1, q2);
-    
-    if (dotProduct <= -0.9f)
+
+    // 내적이 음수이면 하나의 Quaternion을 뒤집습니다.
+    if (dotProduct < 0.0)
     {
-        return normalize(lerp(q1, -q2, t));
+        q1 = -q1;
+        dotProduct = -dotProduct;
     }
-    else if (abs(dotProduct) < 0.0024f)
+
+    // 내적을 [-1, 1] 범위로 클램핑합니다.
+    dotProduct = saturate(dotProduct);
+
+    // Gimbal Lock을 처리하기 위해 Slerp 대신에 Shortest Path Slerp를 사용합니다.
+    if (dotProduct > 0.9995)
     {
-        float4 axis = float4(normalize(cross(q1.xyz, float3(1, 0, 0))), 0);
-        
-        float angle = 3.14159265358979323846f * t;
-        
-        float4 result = normalize(q1 * cos(angle / 2) + axis * sin(angle / 2));
-        
+        float4 result = normalize(lerp(q1, q2, t));
         return result;
     }
-    
-    float theta = acos(dotProduct);
-    
-    if (theta < 0.0001f || abs(theta - 3.14159265358979323846f) < 0.0001f)
-    {
-        return lerp(q1, q2, t);
-    }
-    else
-    {
-        float weight1 = sin((1.0 - t) * theta) / sin(theta);
-        float weight2 = sin(t * theta) / sin(theta);
 
-        float sum = weight1 + weight2;
-        
-        return normalize(q1 * weight1 + q2 * weight2);
-    }
+    // Slerp를 사용하여 두 Quaternion 사이를 부드럽게 보간합니다.
+    float theta = acos(dotProduct);
+    float sinTheta = sin(theta);
+
+    // 보간을 수행합니다.
+    float s0 = sin((1.0 - t) * theta) / sinTheta;
+    float s1 = sin(t * theta) / sinTheta;
+
+    return s0 * q1 + s1 * q2;
 }
+
+
+
+//float4 slerp(float4 q1, float4 q2, float t)
+//{
+//    q1 = normalize(q1);
+//    q2 = normalize(q2);
+//    
+//    float dotProduct = dot(q1, q2);
+//    
+//    if (dotProduct <= -0.9f)
+//    {
+//        return normalize(lerp(q1, -q2, t));
+//    }
+//    else if (abs(dotProduct) < 0.0024f)
+//    {
+//        float4 axis = float4(normalize(cross(q1.xyz, float3(1, 0, 0))), 0);
+//        
+//        float angle = 3.14159265358979323846f * t;
+//        
+//        float4 result = normalize(q1 * cos(angle / 2) + axis * sin(angle / 2));
+//        
+//        return result;
+//    }
+//    
+//    float theta = acos(dotProduct);
+//    
+//    if (theta < 0.0001f || abs(theta - 3.14159265358979323846f) < 0.0001f)
+//    {
+//        return lerp(q1, q2, t);
+//    }
+//    else
+//    {
+//        float weight1 = sin((1.0 - t) * theta) / sin(theta);
+//        float weight2 = sin(t * theta) / sin(theta);
+//
+//        float sum = weight1 + weight2;
+//        
+//        return normalize(q1 * weight1 + q2 * weight2);
+//    }
+//}
 
 float4x4 IdentityMatrix()
 {
@@ -306,7 +345,7 @@ matrix SkinWorld(float4 indices, float4 weights)
         nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0)).xyz;
         
         lerpS = lerp(curS, nextS, motion.cur.time);
-        lerpR = Slerp(curR, nextR, motion.cur.time);
+        lerpR = QuaternionSlerp(curR, nextR, motion.cur.time);
         lerpT = lerp(curT, nextT, motion.cur.time);
     
         [flatten]
@@ -321,11 +360,11 @@ matrix SkinWorld(float4 indices, float4 weights)
             nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0)).xyz;
             
             float3 nextLerpS = lerp(curS, nextS, motion.next.time);
-            float4 nextLerpR = Slerp(curR, nextR, motion.next.time);
+            float4 nextLerpR = QuaternionSlerp(curR, nextR, motion.next.time);
             float3 nextLerpT = lerp(curT, nextT, motion.next.time);
             
            lerpS = lerp(lerpS, nextLerpS, motion.tweenTime);
-           lerpR = Slerp(lerpR, nextLerpR, motion.tweenTime);
+           lerpR = lerp(lerpR, nextLerpR, motion.tweenTime);
            lerpT = lerp(lerpT, nextLerpT, motion.tweenTime);
             
         }
