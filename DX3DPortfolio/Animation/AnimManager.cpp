@@ -15,7 +15,8 @@ AnimManager::~AnimManager()
 
 	_sequences.clear();
 
-	delete[] _sequenceSRTs;
+	delete[] _sequenceTransforms;
+	delete[] _nodeTransforms;
 
 	delete _frameBuffer;
 
@@ -85,16 +86,18 @@ void AnimManager::CreateTexture()
 {
 	UINT sequenceCount = _sequences.size();
 
-	delete[] _sequenceSRTs;
+	delete[] _sequenceTransforms;
+	delete[] _nodeTransforms;
 
-	_sequenceSRTs = new SequenceSRT[sequenceCount];
+	_sequenceTransforms = new SequenceTransforms[sequenceCount];
+	_nodeTransforms     = new SequenceTransforms[sequenceCount];
 
 	for (UINT i = 0; i < sequenceCount; i++)
 	{
-		CreateSequenceSRV(i);
+		CreateSequenceTransform(i);
 	}
 
-	UINT pageSize = MAX_BONE * sizeof(KeySRT) * MAX_FRAME_KEY;
+	UINT pageSize = MAX_BONE * sizeof(XMMATRIX) * MAX_FRAME_KEY;
 
 	void* ptr = VirtualAlloc(nullptr, pageSize * sequenceCount, MEM_RESERVE, PAGE_READWRITE);
 
@@ -104,11 +107,11 @@ void AnimManager::CreateTexture()
 
 		for (UINT j = 0; j < MAX_FRAME_KEY; j++)
 		{
-			void* tmp = (BYTE*)ptr + MAX_BONE * j * sizeof(KeySRT) + start;
+			void* tmp = (BYTE*)ptr + MAX_BONE * j * sizeof(XMMATRIX) + start;
 
-	    	VirtualAlloc(tmp, MAX_BONE * sizeof(KeySRT), MEM_COMMIT, PAGE_READWRITE);
+	    	VirtualAlloc(tmp, MAX_BONE * sizeof(XMMATRIX), MEM_COMMIT, PAGE_READWRITE);
 
-			memcpy(tmp, _sequenceSRTs[i].SRTs[j], MAX_BONE * sizeof(KeySRT));
+			memcpy(tmp, _sequenceTransforms[i].transform[j], MAX_BONE * sizeof(XMMATRIX));
 		}
 	}
 
@@ -119,7 +122,7 @@ void AnimManager::CreateTexture()
 		void* tmp = (BYTE*)ptr + c * pageSize;
 
 		subResource[c].pSysMem = tmp;
-		subResource[c].SysMemPitch = MAX_BONE * sizeof(KeySRT);
+		subResource[c].SysMemPitch = MAX_BONE * sizeof(XMMATRIX);
 		subResource[c].SysMemSlicePitch = pageSize;
 	}
 
@@ -128,7 +131,7 @@ void AnimManager::CreateTexture()
 
 	D3D11_TEXTURE2D_DESC desc = {};
 
-	desc.Width = MAX_BONE * 3;
+	desc.Width = MAX_BONE * 4;
 	desc.Height = MAX_FRAME_KEY;
 	desc.ArraySize = sequenceCount;
 	desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -158,11 +161,10 @@ void AnimManager::CreateTexture()
 	_frameBuffer->InitDatas();
 }
 
-void AnimManager::CreateSequenceSRV(int index)
+void AnimManager::CreateSequenceTransform(int index)
 {
 	AnimSequence* sequence = _sequences[index];
-	SequenceTransforms* nodeTransforms = new SequenceTransforms[_sequences.size()];
-	
+
 	for (UINT f = 0; f < sequence->GetFrameCount(); f++)
 	{
 		UINT nodeIndex = 0;
@@ -177,7 +179,7 @@ void AnimManager::CreateSequenceSRV(int index)
 			{
 				XMMATRIX S = XMMatrixScaling(transforms[f].scale.x, transforms[f].scale.y, transforms[f].scale.z);
 				XMMATRIX R = XMMatrixRotationQuaternion(XMLoadFloat4(&transforms[f].rotation));
- 				XMMATRIX T = XMMatrixTranslation(transforms[f].position.x, transforms[f].position.y, transforms[f].position.z);
+				XMMATRIX T = XMMatrixTranslation(transforms[f].position.x, transforms[f].position.y, transforms[f].position.z);
 
 				animWorld = S * R * T;
 			}
@@ -193,9 +195,9 @@ void AnimManager::CreateSequenceSRV(int index)
 			if (parentIndex < 0)
 				parentWorld = XMMatrixIdentity();
 			else
-				parentWorld = nodeTransforms[index].transform[f][parentIndex];
+				parentWorld = _nodeTransforms[index].transform[f][parentIndex];
 
-			nodeTransforms[index].transform[f][nodeIndex] = animWorld * parentWorld;
+			_nodeTransforms[index].transform[f][nodeIndex] = animWorld * parentWorld;
 
 			vector<BoneData> bones = _meshRef->GetBones();
 
@@ -206,25 +208,15 @@ void AnimManager::CreateSequenceSRV(int index)
 
 				XMMATRIX transform = bones[boneIndex].offset;
 
-				transform *= nodeTransforms[index].transform[f][nodeIndex];
+				transform *= _nodeTransforms[index].transform[f][nodeIndex];
+			
 
-				XMVECTOR S;
-				XMVECTOR R;
-				XMVECTOR T;
-
-
-				XMMatrixDecompose(&S, &R, &T, transform);
-
-				_sequenceSRTs[index].SRTs[f][boneIndex].scale = Utility::XMVECTORToXMFLOAT4(S);
-				_sequenceSRTs[index].SRTs[f][boneIndex].rotate = Utility::XMVECTORToXMFLOAT4(R);
-				_sequenceSRTs[index].SRTs[f][boneIndex].translation = Utility::XMVECTORToXMFLOAT4(T);
+				_sequenceTransforms[index].transform[f][boneIndex] = transform;
 			}
 
 			nodeIndex++;
 		}
 	}
-
-	delete[] nodeTransforms;
 }
 
 void AnimManager::Debug()

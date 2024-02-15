@@ -19,13 +19,14 @@ public:
 
 	bool CanUse();
 private:
-	void CreateSequenceSRV(int index);
+	void CreateSequenceTransform(int index);
 	
 	SkeletalMesh* _meshRef;
 
 	vector<AnimSequence*> _sequences = {};
 
-	SequenceSRT* _sequenceSRTs = nullptr;
+	SequenceTransforms* _sequenceTransforms = nullptr;
+	SequenceTransforms* _nodeTransforms = nullptr;
 
 	FrameBuffer* _frameBuffer = nullptr;
 	ID3D11Texture2D* _animationTexture = nullptr;

@@ -97,177 +97,177 @@ Texture2D normalMap : register(t2);
 
 SamplerState samp : register(s0);
 
-float4x4 GetTranslationMatrix(float3 translation)
-{
-    float4x4 M;
-    
-    M[0][0] = 1.0f;
-    M[1][0] = 0.0f;
-    M[2][0] = 0.0f;
-    M[3][0] = 0.0f;
-    
-    M[0][1] = 0.0f;
-    M[1][1] = 1.0f;
-    M[2][1] = 0.0f;
-    M[3][1] = 0.0f;
-    
-    M[0][2] = 0.0f;
-    M[1][2] = 0.0f;
-    M[2][2] = 1.0f;
-    M[3][2] = 0.0f;
-    
-    M[0][3] = translation.x;
-    M[1][3] = translation.y;
-    M[2][3] = translation.z;
-    M[3][3] = 1.0f;
-    
-    return M;
-}
-
-float4x4 GetQuatRotationMatrix(float4 quat)
-{
-    float qx = quat.x;
-    float qxx = qx * qx;
-
-    float qy = quat.y;
-    float qyy = qy * qy;
-
-    float qz = quat.z;
-    float qzz = qz * qz;
-
-    float qw = quat.w;
-
-    float4x4 M;
-    
-    M[0][0] = 1.f - 2.f * qyy - 2.f * qzz;
-    M[1][0] = 2.f * qx * qy + 2.f * qz * qw;
-    M[2][0] = 2.f * qx * qz - 2.f * qy * qw;
-    M[3][0] = 0.f;
-    
-    M[0][1] = 2.f * qx * qy - 2.f * qz * qw;
-    M[1][1] = 1.f - 2.f * qxx - 2.f * qzz;
-    M[2][1] = 2.f * qy * qz + 2.f * qx * qw;
-    M[3][1] = 0.f;
-    
-    M[0][2] = 2.f * qx * qz + 2.f * qy * qw;
-    M[1][2] = 2.f * qy * qz - 2.f * qx * qw;
-    M[2][2] = 1.f - 2.f * qxx - 2.f * qyy;
-    M[3][2] = 0.f;
-    
-    M[0][3] = 0.f;
-    M[1][3] = 0.f;
-    M[2][3] = 0.f;
-    M[3][3] = 1.0f;
-    
-    return M;
-}
-
-float4x4 GetScaleMatrix(float3 scale)
-{
-    return float4x4(
-        float4(scale.x, 0.0f, 0.0f, 0.0f),
-        float4(0.0f, scale.y, 0.0f, 0.0f),
-        float4(0.0f, 0.0f, scale.z, 0.0f),
-        float4(0.0f, 0.0f, 0.0f, 1.0f)
-    );
-}
-
-float4x4 CombinedTransformMatrix(float3 translation, float4 quaternion, float3 scale)
-{
-    return mul(mul(GetTranslationMatrix(translation), GetQuatRotationMatrix(quaternion)), GetScaleMatrix(scale));
-}
-
-float4x4 TransposeMatrix(float4x4 m)
-{
-    return float4x4(
-        m[0][0], m[1][0], m[2][0], m[3][0],
-        m[0][1], m[1][1], m[2][1], m[3][1],
-        m[0][2], m[1][2], m[2][2], m[3][2],
-        m[0][3], m[1][3], m[2][3], m[3][3]
-    );
-}
-
-const float epsilon = 1e-6;
-
-float4 Slerp(float4 q1, float4 q2, float t)
-{
-    q1 = normalize(q1);
-    q2 = normalize(q2);
-    
-    float originAngle = 
-        q1.x * q2.x +
-        q1.y * q2.y +
-        q1.z * q2.z +
-        q1.w * q2.w;
-    
-    float angle = originAngle >= 0.0f ? originAngle : -originAngle;
-    
-    float weight1, weight2;
-    
-    if (abs(angle - 1.0f) < epsilon)
-    {
-        const float theta = acos(angle);
-        const float invSin = 1.0f / sin(theta);
-        
-        weight1 = sin(1.0f - t) * theta * invSin;
-        weight2 = sin(t * theta) * invSin;
-    }
-    else
-    {
-        weight1 = 1.0f - t;
-        weight2 = t;
-    }
-    
-    weight2 = originAngle >= 0.0f ? weight2 : -weight2;
-    
-    float4 result;
-    
-    result.x = weight1 * q1.x + weight2 * q2.x;
-    result.y = weight1 * q1.y + weight2 * q2.y;
-    result.z = weight1 * q1.z + weight2 * q2.z;
-    result.w = weight1 * q1.w + weight2 * q2.w;
-    
-    result = normalize(result);
-    
-    return result;
-}
-
-float4 QuaternionSlerp(float4 q1, float4 q2, float t)
-{
-    // Quaternion을 정규화합니다.
-    q1 = normalize(q1);
-    q2 = normalize(q2);
-
-    // 두 Quaternion 사이의 내적을 계산합니다.
-    float dotProduct = dot(q1, q2);
-
-    // 내적이 음수이면 하나의 Quaternion을 뒤집습니다.
-    if (dotProduct < 0.0)
-    {
-        q1 = -q1;
-        dotProduct = -dotProduct;
-    }
-
-    // 내적을 [-1, 1] 범위로 클램핑합니다.
-    dotProduct = saturate(dotProduct);
-
-    // Gimbal Lock을 처리하기 위해 Slerp 대신에 Shortest Path Slerp를 사용합니다.
-    if (dotProduct > 0.9995)
-    {
-        float4 result = normalize(lerp(q1, q2, t));
-        return result;
-    }
-
-    // Slerp를 사용하여 두 Quaternion 사이를 부드럽게 보간합니다.
-    float theta = acos(dotProduct);
-    float sinTheta = sin(theta);
-
-    // 보간을 수행합니다.
-    float s0 = sin((1.0 - t) * theta) / sinTheta;
-    float s1 = sin(t * theta) / sinTheta;
-
-    return s0 * q1 + s1 * q2;
-}
+//float4x4 GetTranslationMatrix(float3 translation)
+//{
+//    float4x4 M;
+//    
+//    M[0][0] = 1.0f;
+//    M[1][0] = 0.0f;
+//    M[2][0] = 0.0f;
+//    M[3][0] = 0.0f;
+//    
+//    M[0][1] = 0.0f;
+//    M[1][1] = 1.0f;
+//    M[2][1] = 0.0f;
+//    M[3][1] = 0.0f;
+//    
+//    M[0][2] = 0.0f;
+//    M[1][2] = 0.0f;
+//    M[2][2] = 1.0f;
+//    M[3][2] = 0.0f;
+//    
+//    M[0][3] = translation.x;
+//    M[1][3] = translation.y;
+//    M[2][3] = translation.z;
+//    M[3][3] = 1.0f;
+//    
+//    return M;
+//}
+//
+//float4x4 GetQuatRotationMatrix(float4 quat)
+//{
+//    float qx = quat.x;
+//    float qxx = qx * qx;
+//
+//    float qy = quat.y;
+//    float qyy = qy * qy;
+//
+//    float qz = quat.z;
+//    float qzz = qz * qz;
+//
+//    float qw = quat.w;
+//
+//    float4x4 M;
+//    
+//    M[0][0] = 1.f - 2.f * qyy - 2.f * qzz;
+//    M[1][0] = 2.f * qx * qy + 2.f * qz * qw;
+//    M[2][0] = 2.f * qx * qz - 2.f * qy * qw;
+//    M[3][0] = 0.f;
+//    
+//    M[0][1] = 2.f * qx * qy - 2.f * qz * qw;
+//    M[1][1] = 1.f - 2.f * qxx - 2.f * qzz;
+//    M[2][1] = 2.f * qy * qz + 2.f * qx * qw;
+//    M[3][1] = 0.f;
+//    
+//    M[0][2] = 2.f * qx * qz + 2.f * qy * qw;
+//    M[1][2] = 2.f * qy * qz - 2.f * qx * qw;
+//    M[2][2] = 1.f - 2.f * qxx - 2.f * qyy;
+//    M[3][2] = 0.f;
+//    
+//    M[0][3] = 0.f;
+//    M[1][3] = 0.f;
+//    M[2][3] = 0.f;
+//    M[3][3] = 1.0f;
+//    
+//    return M;
+//}
+//
+//float4x4 GetScaleMatrix(float3 scale)
+//{
+//    return float4x4(
+//        float4(scale.x, 0.0f, 0.0f, 0.0f),
+//        float4(0.0f, scale.y, 0.0f, 0.0f),
+//        float4(0.0f, 0.0f, scale.z, 0.0f),
+//        float4(0.0f, 0.0f, 0.0f, 1.0f)
+//    );
+//}
+//
+//float4x4 CombinedTransformMatrix(float3 translation, float4 quaternion, float3 scale)
+//{
+//    return mul(mul(GetTranslationMatrix(translation), GetQuatRotationMatrix(quaternion)), GetScaleMatrix(scale));
+//}
+//
+//float4x4 TransposeMatrix(float4x4 m)
+//{
+//    return float4x4(
+//        m[0][0], m[1][0], m[2][0], m[3][0],
+//        m[0][1], m[1][1], m[2][1], m[3][1],
+//        m[0][2], m[1][2], m[2][2], m[3][2],
+//        m[0][3], m[1][3], m[2][3], m[3][3]
+//    );
+//}
+//
+//const float epsilon = 1e-6;
+//
+//float4 Slerp(float4 q1, float4 q2, float t)
+//{
+//    q1 = normalize(q1);
+//    q2 = normalize(q2);
+//    
+//    float originAngle = 
+//        q1.x * q2.x +
+//        q1.y * q2.y +
+//        q1.z * q2.z +
+//        q1.w * q2.w;
+//    
+//    float angle = originAngle >= 0.0f ? originAngle : -originAngle;
+//    
+//    float weight1, weight2;
+//    
+//    if (abs(angle - 1.0f) < epsilon)
+//    {
+//        const float theta = acos(angle);
+//        const float invSin = 1.0f / sin(theta);
+//        
+//        weight1 = sin(1.0f - t) * theta * invSin;
+//        weight2 = sin(t * theta) * invSin;
+//    }
+//    else
+//    {
+//        weight1 = 1.0f - t;
+//        weight2 = t;
+//    }
+//    
+//    weight2 = originAngle >= 0.0f ? weight2 : -weight2;
+//    
+//    float4 result;
+//    
+//    result.x = weight1 * q1.x + weight2 * q2.x;
+//    result.y = weight1 * q1.y + weight2 * q2.y;
+//    result.z = weight1 * q1.z + weight2 * q2.z;
+//    result.w = weight1 * q1.w + weight2 * q2.w;
+//    
+//    result = normalize(result);
+//    
+//    return result;
+//}
+//
+//float4 QuaternionSlerp(float4 q1, float4 q2, float t)
+//{
+//    // Quaternion을 정규화합니다.
+//    q1 = normalize(q1);
+//    q2 = normalize(q2);
+//
+//    // 두 Quaternion 사이의 내적을 계산합니다.
+//    float dotProduct = dot(q1, q2);
+//
+//    // 내적이 음수이면 하나의 Quaternion을 뒤집습니다.
+//    if (dotProduct < 0.0)
+//    {
+//        q1 = -q1;
+//        dotProduct = -dotProduct;
+//    }
+//
+//    // 내적을 [-1, 1] 범위로 클램핑합니다.
+//    dotProduct = saturate(dotProduct);
+//
+//    // Gimbal Lock을 처리하기 위해 Slerp 대신에 Shortest Path Slerp를 사용합니다.
+//    if (dotProduct > 0.9995)
+//    {
+//        float4 result = normalize(lerp(q1, q2, t));
+//        return result;
+//    }
+//
+//    // Slerp를 사용하여 두 Quaternion 사이를 부드럽게 보간합니다.
+//    float theta = acos(dotProduct);
+//    float sinTheta = sin(theta);
+//
+//    // 보간을 수행합니다.
+//    float s0 = sin((1.0 - t) * theta) / sinTheta;
+//    float s1 = sin(t * theta) / sinTheta;
+//
+//    return s0 * q1 + s1 * q2;
+//}
 
 
 
@@ -309,73 +309,70 @@ float4 QuaternionSlerp(float4 q1, float4 q2, float t)
 //        return normalize(q1 * weight1 + q2 * weight2);
 //    }
 //}
-
-float4x4 IdentityMatrix()
-{
-    return float4x4(
-        float4(1.0f, 0.0f, 0.0f, 0.0f),
-        float4(0.0f, 1.0f, 0.0f, 0.0f),
-        float4(0.0f, 0.0f, 1.0f, 0.0f),
-        float4(0.0f, 0.0f, 0.0f, 1.0f)
-    );
-}
+//
+//float4x4 IdentityMatrix()
+//{
+//    return float4x4(
+//        float4(1.0f, 0.0f, 0.0f, 0.0f),
+//        float4(0.0f, 1.0f, 0.0f, 0.0f),
+//        float4(0.0f, 0.0f, 1.0f, 0.0f),
+//        float4(0.0f, 0.0f, 0.0f, 1.0f)
+//    );
+//}
 
 matrix SkinWorld(float4 indices, float4 weights)
 {
-    matrix transform = 0;
-    matrix animMatrix;
+    matrix result = 0;
+    matrix curMatrix, nextMatrix;
     
-    float3 curS, nextS, curT, nextT;
-    float4 curR, nextR;
-    
-    float3 lerpS, lerpT;
-    float4 lerpR;
-    
-    float4 cur1, cur2, cur3, cur4;
+    float4 c0, c1, c2, c3;
+    float4 n0, n1, n2, n3;
     
     [unroll]
     for (int i = 0; i < 4; i++)
     {
-        curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.curFrame, motion.cur.clipIndex, 0)).xyz;
-        curR = transformMap.Load(int4(indices[i] * 3 + 1, motion.cur.curFrame, motion.cur.clipIndex, 0));
-        curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.curFrame, motion.cur.clipIndex, 0)).xyz;
+        c0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        c1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        c2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.cur.curFrame, motion.cur.clipIndex, 0));
+        c3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.cur.curFrame, motion.cur.clipIndex, 0));
+
+        curMatrix = matrix(c0, c1, c2, c3);
         
-        nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0)).xyz;
-        nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
-        nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0)).xyz;
+        n0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        n1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        n2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+        n3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.cur.nextFrame, motion.cur.clipIndex, 0));
+
+        matrix tmpMatrix = matrix(n0, n1, n2, n3);
         
-        lerpS = lerp(curS, nextS, motion.cur.time);
-        lerpR = QuaternionSlerp(curR, nextR, motion.cur.time);
-        lerpT = lerp(curT, nextT, motion.cur.time);
-    
+        curMatrix = lerp(curMatrix, tmpMatrix, motion.cur.time);
+        
         [flatten]
         if (motion.next.clipIndex > -1)
         {
-            curS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.curFrame, motion.next.clipIndex, 0)).xyz;
-            curR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
-            curT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.curFrame, motion.next.clipIndex, 0)).xyz;
+            c0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.curFrame, motion.next.clipIndex, 0));
+            c1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.curFrame, motion.next.clipIndex, 0));
+            c2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.curFrame, motion.next.clipIndex, 0));
+            c3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.next.curFrame, motion.next.clipIndex, 0));
         
-            nextS = transformMap.Load(int4(indices[i] * 3 + 0, motion.next.nextFrame, motion.next.clipIndex, 0)).xyz;
-            nextR = transformMap.Load(int4(indices[i] * 3 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
-            nextT = transformMap.Load(int4(indices[i] * 3 + 2, motion.next.nextFrame, motion.next.clipIndex, 0)).xyz;
+            nextMatrix = matrix(c0, c1, c2, c3);
+        
+            n0 = transformMap.Load(int4(indices[i] * 4 + 0, motion.next.nextFrame, motion.next.clipIndex, 0));
+            n1 = transformMap.Load(int4(indices[i] * 4 + 1, motion.next.nextFrame, motion.next.clipIndex, 0));
+            n2 = transformMap.Load(int4(indices[i] * 4 + 2, motion.next.nextFrame, motion.next.clipIndex, 0));
+            n3 = transformMap.Load(int4(indices[i] * 4 + 3, motion.next.nextFrame, motion.next.clipIndex, 0));
+        
+            tmpMatrix = matrix(n0, n1, n2, n3);
+        
+            nextMatrix = lerp(nextMatrix, tmpMatrix, motion.next.time);
             
-            float3 nextLerpS = lerp(curS, nextS, motion.next.time);
-            float4 nextLerpR = QuaternionSlerp(curR, nextR, motion.next.time);
-            float3 nextLerpT = lerp(curT, nextT, motion.next.time);
-            
-           lerpS = lerp(lerpS, nextLerpS, motion.tweenTime);
-           lerpR = lerp(lerpR, nextLerpR, motion.tweenTime);
-           lerpT = lerp(lerpT, nextLerpT, motion.tweenTime);
-            
+            curMatrix = lerp(curMatrix, nextMatrix, motion.tweenTime);
         }
         
-        animMatrix = CombinedTransformMatrix(lerpT, lerpR, lerpS);
-        animMatrix = TransposeMatrix(animMatrix);
-        
-        transform += mul(weights[i], animMatrix);
+        result += mul(weights[i], curMatrix);
     }
     
-    return transform;
+    return result;
 }
 
 cbuffer FrameInstancingBuffer : register(b4)
