@@ -137,6 +137,7 @@
     <ClInclude Include="Animation\BlendSpace.h" />
     <ClInclude Include="Animation\AnimSequence.h" />
     <ClInclude Include="Animation\AnimManager.h" />
+    <ClInclude Include="Collider\CollisionManager.h" />
     <ClInclude Include="Render\Mesh.h" />
     <ClInclude Include="Render\View\DepthStencil.h" />
     <ClInclude Include="Render\View\RenderTarget.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="Animation\BlendSpace.cpp" />
     <ClCompile Include="Animation\AnimSequence.cpp" />
     <ClCompile Include="Animation\AnimManager.cpp" />
+    <ClCompile Include="Collider\CollisionManager.cpp" />
     <ClCompile Include="Render\Mesh.cpp" />
     <ClCompile Include="Render\View\DepthStencil.cpp" />
     <ClCompile Include="Render\View\RenderTarget.cpp" />
