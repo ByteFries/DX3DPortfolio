@@ -1,5 +1,5 @@
 #pragma once
-class Monster : public Actor
+class Monster : public Creature
 {
 public:
 

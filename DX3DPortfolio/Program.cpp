@@ -30,6 +30,7 @@ Program::~Program()
 void Program::Update()
 {
 	Time::Get()->Update();
+	PHYSICS->Update();
 	Keyboard::Get()->Update();
 	CAMERA->Update();
 	_scene->Update();
@@ -67,6 +68,7 @@ void Program::Render()
 	//Todo : Add Ortho
 
 	_scene->PostRender();
+	PHYSICS->Render();
 	CAMERA->Render();
 
 	ImGui::Checkbox("WireFrame", &_wireFrame);

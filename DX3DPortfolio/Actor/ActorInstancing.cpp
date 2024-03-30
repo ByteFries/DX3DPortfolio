@@ -53,8 +53,14 @@ void ActorInstancing::Render()
 
 	_frameBuffer->SetVSBuffer(3);
 	
-	//if (_srv)
-	//	DC->VSSetShaderResources(0, 1, &_srv);
+	//if (_animManager)
+	//{
+	//	_animManager->SetSubResources();
+	//	_wBuffer->SetAnimation(true);
+	//
+	//}
+	//else
+	//	_wBuffer->SetAnimation(false);
 
 	_mesh->RenderInstanced(_drawCount);
 }

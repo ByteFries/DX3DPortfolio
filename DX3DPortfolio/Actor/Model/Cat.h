@@ -1,8 +1,7 @@
 #pragma once
-class Cat :public Actor
+class Cat :public Creature
 {
 public:
-
 	Cat();
 	~Cat();
 

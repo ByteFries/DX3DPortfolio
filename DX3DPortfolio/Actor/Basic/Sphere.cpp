@@ -5,17 +5,11 @@ Sphere::Sphere(float _radius, UINT sliceCount, UINT stackCount)
 	:_radius(_radius), _sliceCount(sliceCount), _stackCount(stackCount)
 {
 	CreateVertices();
-
-	_mesh = new Mesh(_vertices, _indices);
-	_material = new Material();
-
-	_material->SetShader(L"Default");
 }
 
 Sphere::~Sphere()
 {
 	delete _mesh;
-	delete _material;
 }
 
 void Sphere::Update()
@@ -25,13 +19,9 @@ void Sphere::Update()
 
 void Sphere::Render()
 {
-	_wBuffer->SetMatrix(_srt);
 	_wBuffer->SetVSBuffer(0);
 
-	_mesh->IASetBuffer();
-	_material->IASetBuffer();
-
-	DC->DrawIndexed(_indices.size(), 0, 0);
+	_mesh->Render();
 }
 
 void Sphere::PostRender()
@@ -116,4 +106,16 @@ void Sphere::CreateVertices()
 
 		vertex.tangent = (T - N * Vector3::Dot(N, T)).GetNormalized();
 	}
+
+	ModelPart* modelPart = new ModelPart();
+	modelPart->CreateBuffers(_vertices, _indices);
+
+	Material* material = new Material();
+	material->SetShader(L"Default");
+
+	modelPart->SetMaterialSlot(0);
+
+	_mesh = new StaticMesh();
+	_mesh->AddMesh(modelPart);
+	_mesh->AddMaterial(material);
 }

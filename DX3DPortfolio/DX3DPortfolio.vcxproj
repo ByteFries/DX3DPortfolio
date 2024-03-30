@@ -132,16 +132,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Basic\Quad.h" />
+    <ClInclude Include="Actor\Basic\Sphere.h" />
     <ClInclude Include="Actor\Model\Enemy\Monster.h" />
     <ClInclude Include="Actor\ActorInstancing.h" />
     <ClInclude Include="Animation\BlendSpace.h" />
     <ClInclude Include="Animation\AnimSequence.h" />
     <ClInclude Include="Animation\AnimManager.h" />
-    <ClInclude Include="Collider\CollisionManager.h" />
+    <ClInclude Include="Actor\Creature.h" />
+    <ClInclude Include="System\ItemManager.h" />
+    <ClInclude Include="System\MonsterManager.h" />
+    <ClInclude Include="System\GameLogic.h" />
+    <ClInclude Include="System\Physics.h" />
     <ClInclude Include="Render\Mesh.h" />
     <ClInclude Include="Render\View\DepthStencil.h" />
     <ClInclude Include="Render\View\RenderTarget.h" />
     <ClInclude Include="Render\SkeletalMesh.h" />
+    <ClInclude Include="Actor\Sky\SkyBox.h" />
     <ClInclude Include="System\CameraManager.h" />
     <ClInclude Include="Actor\Model\Cat.h" />
     <ClInclude Include="Actor\Model\ModelClip.h" />
@@ -150,6 +156,7 @@
     <ClInclude Include="ModelExport\ModelType.h" />
     <ClInclude Include="Render\ModelPart.h" />
     <ClInclude Include="Actor\Model\ModelReader.h" />
+    <ClInclude Include="System\UserInterface.h" />
     <ClInclude Include="Utility\BinaryReader.h" />
     <ClInclude Include="Utility\BinaryWriter.h" />
     <ClInclude Include="Collider\ColliderBox.h" />
@@ -194,16 +201,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Basic\Quad.cpp" />
+    <ClCompile Include="Actor\Basic\Sphere.cpp" />
     <ClCompile Include="Actor\Model\Enemy\Monster.cpp" />
     <ClCompile Include="Actor\ActorInstancing.cpp" />
     <ClCompile Include="Animation\BlendSpace.cpp" />
     <ClCompile Include="Animation\AnimSequence.cpp" />
     <ClCompile Include="Animation\AnimManager.cpp" />
-    <ClCompile Include="Collider\CollisionManager.cpp" />
+    <ClCompile Include="Actor\Creature.cpp" />
+    <ClCompile Include="System\ItemManager.cpp" />
+    <ClCompile Include="System\MonsterManager.cpp" />
+    <ClCompile Include="System\GameLogic.cpp" />
+    <ClCompile Include="System\Physics.cpp" />
     <ClCompile Include="Render\Mesh.cpp" />
     <ClCompile Include="Render\View\DepthStencil.cpp" />
     <ClCompile Include="Render\View\RenderTarget.cpp" />
     <ClCompile Include="Render\SkeletalMesh.cpp" />
+    <ClCompile Include="Actor\Sky\SkyBox.cpp" />
     <ClCompile Include="System\CameraManager.cpp" />
     <ClCompile Include="Actor\Model\Cat.cpp" />
     <ClCompile Include="Actor\Model\ModelClip.cpp" />
@@ -211,6 +224,7 @@
     <ClCompile Include="ModelExport\ModelExporter.cpp" />
     <ClCompile Include="Render\ModelPart.cpp" />
     <ClCompile Include="Actor\Model\ModelReader.cpp" />
+    <ClCompile Include="System\UserInterface.cpp" />
     <ClCompile Include="Utility\BinaryReader.cpp" />
     <ClCompile Include="Utility\BinaryWriter.cpp" />
     <ClCompile Include="Collider\ColliderBox.cpp" />
@@ -303,6 +317,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
+    <FxCompile Include="_Shader\Pixel\PixelSky.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="_Shader\Pixel\PixelTexture.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -343,6 +364,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="_Shader\Vertex\VertexSky.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="_Shader\Vertex\VertexTexture.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
@@ -356,6 +384,9 @@
     <Library Include="_Library\DirectXTex.lib" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Actor\Model\Data\cat\Clip\cat0.clip" />
+    <None Include="Actor\Model\Data\cat\Clip\cat1.clip" />
+    <None Include="Actor\Model\Data\cat\Clip\cat2.clip" />
     <None Include="_Include\DirectXTex.inl" />
     <None Include="_Library\assimp-vc143-mtd.dll" />
     <None Include="_Shader\Header.hlsli" />

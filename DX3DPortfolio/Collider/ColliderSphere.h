@@ -1,9 +1,11 @@
 #pragma once
 class ColliderSphere : public Collider
 {
-public:
+	friend class Physics;
+
 	ColliderSphere(float radius, float sliceCount, float stackCount);
 	~ColliderSphere();
+public:
 
 	bool Collision(IN Ray& ray, OUT Contact* contact) override;
 	bool Collision(ColliderBox* other) override;

@@ -4,7 +4,7 @@
 ColliderSphere::ColliderSphere(float radius, float sliceCount, float stackCount)
     :_radius(radius), _sliceCount(sliceCount), _stackCount(stackCount)
 {
-    _type = SPHERE;
+    _colliderType = SPHERE;
     CreateMesh();
 }
 

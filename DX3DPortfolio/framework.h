@@ -51,8 +51,6 @@ using namespace DirectX;
 #include "Utility\BinaryReader.h"
 #include "Utility\BinaryWriter.h"
 
-#include "Render\State\RasterizerState.h"
-
 #include "Defines.h"
 
 #include "Render\Buffer\ConstantBuffer.h"
@@ -100,6 +98,7 @@ using namespace DirectX;
 
 #include "Actor\Actor.h"
 #include "Actor\ActorInstancing.h"
+#include "Actor\Creature.h"
 
 #include "Animation\AnimSequence.h"
 #include "Animation\AnimManager.h"
@@ -108,7 +107,9 @@ using namespace DirectX;
 #include "Actor\Model\Enemy\Watcher.h"
 
 #include "Actor\Terrain\Terrain.h"
+#include "Actor\Sky\SkyBox.h"
 
+#include "System\Physics.h"
 #include "System\Camera.h"
 #include "System\CameraManager.h"
 #include "System\Environment.h"

@@ -6,8 +6,12 @@
 #define DEVICE Device::Get()->GetDevice()
 #define DC Device::Get()->GetDC()
 
+#define PHYSICS Physics::Get()
+
 #define CAMERA CameraManager::Get()
 #define MAIN_CAMERA CameraManager::Get()->GetMainCamera()
+
+#define RS StateManager::Get()->GetRasterizer()
 
 #define KEY_UP(k) Keyboard::Get()->Up(k)
 #define KEY_DOWN(k) Keyboard::Get()->Down(k)

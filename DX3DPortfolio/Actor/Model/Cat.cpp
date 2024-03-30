@@ -2,38 +2,35 @@
 #include "Cat.h"
 
 Cat::Cat()
-	:Actor("test")
+	:Creature("horse")
 {
-	_mesh = new SkeletalMesh("test");
+	_mesh = new SkeletalMesh("horse");
 
-	_scale *= 0.01f;
-
-	_translation.z += 2.0f;
-
+	_scale *= 0.1f;
 
 	SkeletalMesh* mesh = dynamic_cast<SkeletalMesh*>(_mesh);
 
 	if (mesh)
 	{
-		_animManager = new AnimManager(mesh);
-	
-		_animManager->AddAnimation(_name, "Running0", 0, 0);
-		_animManager->AddAnimation(_name, "test0", 0, 0);
-		_animManager->AddAnimation(_name, "Dancing0", 0, 0);
-		_animManager->AddAnimation(_name, "Defeated0", 0, 0);
-		_animManager->AddAnimation(_name, "FingerTest0", 0, 0);
-		_animManager->CreateTexture();
-		_animManager->SetTarget(this);
-		_animManager->PlaySequence(State::IDLE, 0.5f, 1.0f);
-	
-		_wBuffer->SetAnimation(true);
+		mesh->GetMaterial(0)->SetDiffuseMap(L"_Texture/Model/horse/Horse_BaseColor.png");
+		mesh->GetMaterial(0)->SetNormalMap(L"_Texture/Model/horse/Horse_Normal.png");
+		mesh->GetMaterial(0)->SetSpecularMap(L"_Texture/Model/horse/Horse_Roughtness.png");
+		
+		//_animManager = new AnimManager(mesh);
+		//
+		//_animManager->AddAnimation(_name, "cat0", 0, 0);
+		//_animManager->AddAnimation(_name, "cat1", 0, 0);
+		//_animManager->AddAnimation(_name, "cat2", 0, 0);
+		//_animManager->CreateTexture();
+		//_animManager->SetTarget(this);
+		//_animManager->PlaySequence(State::IDLE, 0.5f, 1.0f);
+		//
+		//_wBuffer->SetAnimation(true);
 	}
 }
 
 Cat::~Cat()
 {
-	delete _mesh;
-	delete _animManager;
 }
 
 void Cat::Update()

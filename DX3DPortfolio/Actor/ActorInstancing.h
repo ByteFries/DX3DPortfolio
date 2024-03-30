@@ -39,4 +39,6 @@ protected:
 	InstancingFrameBuffer* _frameBuffer;
 	vector<InstanceData> _instanceDatas;
 	vector<Data> _datas;
+
+	//AnimManager* _animManager;
 };

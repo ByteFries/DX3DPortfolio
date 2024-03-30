@@ -16,4 +16,5 @@ private:
 	Cat* _cat;
 	Watcher* _watcher;
 	Actor* actor;
+	SkyBox* _sky;
 };

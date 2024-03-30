@@ -221,11 +221,11 @@ void AnimManager::CreateSequenceTransform(int index)
 
 void AnimManager::Debug()
 {
-	int index = _target->_speed / _sequences.size();
+	//int index = _target->_speed / _sequences.size();
 
 	FrameBuffer::Frame& frame = _frameBuffer->GetCurFrameRef();
 
-	if (ImGui::TreeNode(_sequences[index]->GetName().c_str()))
+	if (ImGui::TreeNode(_sequences[0]->GetName().c_str()))
 	{
 		ImGui::Checkbox("Stop", &_stop);
 

@@ -1,8 +1,6 @@
 #include "framework.h"
 #include "Collider.h"
 
-bool Collider::_hidden = false;
-
 Collider::Collider()
 {
 }
@@ -14,8 +12,6 @@ Collider::~Collider()
 
 void Collider::Render()
 {
-	if (_hidden)
-		return;
 
 	_wBuffer->SetVSBuffer(0);
 
@@ -26,7 +22,7 @@ void Collider::Render()
 
 bool Collider::Collision(Collider* other)
 {
-	switch (other->_type)
+	switch (other->_colliderType)
 	{
 	case Collider::BOX:
 		return Collision((ColliderBox*)other);
@@ -41,7 +37,7 @@ bool Collider::Collision(Collider* other)
 
 bool Collider::Block(Collider* other)
 {
-	switch (other->_type)
+	switch (other->_colliderType)
 	{
 	case Collider::BOX:
 		return Block((ColliderBox*)other);

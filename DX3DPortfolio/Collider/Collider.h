@@ -14,16 +14,22 @@ struct Contact
 
 class Collider : public Transform
 {
+	friend class Physics;
+
+protected:
+	Collider();
+	virtual ~Collider();
+
 public:
 	enum ColliderType
 	{
 		BOX, SPHERE
 	};
 
-	static bool _hidden;
-
-	Collider();
-	virtual ~Collider();
+	enum CollisionType
+	{
+		NONE, BLOCK, OVERLAP
+	};
 
 	bool Collision(Collider* other);
 
@@ -44,7 +50,8 @@ public:
 
 protected:
 	StaticMesh*	  _mesh;
-    ColliderType  _type;
+    ColliderType  _colliderType;
+	CollisionType _collisionType;
 
 	vector<Vertex> _vertices;
 	  vector<UINT>  _indices;

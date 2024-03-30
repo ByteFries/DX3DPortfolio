@@ -9,7 +9,7 @@ public:
 	void Render();
 	void PostRender();
 
-	Material* GetMaterial() { return _material; }
+	StaticMesh* GetMesh() { return _mesh; }
 
 private:
 	void CreateVertices();
@@ -18,11 +18,9 @@ private:
 	vector<UINT> _indices;
 
 	StaticMesh* _mesh;
-	Material* _material;
 
 	UINT _sliceCount;
 	UINT _stackCount;
 
 	float _radius;
 };
-

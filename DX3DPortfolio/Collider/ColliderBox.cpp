@@ -4,7 +4,7 @@
 ColliderBox::ColliderBox(Vector3 size)
 	:_size(size)
 {
-	_type = BOX;
+	_colliderType = BOX;
 	CreateMesh();
 }
 

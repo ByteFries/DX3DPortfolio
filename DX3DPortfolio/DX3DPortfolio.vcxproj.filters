@@ -192,7 +192,28 @@
     <ClInclude Include="Render\Mesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Collider\CollisionManager.h">
+    <ClInclude Include="Actor\Sky\SkyBox.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Basic\Sphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\GameLogic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Physics.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\UserInterface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\ItemManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\MonsterManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Creature.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -353,7 +374,28 @@
     <ClCompile Include="Render\Mesh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Collider\CollisionManager.cpp">
+    <ClCompile Include="Actor\Sky\SkyBox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Basic\Sphere.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\GameLogic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Physics.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\UserInterface.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\ItemManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\MonsterManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Creature.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -384,6 +426,8 @@
     <FxCompile Include="_Shader\Pixel\PixelDefualtInstance.hlsl" />
     <FxCompile Include="_Shader\Vertex\VertexReflection.hlsl" />
     <FxCompile Include="_Shader\Pixel\PixelReflection.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexSky.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelSky.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="_Library\DirectXTex.lib" />
@@ -395,5 +439,8 @@
     </None>
     <None Include="_Library\assimp-vc143-mtd.dll" />
     <None Include="_Shader\Header.hlsli" />
+    <None Include="Actor\Model\Data\cat\Clip\cat0.clip" />
+    <None Include="Actor\Model\Data\cat\Clip\cat1.clip" />
+    <None Include="Actor\Model\Data\cat\Clip\cat2.clip" />
   </ItemGroup>
 </Project>
