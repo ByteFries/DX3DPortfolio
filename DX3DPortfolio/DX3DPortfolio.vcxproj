@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
+    <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{3a25ab39-fd67-4cf2-8bde-227f6761d3a3}</ProjectGuid>
-    <RootNamespace>DX3DPortfolio</RootNamespace>
+    <ProjectGuid>{29a9bf46-f84a-47a2-882c-fe08220c80d4}</ProjectGuid>
+    <RootNamespace>My3DPotpolio</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -106,13 +106,16 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>framework.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>./;../;_Include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../;./;_include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>_Library</AdditionalLibraryDirectories>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,164 +134,241 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Actor\Basic\Quad.h" />
-    <ClInclude Include="Actor\Basic\Sphere.h" />
-    <ClInclude Include="Actor\Model\Enemy\Monster.h" />
-    <ClInclude Include="Actor\ActorInstancing.h" />
-    <ClInclude Include="Animation\BlendSpace.h" />
-    <ClInclude Include="Animation\AnimSequence.h" />
-    <ClInclude Include="Animation\AnimManager.h" />
-    <ClInclude Include="Actor\Creature.h" />
-    <ClInclude Include="System\ItemManager.h" />
-    <ClInclude Include="System\MonsterManager.h" />
-    <ClInclude Include="System\GameLogic.h" />
-    <ClInclude Include="System\Physics.h" />
-    <ClInclude Include="Render\Mesh.h" />
-    <ClInclude Include="Render\View\DepthStencil.h" />
-    <ClInclude Include="Render\View\RenderTarget.h" />
-    <ClInclude Include="Render\SkeletalMesh.h" />
-    <ClInclude Include="Actor\Sky\SkyBox.h" />
-    <ClInclude Include="System\CameraManager.h" />
-    <ClInclude Include="Actor\Model\Cat.h" />
-    <ClInclude Include="Actor\Model\ModelClip.h" />
+    <ClInclude Include="DX3DPortfolio.h" />
+    <ClInclude Include="Actor\Terrain\BrickPlatform.h" />
+    <ClInclude Include="Actor\Model\MainCharactor\HatKid.h" />
+    <ClInclude Include="Render\Renderer\InstanceDatas.h" />
+    <ClInclude Include="Render\Renderer\InstancingUpdate.h" />
+    <ClInclude Include="Render\Renderer\PerObjectUpdate.h" />
+    <ClInclude Include="Render\RenderableObject\MeshRO.h" />
+    <ClInclude Include="Render\RenderableObject\ModelRO.h" />
+    <ClInclude Include="Render\RenderableObject\RenderableObject.h" />
+    <ClInclude Include="Render\Renderer\RendererInterface.h" />
+    <ClInclude Include="Render\Renderer\InstancedRenderer.h" />
+    <ClInclude Include="Render\Renderer\PerObjectRenderer.h" />
+    <ClInclude Include="Render\OpticalEffects\Light.h" />
+    <ClInclude Include="Render\OpticalEffects\LightData.h" />
+    <ClInclude Include="Render\Renderer\SimpleInstaceUpdate.h" />
+    <ClInclude Include="System\Manager\LightManager.h" />
+    <ClInclude Include="Render\Shape\ColorShape\ColorSphere.h" />
+    <ClInclude Include="Render\Model\ModelFactory.h" />
+    <ClInclude Include="Render\Model\ModelInterface.h" />
+    <ClInclude Include="Render\Shape\ColorShape\ColorShapeRenderer.h" />
+    <ClInclude Include="Render\Model\ModelBase.h" />
+    <ClInclude Include="Render\Mesh\MeshBase.h" />
+    <ClInclude Include="Render\Shape\ShapFactory.h" />
+    <ClInclude Include="Scene\EditorScene.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\GJK_EPA2.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\EdgeFaceContactPoint.h" />
+    <ClInclude Include="Physics\PhysicsCoefficientProvider.h" />
+    <ClInclude Include="Physics\PhysicalCalculator\CalculatorLABasic.h" />
+    <ClInclude Include="Physics\PhysicalCalculator\CalculatorStatic.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\ClippingContactPoint.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\ContactPointFinderInterface.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\CollisionDetectionInterface.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionManager.h" />
+    <ClInclude Include="Physics\Collision\BroadPhase\BroadTypes.h" />
     <ClInclude Include="Actor\Actor.h" />
-    <ClInclude Include="ModelExport\ModelExporter.h" />
-    <ClInclude Include="ModelExport\ModelType.h" />
-    <ClInclude Include="Render\ModelPart.h" />
-    <ClInclude Include="Actor\Model\ModelReader.h" />
-    <ClInclude Include="System\UserInterface.h" />
-    <ClInclude Include="Utility\BinaryReader.h" />
-    <ClInclude Include="Utility\BinaryWriter.h" />
-    <ClInclude Include="Collider\ColliderBox.h" />
-    <ClInclude Include="Collider\ColliderSphere.h" />
-    <ClInclude Include="Collider\Collider.h" />
-    <ClInclude Include="Render\Shader\ComputeShader.h" />
-    <ClInclude Include="Render\State\RasterizerState.h" />
-    <ClInclude Include="Render\State\SamplerState.h" />
-    <ClInclude Include="Render\State\StateManager.h" />
-    <ClInclude Include="Render\Buffer\StructuredBuffer.h" />
-    <ClInclude Include="System\Camera.h" />
-    <ClInclude Include="System\Environment.h" />
-    <ClInclude Include="Render\Texture\Texture.h" />
-    <ClInclude Include="Actor\Terrain\Terrain.h" />
-    <ClInclude Include="Utility\Keyboard.h" />
-    <ClInclude Include="Render\Shader\PixelShader.h" />
-    <ClInclude Include="Render\Buffer\IndexBuffer.h" />
-    <ClInclude Include="Render\Buffer\ConstantBuffer.h" />
+    <ClInclude Include="Render\Shape\ColorShape\ColorCube.h" />
+    <ClInclude Include="Actor\Model\MainCharactor\Bunny.h" />
+    <ClInclude Include="Physics\Collision\BroadPhase\AABBManager.h" />
+    <ClInclude Include="Physics\Collision\Shape\CapsuleShape.h" />
+    <ClInclude Include="Physics\Collision\Shape\BoxShape.h" />
+    <ClInclude Include="Physics\PhysicalCalculator\CalculatorAngularBasic.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\GJK_EPA.h" />
+    <ClInclude Include="Physics\PhysicalCalculator\CalculatorLinearBasic.h" />
+    <ClInclude Include="Physics\PhysicalCalculator\PhysicalCalculator.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\Simplex.h" />
+    <ClInclude Include="Physics\Collision\Shape\Shape.h" />
+    <ClInclude Include="Physics\Collision\Shape\SphereShape.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\SphereConvexContactPoint.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\SphereConvexDetection.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\SphereSphereDetection.h" />
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\SphereSphereContactPoint.h" />
+    <ClInclude Include="Physics\Collision\SequentialImpulseSolver.h" />
+    <ClInclude Include="Actor\Terrain\PlatformBase.h" />
+    <ClInclude Include="Render\Shape\TextureShape\TextureQuad.h" />
+    <ClInclude Include="Render\Shape\TextureShape\TextureCube.h" />
+    <ClInclude Include="Render\Mesh\StaticMesh.h" />
+    <ClInclude Include="Render\Model\SkeletalModel.h" />
+    <ClInclude Include="Render\Model\StaticModel.h" />
+    <ClInclude Include="Render\Shape\TextureShape\TextureShapeRenderer.h" />
+    <ClInclude Include="Render\Shape\TextureShape\TextureSphere.h" />
+    <ClInclude Include="Actor\Terrain\SkySphere.h" />
+    <ClInclude Include="Render\Renderer\RendererUpdateComponent.h" />
+    <ClInclude Include="Utility\Matrix3x3.h" />
+    <ClInclude Include="Utility\Observer.h" />
+    <ClInclude Include="Physics\PhysicalObject\PhysicalObject.h" />
     <ClInclude Include="Defines.h" />
-    <ClInclude Include="Render\Buffer\GlobalBuffer.h" />
-    <ClInclude Include="Render\Buffer\VertexLayout.h" />
-    <ClInclude Include="Render\Material.h" />
-    <ClInclude Include="Render\StaticMesh.h" />
-    <ClInclude Include="Scene\MainScene.h" />
-    <ClInclude Include="Program.h" />
+    <ClInclude Include="Model_IO\ModelExporter.h" />
+    <ClInclude Include="Model_IO\ModelReader.h" />
+    <ClInclude Include="Model_IO\ModelData.h" />
+    <ClInclude Include="Render\Shape\ColorShape\ColorQuad.h" />
+    <ClInclude Include="Utility\Observable.h" />
+    <ClInclude Include="System\Manager\PhysicsManager.h" />
+    <ClInclude Include="Render\Buffer\Buffers.h" />
+    <ClInclude Include="Render\Buffer\ConstantBuffer.h" />
+    <ClInclude Include="Render\Buffer\IndexBuffer.h" />
+    <ClInclude Include="Render\Material\Material.h" />
+    <ClInclude Include="Render\Shader\PixelShader.h" />
+    <ClInclude Include="Render\State\BlendState.h" />
+    <ClInclude Include="Render\State\DepthStencilState.h" />
+    <ClInclude Include="Render\State\RasterizerState.h" />
+    <ClInclude Include="Render\VertexLayout.h" />
+    <ClInclude Include="Render\State\SamplerState.h" />
+    <ClInclude Include="Scene\GridScene.h" />
     <ClInclude Include="Scene\Scene.h" />
     <ClInclude Include="Render\Shader\Shader.h" />
+    <ClInclude Include="Render\Mesh\SkeletalMesh.h" />
+    <ClInclude Include="System\Manager\AssetManager.h" />
+    <ClInclude Include="System\Manager\CameraManager.h" />
+    <ClInclude Include="System\Manager\SceneManager.h" />
+    <ClInclude Include="System\Manager\StateManager.h" />
+    <ClInclude Include="System\Camera.h" />
     <ClInclude Include="System\Device.h" />
-    <ClInclude Include="Main.h" />
-    <ClInclude Include="framework.h" />
+    <ClInclude Include="System\Environment.h" />
+    <ClInclude Include="Scene\TestScene.h" />
+    <ClInclude Include="Render\Texture\Texture.h" />
     <ClInclude Include="Actor\Transform.h" />
-    <ClInclude Include="Utility\Time.h" />
+    <ClInclude Include="Actor\Terrain\TerrainQuad.h" />
+    <ClInclude Include="Utility\BinaryReader.h" />
+    <ClInclude Include="Utility\BinaryWriter.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="Utility\Keyboard.h" />
+    <ClInclude Include="Program.h" />
+    <ClInclude Include="Utility\Quaternion.h" />
     <ClInclude Include="Utility\Singleton.h" />
-    <ClInclude Include="Math\Vector3.h" />
-    <ClInclude Include="Render\Buffer\VertexBuffer.h" />
-    <ClInclude Include="Render\Shader\VertexShader.h" />
+    <ClInclude Include="Utility\Time.h" />
     <ClInclude Include="Utility\Utility.h" />
-    <ClInclude Include="Actor\Model\Enemy\Watcher.h" />
-    <ClInclude Include="_Include\DirectXTex.h" />
-    <ClInclude Include="__Others\Resource.h" />
-    <ClInclude Include="__Others\targetver.h" />
+    <ClInclude Include="Utility\Vector2.h" />
+    <ClInclude Include="Utility\Vector3.h" />
+    <ClInclude Include="Render\Shader\VertexShader.h" />
+    <ClInclude Include="Render\Buffer\VertexBuffer.h" />
+    <ClInclude Include="Utility\Vector4.h" />
+    <ClInclude Include="_Others\Resource.h" />
+    <ClInclude Include="_Others\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Actor\Basic\Quad.cpp" />
-    <ClCompile Include="Actor\Basic\Sphere.cpp" />
-    <ClCompile Include="Actor\Model\Enemy\Monster.cpp" />
-    <ClCompile Include="Actor\ActorInstancing.cpp" />
-    <ClCompile Include="Animation\BlendSpace.cpp" />
-    <ClCompile Include="Animation\AnimSequence.cpp" />
-    <ClCompile Include="Animation\AnimManager.cpp" />
-    <ClCompile Include="Actor\Creature.cpp" />
-    <ClCompile Include="System\ItemManager.cpp" />
-    <ClCompile Include="System\MonsterManager.cpp" />
-    <ClCompile Include="System\GameLogic.cpp" />
-    <ClCompile Include="System\Physics.cpp" />
-    <ClCompile Include="Render\Mesh.cpp" />
-    <ClCompile Include="Render\View\DepthStencil.cpp" />
-    <ClCompile Include="Render\View\RenderTarget.cpp" />
-    <ClCompile Include="Render\SkeletalMesh.cpp" />
-    <ClCompile Include="Actor\Sky\SkyBox.cpp" />
-    <ClCompile Include="System\CameraManager.cpp" />
-    <ClCompile Include="Actor\Model\Cat.cpp" />
-    <ClCompile Include="Actor\Model\ModelClip.cpp" />
+    <ClCompile Include="DX3DPortfolio.cpp" />
     <ClCompile Include="Actor\Actor.cpp" />
-    <ClCompile Include="ModelExport\ModelExporter.cpp" />
-    <ClCompile Include="Render\ModelPart.cpp" />
-    <ClCompile Include="Actor\Model\ModelReader.cpp" />
-    <ClCompile Include="System\UserInterface.cpp" />
-    <ClCompile Include="Utility\BinaryReader.cpp" />
-    <ClCompile Include="Utility\BinaryWriter.cpp" />
-    <ClCompile Include="Collider\ColliderBox.cpp" />
-    <ClCompile Include="Collider\ColliderSphere.cpp" />
-    <ClCompile Include="Collider\Collider.cpp" />
-    <ClCompile Include="Render\Shader\ComputeShader.cpp" />
+    <ClCompile Include="Actor\Terrain\BrickPlatform.cpp" />
+    <ClCompile Include="Actor\Model\MainCharactor\HatKid.cpp" />
+    <ClCompile Include="Render\Renderer\InstancingUpdate.cpp" />
+    <ClCompile Include="Render\Renderer\PerObjectUpdate.cpp" />
+    <ClCompile Include="Render\RenderableObject\MeshRO.cpp" />
+    <ClCompile Include="Render\RenderableObject\ModelRO.cpp" />
+    <ClCompile Include="Render\RenderableObject\RenderableObject.cpp" />
+    <ClCompile Include="Render\Renderer\RendererInterface.cpp" />
+    <ClCompile Include="Render\Renderer\InstancedRenderer.cpp" />
+    <ClCompile Include="Render\Renderer\PerObjectRenderer.cpp" />
+    <ClCompile Include="Render\OpticalEffects\Light.cpp" />
+    <ClCompile Include="Render\Renderer\SimpleInstaceUpdate.cpp" />
+    <ClCompile Include="System\Manager\LightManager.cpp" />
+    <ClCompile Include="Render\Shape\ColorShape\ColorSphere.cpp" />
+    <ClCompile Include="Render\Model\ModelInterface.cpp" />
+    <ClCompile Include="Render\Shape\ColorShape\ColorShapeRenderer.cpp" />
+    <ClCompile Include="Render\Shape\ColorShape\ColorCube.cpp" />
+    <ClCompile Include="Actor\Model\MainCharactor\Bunny.cpp" />
+    <ClCompile Include="Render\Model\ModelBase.cpp" />
+    <ClCompile Include="Render\Mesh\MeshBase.cpp" />
+    <ClCompile Include="Scene\EditorScene.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\GJK_EPA2.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\EdgeFaceContactPoint.cpp" />
+    <ClCompile Include="Physics\PhysicsCoefficientProvider.cpp" />
+    <ClCompile Include="Physics\PhysicalCalculator\CalculatorLABasic.cpp" />
+    <ClCompile Include="Physics\PhysicalCalculator\CalculatorStatic.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\ClippingContactPoint.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\ContactPointFinderInterface.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\CollisionDetectionInterface.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionManager.cpp" />
+    <ClCompile Include="Physics\Collision\BroadPhase\AABBManager.cpp" />
+    <ClCompile Include="Physics\Collision\Shape\CapsuleShape.cpp" />
+    <ClCompile Include="Physics\Collision\Shape\BoxShape.cpp" />
+    <ClCompile Include="Physics\PhysicalCalculator\CalculatorAngularBasic.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\GJK_EPA.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\Simplex.cpp" />
+    <ClCompile Include="Physics\PhysicalCalculator\CalculatorLinearBasic.cpp" />
+    <ClCompile Include="Physics\PhysicalCalculator\PhysicalCalculator.cpp" />
+    <ClCompile Include="Physics\PhysicalObject\PhysicalObject.cpp" />
+    <ClCompile Include="Model_IO\ModelExporter.cpp" />
+    <ClCompile Include="Model_IO\ModelReader.cpp" />
+    <ClCompile Include="Render\Shape\ColorShape\ColorQuad.cpp" />
+    <ClCompile Include="Physics\Collision\Shape\Shape.cpp" />
+    <ClCompile Include="Physics\Collision\Shape\SphereShape.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\SphereConvexContactPoint.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\SphereConvexDetection.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\SphereSphereDetection.cpp" />
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\SphereSphereContactPoint.cpp" />
+    <ClCompile Include="Physics\Collision\SequentialImpulseSolver.cpp" />
+    <ClCompile Include="Actor\Terrain\PlatformBase.cpp" />
+    <ClCompile Include="Render\Shape\TextureShape\TextureQuad.cpp" />
+    <ClCompile Include="Render\Shape\TextureShape\TextureCube.cpp" />
+    <ClCompile Include="Render\Mesh\StaticMesh.cpp" />
+    <ClCompile Include="Render\Model\SkeletalModel.cpp" />
+    <ClCompile Include="Render\Model\StaticModel.cpp" />
+    <ClCompile Include="Render\Shape\TextureShape\TextureShapeRenderer.cpp" />
+    <ClCompile Include="Render\Shape\TextureShape\TextureSphere.cpp" />
+    <ClCompile Include="Actor\Terrain\SkySphere.cpp" />
+    <ClCompile Include="Render\Renderer\RendererUpdateComponent.cpp" />
+    <ClCompile Include="Utility\Matrix3x3.cpp" />
+    <ClCompile Include="Utility\Observable.cpp" />
+    <ClCompile Include="System\Manager\PhysicsManager.cpp" />
+    <ClCompile Include="Render\Buffer\ConstantBuffer.cpp" />
+    <ClCompile Include="Render\Buffer\IndexBuffer.cpp" />
+    <ClCompile Include="Render\Material\Material.cpp" />
+    <ClCompile Include="Render\Shader\PixelShader.cpp" />
+    <ClCompile Include="Render\State\BlendState.cpp" />
+    <ClCompile Include="Render\State\DepthStencilState.cpp" />
     <ClCompile Include="Render\State\RasterizerState.cpp" />
     <ClCompile Include="Render\State\SamplerState.cpp" />
-    <ClCompile Include="Render\State\StateManager.cpp" />
-    <ClCompile Include="Render\Buffer\StructuredBuffer.cpp" />
-    <ClCompile Include="System\Camera.cpp" />
-    <ClCompile Include="System\Environment.cpp" />
-    <ClCompile Include="Render\Texture\Texture.cpp" />
-    <ClCompile Include="Actor\Terrain\Terrain.cpp" />
-    <ClCompile Include="Utility\Keyboard.cpp" />
-    <ClCompile Include="Render\Shader\PixelShader.cpp" />
-    <ClCompile Include="Render\Buffer\IndexBuffer.cpp" />
-    <ClCompile Include="Render\Buffer\ConstantBuffer.cpp" />
-    <ClCompile Include="Render\Material.cpp" />
-    <ClCompile Include="Render\StaticMesh.cpp" />
-    <ClCompile Include="Scene\MainScene.cpp" />
-    <ClCompile Include="Program.cpp" />
+    <ClCompile Include="Scene\GridScene.cpp" />
     <ClCompile Include="Scene\Scene.cpp" />
     <ClCompile Include="Render\Shader\Shader.cpp" />
+    <ClCompile Include="Render\Mesh\SkeletalMesh.cpp" />
+    <ClCompile Include="System\Manager\AssetManager.cpp" />
+    <ClCompile Include="System\Manager\CameraManager.cpp" />
+    <ClCompile Include="System\Manager\SceneManager.cpp" />
+    <ClCompile Include="System\Manager\StateManager.cpp" />
+    <ClCompile Include="System\Camera.cpp" />
     <ClCompile Include="System\Device.cpp" />
-    <ClCompile Include="Main.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">./;../;</AdditionalIncludeDirectories>
-    </ClCompile>
+    <ClCompile Include="System\Environment.cpp" />
+    <ClCompile Include="Scene\TestScene.cpp" />
+    <ClCompile Include="Render\Texture\Texture.cpp" />
+    <ClCompile Include="Actor\Transform.cpp" />
+    <ClCompile Include="Actor\Terrain\TerrainQuad.cpp" />
+    <ClCompile Include="Utility\BinaryReader.cpp" />
+    <ClCompile Include="Utility\BinaryWriter.cpp" />
     <ClCompile Include="framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">framework.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Actor\Transform.cpp" />
+    <ClCompile Include="Utility\Keyboard.cpp" />
+    <ClCompile Include="Program.cpp" />
     <ClCompile Include="Utility\Time.cpp" />
-    <ClCompile Include="Utility\Singleton.cpp" />
-    <ClCompile Include="Math\Vector3.cpp" />
-    <ClCompile Include="Render\Buffer\VertexBuffer.cpp" />
-    <ClCompile Include="Render\Shader\VertexShader.cpp" />
     <ClCompile Include="Utility\Utility.cpp" />
-    <ClCompile Include="Actor\Model\Enemy\Watcher.cpp" />
+    <ClCompile Include="Render\Shader\VertexShader.cpp" />
+    <ClCompile Include="Render\Buffer\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="__Others\DX3DPortfolio.rc" />
+    <ResourceCompile Include="_Others\DX3DPortfolio.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="__Others\DX3DPortfolio.ico" />
-    <Image Include="__Others\small.ico" />
+    <Image Include="_Others\DX3DPortfolio.ico" />
+    <Image Include="_Others\small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="_Shader\Compute\ComputePicking.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="_Shader\Pixel\PixelCollider.hlsl">
+    <None Include="_Library\assimp-vc143-mtd.dll" />
+    <None Include="_Shader\Animation.hlsli" />
+    <None Include="_Shader\TextureAndLight.hlsli" />
+    <None Include="_Shader\Shared.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="_Shader\Pixel\PixelColorLight.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="_Shader\Pixel\PixelColor.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -297,32 +377,25 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="_Shader\Pixel\PixelDefault.hlsl">
+    <FxCompile Include="_Shader\Pixel\PixelGrid.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="_Shader\Pixel\PixelDefualtInstance.hlsl">
+    <FxCompile Include="_Shader\Pixel\PixelModel.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="_Shader\Pixel\PixelReflection.hlsl">
+    <FxCompile Include="_Shader\Pixel\PixelTest.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="_Shader\Pixel\PixelSky.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="_Shader\Pixel\PixelTexture.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -331,11 +404,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="_Shader\Vertex\VertexCollider.hlsl">
+    <FxCompile Include="_Shader\Pixel\PixelTextureLight.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="_Shader\Vertex\VertexColorLight.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="_Shader\Vertex\VertexColor.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -344,27 +424,20 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="_Shader\Vertex\VertexDefault.hlsl">
+    <FxCompile Include="_Shader\Vertex\VertexColorLightInstancing.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="_Shader\Vertex\VertexGrid.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="_Shader\Vertex\VertexDefualtInstance.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="_Shader\Vertex\VertexReflection.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="_Shader\Vertex\VertexSky.hlsl">
+    <FxCompile Include="_Shader\Vertex\VertexModel.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
@@ -378,18 +451,21 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="_Shader\Vertex\VertexTextureLight.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="_Shader\Vertex\VertexTextureLightInstancing.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="_Library\assimp.lib" />
-    <Library Include="_Library\DirectXTex.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Actor\Model\Data\cat\Clip\cat0.clip" />
-    <None Include="Actor\Model\Data\cat\Clip\cat1.clip" />
-    <None Include="Actor\Model\Data\cat\Clip\cat2.clip" />
-    <None Include="_Include\DirectXTex.inl" />
-    <None Include="_Library\assimp-vc143-mtd.dll" />
-    <None Include="_Shader\Header.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

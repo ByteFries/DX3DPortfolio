@@ -1,7 +1,8 @@
-#include "Framework.h"
+#include "framework.h"
 #include "Time.h"
 
 float Time::_timeElapsed = 0.0;
+float Time::_physicsTick = 0.0;
 
 Time::Time()
 	: _curTick(0), _frameCount(0), _frameRate(0), _oneSecCount(0), _runningTime(0), _scanningRate(0)
@@ -51,5 +52,4 @@ void Time::Update()
 
 void Time::Debug()
 {
-	ImGui::Text("FPS : %d", _frameRate);
 }

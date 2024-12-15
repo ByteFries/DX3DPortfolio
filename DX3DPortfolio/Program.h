@@ -9,11 +9,9 @@ public:
 
 	void Render();
 
+	static bool test;
+
 private:
-	void Initialize();
-
-	class MainScene* _scene;
-
-	bool _wireFrame = false;
+	void Initial();
 };
 

@@ -13,12 +13,12 @@ SamplerState::SamplerState()
 	samplerDesc.MinLOD = 0;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
-	DEVICE->CreateSamplerState(&samplerDesc, &_sampler);
+	DEVICE->CreateSamplerState(&samplerDesc, &_samplerState);
 
-	DC->PSSetSamplers(0, 1, &_sampler);
+	DC->PSSetSamplers(0, 1, &_samplerState);
 }
 
 SamplerState::~SamplerState()
 {
-	_sampler->Release();
+	_samplerState->Release();
 }

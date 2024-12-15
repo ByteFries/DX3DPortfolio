@@ -1,9 +1,10 @@
-#include "framework.h"
+#include "Framework.h"
 #include "BinaryWriter.h"
 
 BinaryWriter::BinaryWriter(string path)
 {
-	_file = CreateFileA(
+	file = CreateFileA
+	(
 		path.c_str(),
 		GENERIC_WRITE,
 		0, 0,
@@ -15,7 +16,8 @@ BinaryWriter::BinaryWriter(string path)
 
 BinaryWriter::BinaryWriter(wstring path)
 {
-	_file = CreateFile(
+	file = CreateFile
+	(
 		path.c_str(),
 		GENERIC_WRITE,
 		0, 0,
@@ -27,22 +29,22 @@ BinaryWriter::BinaryWriter(wstring path)
 
 BinaryWriter::~BinaryWriter()
 {
-	CloseHandle(_file);
+	CloseHandle(file);
 }
 
 void BinaryWriter::WriteData(int data)
 {
-	WriteFile(_file, &data, sizeof(int), &_size, nullptr);
+	WriteFile(file, &data, sizeof(int), &size, nullptr);
 }
 
 void BinaryWriter::WriteData(UINT data)
 {
-	WriteFile(_file, &data, sizeof(UINT), &_size, nullptr);
+	WriteFile(file, &data, sizeof(UINT), &size, nullptr);
 }
 
 void BinaryWriter::WriteData(float data)
 {
-	WriteFile(_file, &data, sizeof(float), &_size, nullptr);
+	WriteFile(file, &data, sizeof(float), &size, nullptr);
 }
 
 void BinaryWriter::WriteData(string data)
@@ -51,7 +53,7 @@ void BinaryWriter::WriteData(string data)
 
 	const char* str = data.c_str();
 
-	WriteFile(_file, str, sizeof(char) * data.size(), &_size, nullptr);
+	WriteFile(file, str, sizeof(char) * data.size(), &size, nullptr);
 }
 
 void BinaryWriter::WriteData(wstring data)
@@ -60,7 +62,7 @@ void BinaryWriter::WriteData(wstring data)
 
 	const wchar_t* str = data.c_str();
 
-	WriteFile(_file, str, sizeof(wchar_t) * data.size(), &_size, nullptr);
+	WriteFile(file, str, sizeof(wchar_t) * data.size(), &size, nullptr);
 }
 
 void BinaryWriter::WriteData(Vector3 data)
@@ -80,17 +82,17 @@ void BinaryWriter::WriteData(XMFLOAT4 data)
 
 void BinaryWriter::WriteData(void* data, UINT dataSize)
 {
-	WriteFile(_file, data, dataSize, &_size, nullptr);
+	WriteFile(file, data, dataSize, &size, nullptr);
 }
 
 void BinaryWriter::WriteData(XMFLOAT4X4 data)
 {
-	WriteFile(_file, &data, sizeof(XMFLOAT4X4), &_size, nullptr);
+	WriteFile(file, &data, sizeof(XMFLOAT4X4), &size, nullptr);
 }
 
 void BinaryWriter::WriteData(XMMATRIX data)
 {
-	WriteFile(_file, &data, sizeof(XMMATRIX), &_size, nullptr);
+	WriteFile(file, &data, sizeof(XMMATRIX), &size, nullptr);
 }
 
 void BinaryWriter::WriteData(size_t data)

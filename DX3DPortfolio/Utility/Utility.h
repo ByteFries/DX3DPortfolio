@@ -1,18 +1,28 @@
 #pragma once
+
 namespace Utility
 {
-	wstring GetExtension(wstring path);
-
-	string ToString(wstring wstr);
 	wstring ToWString(string str);
+	string ToString(wstring wstr);
 
-	vector<string> SplitString(string oirign, string token);
+	bool StartWith(string str, string prefix);
+	bool StartWith(wstring wstr, string prefix);
+
+	vector<string> Split(string str, string delimiter);
 
 	string GetFileName(string path);
 
+	wstring GetExtension(wstring path);
+	string GetExtension(string path);
+
 	string GetFileNameWithoutExtension(string path);
+	string GetFolderNameWithoutExtension(string path);
 
 	void CreateFolder(string path);
 
-	XMFLOAT4 XMVECTORToXMFLOAT4(DirectX::XMVECTOR vector);
-};
+	float Clamp(float value, float min, float max);
+
+	//wstring GetProjectDir();
+	//wstring GetTextureDir();
+	//wstring GetTextDataDir();
+}

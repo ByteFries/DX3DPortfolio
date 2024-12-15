@@ -1,26 +1,24 @@
 #include "framework.h"
 #include "Program.h"
-#include "Scene\MainScene.h"
-
+bool Program::test = false;
 Program::Program()
 {
-	Initialize();
-	Time::Get()->LockFPS(60.0f);
-	_scene = new MainScene();
+	Initial();
 }
 
 Program::~Program()
 {
-	delete _scene;
 	Device::Delete();
 	Shader::Clear();
+	Texture::Delete();
 	Time::Delete();
-	Environment::Delete();
 	Keyboard::Delete();
 	StateManager::Delete();
-	
-	Texture::Delete();
+	PhysicsManager::Delete();
+	Environment::Delete();
 	CameraManager::Delete();
+	SceneManager::Delete();
+	LightManager::Delete();
 
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
@@ -29,11 +27,12 @@ Program::~Program()
 
 void Program::Update()
 {
-	Time::Get()->Update();
-	PHYSICS->Update();
-	Keyboard::Get()->Update();
+	TIME->Update();
+	KEYBOARD->Update();
 	CAMERA->Update();
-	_scene->Update();
+	PHYSICS->Update();
+	SCENE->Update();
+	LIGHT->Update();
 }
 
 void Program::Render()
@@ -42,39 +41,20 @@ void Program::Render()
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
-	if (KEY_DOWN(VK_SPACE))
-	{
-		mouseFocus = !mouseFocus;
-		ShowCursor(!mouseFocus);
-	}
-
-	if (_wireFrame)
-		StateManager::Get()->GetRasterizer()->ChangeState(D3D11_FILL_WIREFRAME);
-	else
-		StateManager::Get()->GetRasterizer()->ChangeState(D3D11_FILL_SOLID);
-
-	_scene->PreRender();
-	
 	Device::Get()->Clear();
 
-	Environment::Get()->SetViewport();
-
-	//Environment::Get()->SetPerspective();
-
-	Environment::Get()->SetEnvironment();
-
-	_scene->Render();
-
-	//Todo : Add Ortho
-
-	_scene->PostRender();
+	ENVIRONMENT->SetViewport();
+	ENVIRONMENT->SetEnvrionment();
+	LIGHT->SetLight();
+	SCENE->Render();
 	PHYSICS->Render();
-	CAMERA->Render();
+	SCENE->PostRender();
 
-	ImGui::Checkbox("WireFrame", &_wireFrame);
-	ImGui::Checkbox("Hide Camera", &CameraManager::_hideCamera);
-	Time::Get()->Debug();
-	CAMERA->Debug();
+	ENVIRONMENT->Debug();
+	PHYSICS->Debug();
+	SCENE->Debug();
+	TIME->Debug();
+	
 	ImGui::Render();
 
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
@@ -82,12 +62,19 @@ void Program::Render()
 	Device::Get()->Present();
 }
 
-void Program::Initialize()
+void Program::Initial()
 {
 	Device::Get();
-
+	ENVIRONMENT;
+	KEYBOARD;
+	STATE;
 	CAMERA;
-	Environment::Get();
+	PHYSICS;
+	SCENE;
+	LIGHT;
+	TIME->LockFPS(60);
+
+	PHYSICS->StartInitial();
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();

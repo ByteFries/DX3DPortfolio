@@ -7,7 +7,7 @@ protected:
 public:
 	static class VertexShader* AddVS(wstring key);
 	static class PixelShader* AddPS(wstring key);
-	static class ComputeShader* AddCS(wstring key);
+
 	static void Clear();
 
 	virtual void SetShader() abstract;

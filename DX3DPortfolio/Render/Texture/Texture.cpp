@@ -1,84 +1,137 @@
-#include "framework.h"
+#include "Framework.h"
 #include "Texture.h"
 
-unordered_map<wstring, Texture*> Texture::_textures = {};
+map<wstring, Texture*> Texture::textures = {};
 
 Texture::Texture(ID3D11ShaderResourceView* srv, ScratchImage& image)
-	:_srv(srv), _image(move(image))
+	:srv(srv), image(move(image))
 {
 }
 
 Texture::~Texture()
 {
-	if (!_isRef)
-		_srv->Release();
+	if (!isReferred)
+		srv->Release();
 }
 
 Texture* Texture::Get(wstring file)
 {
 	wstring path = file;
-	
+
 	if (file == L"")
 		return nullptr;
 
-	if (_textures.count(file) > 0)
-		return _textures[file];
+	assert(PathFileExists(file.c_str()));
 
-	ScratchImage img;
+	if (textures.count(file) > 0)
+		return textures[file];
 
-	LoadFromWICFile(file.c_str(), WIC_FLAGS_NONE, nullptr, img);
+	ScratchImage image;
+
+	wstring extension = Utility::GetExtension(file);
+
+	if (extension == L"tga" || extension == L"TGA")
+		LoadFromTGAFile(file.c_str(), nullptr, image);
+	else if (extension == L"dds" || extension == L"DDS")
+		LoadFromDDSFile(file.c_str(), DDS_FLAGS_NONE, nullptr, image);
+	else
+		LoadFromWICFile(file.c_str(), WIC_FLAGS_NONE, nullptr, image);
 
 	ID3D11ShaderResourceView* srv = nullptr;
 
 	CreateShaderResourceView
 	(
 		DEVICE,
-		img.GetImages(),
-		img.GetImageCount(),
-		img.GetMetadata(),
+		image.GetImages(),
+		image.GetImageCount(),
+		image.GetMetadata(),
 		&srv
 	);
 
-	_textures[file] = new Texture(srv, img);
-	_textures[file]->_path = path;
+	textures[file] = new Texture(srv, image);
+	textures[file]->path = path;
 
-	return _textures[file];
+	return textures[file];
 }
 
 Texture* Texture::Get(wstring key, ID3D11ShaderResourceView* srv)
 {
-	ScratchImage img;
+	if (textures.count(key) > 0)
+		return textures[key];
 
-	_textures[key] = new Texture(srv, img);
-	_textures[key]->_path = key;
-	_textures[key]->_isRef = true;
+	ScratchImage image;
 
-	return _textures[key];
+	textures.emplace(key, new Texture(srv, image));
+	textures[key]->isReferred = true;
+
+	return textures[key];
+}
+
+Texture* Texture::Load(wstring file)
+{
+	wstring path = file;
+
+	if (file == L"")
+		return nullptr;
+
+	file = L"_Texture/" + file;
+
+	//assert(PathFileExists(file.c_str()));
+
+	if (textures.count(file) > 0)
+		textures.erase(file);
+
+	ScratchImage image;
+
+	wstring extension = Utility::GetExtension(file);
+
+	if (extension == L"tga" || extension == L"TGA")
+		LoadFromTGAFile(file.c_str(), nullptr, image);
+	else if (extension == L"dds" || extension == L"DDS")
+		LoadFromDDSFile(file.c_str(), DDS_FLAGS_NONE, nullptr, image);
+	else
+		LoadFromWICFile(file.c_str(), WIC_FLAGS_NONE, nullptr, image);
+
+	ID3D11ShaderResourceView* srv = nullptr;
+
+	CreateShaderResourceView
+	(
+		DEVICE,
+		image.GetImages(),
+		image.GetImageCount(),
+		image.GetMetadata(),
+		&srv
+	);
+
+	textures[file] = new Texture(srv, image);
+	textures[file]->path = path;
+
+	return textures[file];
 }
 
 void Texture::Delete()
 {
-	for (pair<wstring, Texture*> pair : _textures)
+	for (pair<wstring, Texture*> pair : textures)
 		delete pair.second;
 
-	_textures.clear();
+	textures.clear();
 }
 
-void Texture::PSSetShaderResource(UINT slot)
+void Texture::PSSetShaderResources(UINT slot)
 {
-	DC->PSSetShaderResources(slot, 1, &_srv);
+	DC->PSSetShaderResources(slot, 1, &srv);
 }
 
-XMFLOAT2 Texture::GetSize()
+void Texture::DSSetShaderResources(UINT slot)
 {
-	return XMFLOAT2(_image.GetMetadata().width, _image.GetMetadata().height);
+	DC->DSSetShaderResources(slot, 1, &srv);
 }
 
 vector<XMFLOAT4> Texture::ReadPixels()
 {
-	unsigned char* pixels = _image.GetPixels();
+	unsigned char* pixels = image.GetPixels();
 
-	UINT size = _image.GetPixelsSize() * 0.25f;
+	UINT size = image.GetPixelsSize() * 0.25f; // / 4
 
 	vector<XMFLOAT4> colors(size);
 

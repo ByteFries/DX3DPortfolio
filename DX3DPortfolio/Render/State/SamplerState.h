@@ -4,8 +4,8 @@ class SamplerState
 public:
 	SamplerState();
 	~SamplerState();
-	
-private:
-	ID3D11SamplerState* _sampler;
 
+private:
+	ID3D11SamplerState* _samplerState;
 };
+

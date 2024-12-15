@@ -1,66 +1,66 @@
-#include "framework.h"
+#include "Framework.h"
 #include "BinaryReader.h"
 
 BinaryReader::BinaryReader(wstring path)
 {
-    assert(PathFileExists(path.c_str()));
+	assert(PathFileExists(path.c_str()));
 
-    _file = CreateFile
-    (
-        path.c_str(),
-        GENERIC_READ,
-        FILE_SHARE_READ,
-        0,
-        OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL,
-        nullptr
-    );
+	file = CreateFile
+	(
+		path.c_str(),
+		GENERIC_READ,
+		FILE_SHARE_READ,
+		0,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		nullptr
+	);
 }
 
 BinaryReader::BinaryReader(string path)
 {
-    assert(PathFileExistsA(path.c_str()));
+	assert(PathFileExistsA(path.c_str()));
 
-    _file = CreateFileA
-    (
-        path.c_str(),
-        GENERIC_READ,
-        FILE_SHARE_READ,
-        0,
-        OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL,
-        nullptr
-    );
+	file = CreateFileA
+	(
+		path.c_str(),
+		GENERIC_READ,
+		FILE_SHARE_READ,
+		0,
+		OPEN_EXISTING,
+		FILE_ATTRIBUTE_NORMAL,
+		nullptr
+	);
 }
 
 BinaryReader::~BinaryReader()
 {
-    CloseHandle(_file);
+	CloseHandle(file);
 }
 
 int BinaryReader::ReadInt()
 {
-    int data;
+	int data;
 
-    ReadFile(_file, &data, sizeof(int), &_size, nullptr);
+	ReadFile(file, &data, sizeof(int), &size, nullptr);
 
-    return data;
+	return data;
 }
 
 UINT BinaryReader::ReadUINT()
 {
-    UINT data;
+	UINT data;
 
-	ReadFile(_file, &data, sizeof(UINT), &_size, nullptr);
+	ReadFile(file, &data, sizeof(UINT), &size, nullptr);
 
-    return data;
+	return data;
 }
 
 float BinaryReader::ReadFloat()
 {
 	float data;
 
-	ReadFile(_file, &data, sizeof(float), &_size, nullptr);
+	assert(ReadFile(file, &data, sizeof(float), &size, nullptr));
 
 	return data;
 }
@@ -71,7 +71,7 @@ string BinaryReader::ReadString()
 
 	char* data = new char[dataSize + 1];
 
-	ReadFile(_file, data, sizeof(char) * dataSize, &_size, nullptr);
+	ReadFile(file, data, sizeof(char) * dataSize, &size, nullptr);
 
 	data[dataSize] = '\0';
 
@@ -84,7 +84,7 @@ wstring BinaryReader::ReadWString()
 
 	wchar_t* data = new wchar_t[dataSize + 1];
 
-	ReadFile(_file, data, sizeof(wchar_t) * dataSize, &_size, nullptr);
+	ReadFile(file, data, sizeof(wchar_t) * dataSize, &size, nullptr);
 
 	data[dataSize] = '\0';
 
@@ -114,30 +114,30 @@ XMFLOAT4 BinaryReader::ReadXMFLOAT4()
 	return data;
 }
 
-XMFLOAT4X4 BinaryReader::ReadFloat4X4()
+XMFLOAT4X4 BinaryReader::ReadFLOAT4X4()
 {
 	XMFLOAT4X4 data;
 
-	ReadFile(_file, &data, sizeof(XMFLOAT4X4), &_size, nullptr);
+	ReadFile(file, &data, sizeof(XMFLOAT4X4), &size, nullptr);
 
 	return data;
 }
 
-XMMATRIX BinaryReader::ReadMatrix()
+XMMATRIX BinaryReader::ReadXMMATRIX()
 {
 	XMMATRIX data;
 
-	ReadFile(_file, &data, sizeof(XMMATRIX), &_size, nullptr);
+	ReadFile(file, &data, sizeof(XMMATRIX), &size, nullptr);
 
 	return data;
 }
 
 void BinaryReader::ReadData(OUT void** data, UINT dataSize)
 {
-	ReadFile(_file, *data, dataSize, &_size, nullptr);
+	ReadFile(file, *data, dataSize, &size, nullptr);
 }
 
 bool BinaryReader::Succeeded()
 {
-	return _file != INVALID_HANDLE_VALUE;
+	return file != INVALID_HANDLE_VALUE;
 }

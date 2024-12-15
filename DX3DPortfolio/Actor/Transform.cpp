@@ -12,15 +12,44 @@ Transform::~Transform()
 	delete _wBuffer;
 }
 
+Transform::Transform(const Transform& transform)
+{
+	_scale = transform._scale;
+	_rotation = transform._rotation;
+	_translation = transform._translation;
+	_qRotation = transform._qRotation;
+
+	_wBuffer = new WorldBuffer();
+;	_srt = transform._srt;
+	_pivot = transform._pivot;
+
+	_forward = transform._forward;
+	_up = transform._up;
+	_right = transform._right;
+
+	_worldScale = transform._worldScale;
+	_worldRotation = transform._worldRotation;
+	_worldTranslation = transform._worldTranslation;
+}
+
 void Transform::Update()
 {
+
+	_qRotation = XMQuaternionRotationRollPitchYaw(_rotation.x, _rotation.y, _rotation.z);
+	//XMVECTOR tmp = XMQuaternionRotationRollPitchYaw(_rotation.x, _rotation.y, _rotation.z);
+	//float x = XMVectorGetX(tmp);
+	//float y = XMVectorGetY(tmp);
+	//float z = XMVectorGetZ(tmp);
+	//float w = XMVectorGetW(tmp);
+
+
 	_srt = XMMatrixTransformation
 	(
-		_pivot, 
+		_pivot,
 		XMQuaternionIdentity(),
 		_scale,
-		_pivot, 
-		XMQuaternionRotationRollPitchYaw(_rotation.x, _rotation.y, _rotation.z),
+		_pivot,
+		_qRotation,
 		_translation
 	);
 
@@ -46,18 +75,14 @@ void Transform::Update()
 	_worldTranslation = T;
 }
 
-void Transform::Debug()
+void Transform::SetWorld()
 {
-	if (ImGui::TreeNode(_label.c_str()))
-	{
-		ImGui::DragFloat3("Scale", (float*)&_scale, 0.01f, 0.01f, 100.0f);
+	_wBuffer->SetVSBuffer(0);
+}
 
-		ImGui::SliderAngle("RotationX", &_rotation.x);
-		ImGui::SliderAngle("RotationY", &_rotation.y);
-		ImGui::SliderAngle("RotationZ", &_rotation.z);
-
-		ImGui::DragFloat3("Translation", (float*)&_translation, 0.01f, -WIN_WIDTH, WIN_WIDTH);
-
-		ImGui::TreePop();
-	}
+Vector3 Transform::ApplyingToVertex(Vector3 vertex)
+{
+	XMVECTOR localPos = { vertex.x, vertex.y, vertex.z, 1 };
+	XMVECTOR worldPos = XMVector3Transform(localPos, _srt);
+	return worldPos;
 }

@@ -8,24 +8,33 @@ private:
 public:
 	static Texture* Get(wstring file);
 	static Texture* Get(wstring key, ID3D11ShaderResourceView* srv);
+	static Texture* Load(wstring file);
 	static void Delete();
 
-	wstring GetPath() { return _path; }
-
-	void PSSetShaderResource(UINT slot);
-
-	XMFLOAT2 GetSize();
+	void PSSetShaderResources(UINT slot);
+	void DSSetShaderResources(UINT slot);
 
 	vector<XMFLOAT4> ReadPixels();
 
+	Vector2 GetSize()
+	{
+		return Vector2(image.GetMetadata().width, image.GetMetadata().height);
+	}
+
+	wstring GetPath() { return path; }
+
+	ID3D11ShaderResourceView* GetSRV() { return srv; }
+
 private:
-	ID3D11ShaderResourceView* _srv = nullptr;
-	ScratchImage _image;
+	ID3D11ShaderResourceView* srv = nullptr;
 
-	static unordered_map<wstring, Texture*> _textures;
+	ScratchImage image;
 
-	wstring _path;
+	static map<wstring, Texture*> textures;
 
-	bool _isRef = false;
+	wstring path;
+
+	bool isReferred = false;
+
 };
 

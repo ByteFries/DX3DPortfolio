@@ -1,49 +1,43 @@
 #include "framework.h"
 #include "ConstantBuffer.h"
 
-ConstantBuffer::ConstantBuffer(void* data, UINT size)
-	:_data(data), _size(size)
+ConstantBuffer::ConstantBuffer(void* data, UINT dataSize)
+    :_data(data), _dataSize(dataSize)
 {
-	D3D11_BUFFER_DESC bufferDesc = {};
-	bufferDesc.ByteWidth = size;
-	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	bufferDesc.MiscFlags = 0;
-	bufferDesc.StructureByteStride = 0;
+    D3D11_BUFFER_DESC bufferDesc = {};
+    bufferDesc.ByteWidth = dataSize;
+    bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+    bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+    bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+    bufferDesc.MiscFlags = 0;
+    bufferDesc.StructureByteStride = 0;
 
-	DEVICE->CreateBuffer(&bufferDesc, nullptr, &_cBuffer);
+    DEVICE->CreateBuffer(&bufferDesc, nullptr, &_buffer);
 }
 
 ConstantBuffer::~ConstantBuffer()
 {
-	_cBuffer->Release();
+    _buffer->Release();
 }
 
 void ConstantBuffer::SetVSBuffer(UINT slot)
 {
-	UpdateSubresource();
-	DC->VSSetConstantBuffers(slot, 1, &_cBuffer);
+    UpdateSubresource();
+    DC->VSSetConstantBuffers(slot, 1, &_buffer);
 }
 
 void ConstantBuffer::SetPSBuffer(UINT slot)
 {
-	UpdateSubresource();
-	DC->PSSetConstantBuffers(slot, 1, &_cBuffer);
-}
-
-void ConstantBuffer::SetCSBuffer(UINT slot)
-{
-	UpdateSubresource();
-	DC->CSSetConstantBuffers(slot, 1, &_cBuffer);
+    UpdateSubresource();
+    DC->PSSetConstantBuffers(slot, 1, &_buffer);
 }
 
 void ConstantBuffer::UpdateSubresource()
 {
-	DC->Map(_cBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &_subResource);
 
-	memcpy(_subResource.pData, _data, _size);
+    DC->Map(_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &_subResource);
 
-	DC->Unmap(_cBuffer, 0);
+    memcpy(_subResource.pData, _data, _dataSize);
 
+    DC->Unmap(_buffer, 0);
 }

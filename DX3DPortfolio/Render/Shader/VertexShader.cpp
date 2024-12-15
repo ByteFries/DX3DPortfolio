@@ -1,11 +1,13 @@
+
 #include "framework.h"
 #include "VertexShader.h"
 
 VertexShader::VertexShader(wstring key)
 {
     DWORD flags = D3DCOMPILE_ENABLE_STRICTNESS | D3DCOMPILE_DEBUG;
+    ID3DBlob* errorBlob = nullptr;
 
-    D3DCompileFromFile
+    HRESULT hr = D3DCompileFromFile
     (
         key.c_str(),
         nullptr,
@@ -15,19 +17,28 @@ VertexShader::VertexShader(wstring key)
         flags,
         0,
         &_blob,
-        nullptr
+        &errorBlob
     );
 
-    DEVICE->CreateVertexShader(_blob->GetBufferPointer(), _blob->GetBufferSize(), nullptr, &_vShader);
+    if (FAILED(hr)) {
+        OutputDebugString(L"Shader compilation failed.\n");
+        if (errorBlob) {
+            OutputDebugStringA((char*)errorBlob->GetBufferPointer());
+        }
+    }
+    else
+    {
+        DEVICE->CreateVertexShader(_blob->GetBufferPointer(), _blob->GetBufferSize(), nullptr, &_vShader);
 
-    CreateInputLayout();
+        CreateInputLayout();
+    }
 }
 
 VertexShader::~VertexShader()
 {
-	_vShader->Release();
-	_reflection->Release();
-	_inputLayout->Release();
+    _vShader->Release();
+    _reflection->Release();
+    _inputLayout->Release();
 }
 
 void VertexShader::CreateInputLayout()
@@ -82,7 +93,7 @@ void VertexShader::CreateInputLayout()
 
         if (semantic == "POSITION")
             elementDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
-        
+
         int n = semantic.find_first_of("_");
 
         semantic = semantic.substr(0, n);
@@ -109,7 +120,7 @@ void VertexShader::CreateInputLayout()
 
 void VertexShader::SetShader()
 {
-	DC->IASetInputLayout(_inputLayout);
+    DC->IASetInputLayout(_inputLayout);
 
-	DC->VSSetShader(_vShader, nullptr, 0);
+    DC->VSSetShader(_vShader, nullptr, 0);
 }

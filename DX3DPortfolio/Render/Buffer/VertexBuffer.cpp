@@ -6,23 +6,30 @@ VertexBuffer::~VertexBuffer()
 	_buffer->Release();
 }
 
-void VertexBuffer::InstancingSetBuffer(UINT slot, D3D11_PRIMITIVE_TOPOLOGY type)
-{
-	DC->IASetPrimitiveTopology(type);
-	DC->IASetVertexBuffers(slot, 1, &_buffer, &_stride, &_offset);
-}
-
 void VertexBuffer::IASetBuffer(D3D11_PRIMITIVE_TOPOLOGY type)
 {
 	DC->IASetPrimitiveTopology(type);
 	DC->IASetVertexBuffers(0, 1, &_buffer, &_stride, &_offset);
 }
 
-void VertexBuffer::UpdateVertices(void* data, UINT size)
+void VertexBuffer::IASetBuffer(UINT slot, D3D11_PRIMITIVE_TOPOLOGY type)
 {
-	DC->Map(_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &_subResource);
+	DC->IASetPrimitiveTopology(type);
+	DC->IASetVertexBuffers(slot, 1, &_buffer, &_stride, &_offset);
+}
 
-	memcpy(_subResource.pData, data, size);
+void VertexBuffer::Update(void* data, UINT size)
+{
+	if (_isDynamic)
+	{
+		DC->Map(_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &_subresource);
 
-	DC->Unmap(_buffer, 0);
+		memcpy(_subresource.pData, data, size);
+
+		DC->Unmap(_buffer, 0);
+	}
+	else
+	{
+		DC->UpdateSubresource(_buffer, 0, nullptr, data, 0, 0);
+	}
 }

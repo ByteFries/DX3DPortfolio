@@ -20,15 +20,14 @@ class Keyboard : public Singleton<Keyboard>
 public:
 	void Update();
 
-	bool  Down(char key);
+	bool Down(char key);
 	bool Press(char key);
-	bool    Up(char key);
-
+	bool Up(char key);
 
 private:
-	unsigned char    _keyCurState[MAX_KEY];
-	unsigned char _keyOldState[MAX_KEY];
-	unsigned char      _keyMap[MAX_KEY];
 
+	unsigned char _keyCurState[MAX_KEY];
+	unsigned char _keyOldState[MAX_KEY];
+	unsigned char _keyMap[MAX_KEY];
 };
 

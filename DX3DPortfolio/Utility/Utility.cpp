@@ -1,94 +1,135 @@
-#include "framework.h"
+#include "Framework.h"
 #include "Utility.h"
 
-wstring Utility::GetExtension(wstring path)
-{
-	UINT index = path.find_last_of('.');
+/*
 
-	return path.substr(index + 1, path.length());
+wstring Utility::GetProjectDir()
+{
+    WCHAR path[128];
+    GetCurrentDirectory(128, path);
+
+    wstring dir = path;
+
+    return dir + L"/";
 }
 
-string Utility::ToString(wstring wstr)
+wstring Utility::GetTextureDir()
 {
-	string tmp;
-
-	tmp.assign(wstr.begin(), wstr.end());
-
-	return tmp;
+    return GetProjectDir() + L"_Texture/";
 }
 
-wstring Utility::ToWString(string str)
+wstring Utility::GetTextDataDir()
 {
-	wstring tmp;
-
-	tmp.assign(str.begin(), str.end());
-
-	return tmp;
+    return GetProjectDir() + L"_TextData/";
 }
 
-vector<string> Utility::SplitString(string origin, string token)
+
+
+*/
+
+bool Utility::StartWith(string str, string prefix)
 {
-	vector<string> result;
+    return str.find(prefix, 0) == 0;
+}
 
-	size_t cutAt = 0;
+bool Utility::StartWith(wstring wstr, string prefix)
+{
+    string str = ToString(wstr);
+    return str.find(prefix, 0) == 0;
+}
 
+vector<string> Utility::Split(string str, string delimiter)
+{
+    vector<string> result;
+    int index = 0;
+    string token = "";
 
-	while (cutAt != origin.npos)
-	{
-		cutAt = origin.find_first_of(token);
+    while ((index = str.find(delimiter)) != string::npos)
+    {
+        token = str.substr(0, index);
+        result.push_back(token);
+        str.erase(0, index + delimiter.length());
+    }
 
-		if (cutAt > 0)
-			result.push_back(origin.substr(0, cutAt));
-		
-		origin = origin.substr(cutAt + 1);
-	}
+    result.push_back(str);
 
-	return result;
+    return result;
 }
 
 string Utility::GetFileName(string path)
 {
-	size_t cutAt = path.find_last_of('/');
+    size_t cutAt = path.find_last_of('/');
 
-	return path.substr(cutAt + 1);
+    return path.substr(cutAt + 1);
 }
 
-string Utility::GetFileNameWithoutExtension(string path)
+wstring Utility::ToWString(string str)
 {
-	string name = GetFileName(path);
+    wstring wstr;
+    return wstr.assign(str.begin(), str.end());
+}
 
-	size_t cutAt = name.find_last_of('.');
+string Utility::ToString(wstring wstr)
+{
+    string str;
+    return str.assign(wstr.begin(), wstr.end());
+}
 
-	return name.substr(0, cutAt);
+wstring Utility::GetExtension(wstring path)
+{
+    UINT index = path.find_last_of('.');
+
+    return path.substr(index + 1);
+}
+
+string Utility::GetExtension(string path)
+{
+    UINT index = path.rfind('.');
+
+    if (index == -1)
+        return string();
+
+    return path.substr(index + 1);
 }
 
 void Utility::CreateFolder(string path)
 {
-	size_t cutAt = path.find_last_of('.');
+    path = GetFolderNameWithoutExtension(path);
 
-	vector<string> folders = SplitString(path, "/");
+    vector<string> split = Split(path, "/");
 
-	UINT size = folders.size();
+    string tmp = "";
 
-	if (cutAt != path.npos)
-		size -= 1;
+    for (size_t i = 0; i < split.size(); i++)
+    {
+        tmp += split[i];
 
-	string tmp = "";
+        if (!PathFileExistsA(tmp.c_str()))
+        {
+            CreateDirectoryA(tmp.c_str(), 0);
+        }
+        tmp += "/";
+    }
 
-	for (int i = 0; i < size; i++)
-	{
-		tmp += folders[i] + "/";
-
-		if (!PathFileExistsA(tmp.c_str()))
-		{
-			CreateDirectoryA(tmp.c_str(), 0);
-		}
-	}
 }
 
-XMFLOAT4 Utility::XMVECTORToXMFLOAT4(DirectX::XMVECTOR vector)
+float Utility::Clamp(float value, float min, float max)
 {
-	DirectX::XMFLOAT4 result;
-	DirectX::XMStoreFloat4(&result, vector);
-	return result;
+    return (value < min) ? min : (value > max ? max : value);
+}
+
+string Utility::GetFileNameWithoutExtension(string path)
+{
+    string name = GetFileName(path);
+
+    size_t cutAt = name.find_last_of('.');
+
+    return name.substr(0, cutAt);
+}
+
+string Utility::GetFolderNameWithoutExtension(string path)
+{
+    size_t cutAt = path.find_last_of('/');
+
+    return path.substr(0, cutAt + 1);
 }

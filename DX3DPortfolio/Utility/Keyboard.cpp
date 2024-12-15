@@ -3,9 +3,9 @@
 
 Keyboard::Keyboard()
 {
-    ZeroMemory(_keyCurState,    sizeof(_keyCurState));
-    ZeroMemory(_keyOldState, sizeof(_keyOldState));
-    ZeroMemory(     _keyMap,      sizeof(_keyMap));
+	ZeroMemory(_keyCurState, sizeof(_keyCurState));
+	ZeroMemory(_keyOldState, sizeof(_keyCurState));
+	ZeroMemory(_keyMap, sizeof(_keyMap));
 }
 
 Keyboard::~Keyboard()
@@ -37,21 +37,21 @@ void Keyboard::Update()
 		else if (old == 1 && cur == 1)
 			_keyMap[i] = PRESS;
 		else
-			_keyMap[i] = NONE;
+			_keyMap[i] = KeyState::NONE;
 	}
 }
 
 bool Keyboard::Down(char key)
 {
-    return _keyMap[key] == DOWN;
+	return _keyMap[key] == DOWN;
 }
 
 bool Keyboard::Press(char key)
 {
-    return _keyMap[key] == PRESS;
+	return _keyMap[key] == PRESS;
 }
 
 bool Keyboard::Up(char key)
 {
-    return _keyMap[key] == UP;
+	return _keyMap[key] == UP;
 }

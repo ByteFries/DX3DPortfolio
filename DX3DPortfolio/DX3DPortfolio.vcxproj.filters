@@ -18,112 +18,16 @@
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="__Others\targetver.h">
+    <ClInclude Include="_Others\targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="__Others\Resource.h">
+    <ClInclude Include="_Others\Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Main.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\Singleton.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Math\Vector3.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="System\Device.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Defines.h">
+    <ClInclude Include="DX3DPortfolio.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Program.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Scene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\MainScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Material.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\StaticMesh.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Buffer\VertexLayout.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Buffer\ConstantBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Buffer\GlobalBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Buffer\VertexBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Buffer\IndexBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Shader\Shader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Shader\VertexShader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Shader\PixelShader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\Transform.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="System\Environment.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="System\Camera.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\Time.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Utility\Keyboard.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\State\RasterizerState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="_Include\DirectXTex.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\State\SamplerState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\State\StateManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Texture\Texture.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Actor\Terrain\Terrain.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Shader\ComputeShader.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Render\Buffer\StructuredBuffer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider\Collider.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider\ColliderSphere.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider\ColliderBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Utility\BinaryReader.h">
@@ -132,183 +36,333 @@
     <ClInclude Include="Utility\BinaryWriter.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Utility\Keyboard.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Singleton.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility\Time.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="Utility\Utility.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Model\ModelReader.h">
+    <ClInclude Include="Utility\Vector2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Render\ModelPart.h">
+    <ClInclude Include="Utility\Vector3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ModelExport\ModelType.h">
+    <ClInclude Include="System\Camera.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ModelExport\ModelExporter.h">
+    <ClInclude Include="System\Device.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Environment.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Manager\AssetManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Manager\CameraManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Manager\SceneManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Manager\StateManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Scene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GridScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TestScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\VertexLayout.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Texture\Texture.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\State\BlendState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\State\DepthStencilState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\State\RasterizerState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\State\SamplerState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shader\PixelShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shader\Shader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shader\VertexShader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Mesh\SkeletalMesh.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Material\Material.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Buffer\Buffers.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Buffer\ConstantBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Buffer\IndexBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Buffer\VertexBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Model_IO\ModelData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Model_IO\ModelExporter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Model_IO\ModelReader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Transform.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Actor\Actor.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Model\ModelClip.h">
+    <ClInclude Include="Render\Shape\ColorShape\ColorCube.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Model\Cat.h">
+    <ClInclude Include="Render\Shape\ColorShape\ColorQuad.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="System\CameraManager.h">
+    <ClInclude Include="Actor\Terrain\TerrainQuad.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Render\SkeletalMesh.h">
+    <ClInclude Include="Defines.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Model\Enemy\Monster.h">
+    <ClInclude Include="Actor\Model\MainCharactor\Bunny.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\ActorInstancing.h">
+    <ClInclude Include="System\Manager\PhysicsManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Render\View\RenderTarget.h">
+    <ClInclude Include="Physics\PhysicalObject\PhysicalObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Render\View\DepthStencil.h">
+    <ClInclude Include="Utility\Observer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Model\Enemy\Watcher.h">
+    <ClInclude Include="Utility\Observable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Basic\Quad.h">
+    <ClInclude Include="Physics\PhysicalCalculator\PhysicalCalculator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Animation\BlendSpace.h">
+    <ClInclude Include="Physics\PhysicalCalculator\CalculatorLinearBasic.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Animation\AnimSequence.h">
+    <ClInclude Include="Utility\Quaternion.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Animation\AnimManager.h">
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\GJK_EPA.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Render\Mesh.h">
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\Simplex.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Sky\SkyBox.h">
+    <ClInclude Include="Utility\Vector4.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Basic\Sphere.h">
+    <ClInclude Include="Physics\PhysicalCalculator\CalculatorAngularBasic.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="System\GameLogic.h">
+    <ClInclude Include="Utility\Matrix3x3.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="System\Physics.h">
+    <ClInclude Include="Physics\Collision\Shape\BoxShape.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="System\UserInterface.h">
+    <ClInclude Include="Physics\Collision\Shape\Shape.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="System\ItemManager.h">
+    <ClInclude Include="Physics\Collision\Shape\CapsuleShape.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="System\MonsterManager.h">
+    <ClInclude Include="Physics\Collision\Shape\SphereShape.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor\Creature.h">
+    <ClInclude Include="Physics\Collision\BroadPhase\AABBManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\BroadPhase\BroadTypes.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\CollisionDetectionInterface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\ContactPointFinderInterface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\ClippingContactPoint.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicalCalculator\CalculatorStatic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicalCalculator\CalculatorLABasic.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\PhysicsCoefficientProvider.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\EdgeFaceContactPoint.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\SphereConvexContactPoint.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\SphereConvexDetection.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\SphereSphereDetection.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\ContactPoint\SphereSphereContactPoint.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\NarrowPhase\CollisionDetection\GJK_EPA2.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics\Collision\SequentialImpulseSolver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Terrain\PlatformBase.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\EditorScene.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shape\TextureShape\TextureQuad.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shape\TextureShape\TextureCube.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Mesh\MeshBase.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Mesh\StaticMesh.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Model\ModelBase.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Model\StaticModel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Model\SkeletalModel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shape\ColorShape\ColorShapeRenderer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shape\TextureShape\TextureShapeRenderer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Terrain\BrickPlatform.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Model\ModelInterface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Model\ModelFactory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shape\ShapFactory.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Model\MainCharactor\HatKid.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shape\ColorShape\ColorSphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Shape\TextureShape\TextureSphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor\Terrain\SkySphere.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="System\Manager\LightManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\OpticalEffects\Light.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\OpticalEffects\LightData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Renderer\PerObjectRenderer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Renderer\InstancedRenderer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\RenderableObject\RenderableObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Renderer\RendererInterface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\RenderableObject\MeshRO.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\RenderableObject\ModelRO.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Renderer\RendererUpdateComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Renderer\PerObjectUpdate.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Renderer\InstancingUpdate.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Renderer\SimpleInstaceUpdate.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Renderer\InstanceDatas.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Singleton.cpp">
+    <ClCompile Include="DX3DPortfolio.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="framework.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Vector3.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="System\Device.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Program.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Scene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\MainScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Material.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\StaticMesh.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Buffer\ConstantBuffer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Buffer\VertexBuffer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Buffer\IndexBuffer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Shader\Shader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Shader\VertexShader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Shader\PixelShader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\Transform.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="System\Environment.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="System\Camera.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Time.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Keyboard.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\State\RasterizerState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\State\SamplerState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\State\StateManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Texture\Texture.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Actor\Terrain\Terrain.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Shader\ComputeShader.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Render\Buffer\StructuredBuffer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider\Collider.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider\ColliderSphere.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider\ColliderBox.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Utility\BinaryReader.cpp">
@@ -317,130 +371,317 @@
     <ClCompile Include="Utility\BinaryWriter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Utility\Keyboard.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Utility\Time.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="Utility\Utility.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Model\ModelReader.cpp">
+    <ClCompile Include="System\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Render\ModelPart.cpp">
+    <ClCompile Include="System\Device.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ModelExport\ModelExporter.cpp">
+    <ClCompile Include="System\Environment.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Manager\AssetManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Manager\CameraManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Manager\SceneManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Manager\StateManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Scene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GridScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TestScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Texture\Texture.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\State\BlendState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\State\DepthStencilState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\State\RasterizerState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\State\SamplerState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shader\PixelShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shader\Shader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shader\VertexShader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Mesh\SkeletalMesh.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Material\Material.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Buffer\ConstantBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Buffer\IndexBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Buffer\VertexBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_IO\ModelExporter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Model_IO\ModelReader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Transform.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Actor\Actor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Model\ModelClip.cpp">
+    <ClCompile Include="Render\Shape\ColorShape\ColorCube.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Model\Cat.cpp">
+    <ClCompile Include="Render\Shape\ColorShape\ColorQuad.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="System\CameraManager.cpp">
+    <ClCompile Include="Actor\Terrain\TerrainQuad.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Render\SkeletalMesh.cpp">
+    <ClCompile Include="Actor\Model\MainCharactor\Bunny.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Model\Enemy\Monster.cpp">
+    <ClCompile Include="System\Manager\PhysicsManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\ActorInstancing.cpp">
+    <ClCompile Include="Physics\PhysicalObject\PhysicalObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Render\View\RenderTarget.cpp">
+    <ClCompile Include="Utility\Observable.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Render\View\DepthStencil.cpp">
+    <ClCompile Include="Physics\PhysicalCalculator\CalculatorLinearBasic.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Model\Enemy\Watcher.cpp">
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\GJK_EPA.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Basic\Quad.cpp">
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\Simplex.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Animation\BlendSpace.cpp">
+    <ClCompile Include="Physics\PhysicalCalculator\CalculatorAngularBasic.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Animation\AnimSequence.cpp">
+    <ClCompile Include="Utility\Matrix3x3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Animation\AnimManager.cpp">
+    <ClCompile Include="Physics\Collision\Shape\BoxShape.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Mesh.cpp">
+    <ClCompile Include="Physics\Collision\Shape\Shape.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Sky\SkyBox.cpp">
+    <ClCompile Include="Physics\Collision\Shape\CapsuleShape.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Basic\Sphere.cpp">
+    <ClCompile Include="Physics\Collision\Shape\SphereShape.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="System\GameLogic.cpp">
+    <ClCompile Include="Physics\Collision\BroadPhase\AABBManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="System\Physics.cpp">
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="System\UserInterface.cpp">
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\CollisionDetectionInterface.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="System\ItemManager.cpp">
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\ContactPointFinderInterface.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="System\MonsterManager.cpp">
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\ClippingContactPoint.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Actor\Creature.cpp">
+    <ClCompile Include="Physics\PhysicalCalculator\PhysicalCalculator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicalCalculator\CalculatorStatic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicalCalculator\CalculatorLABasic.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\PhysicsCoefficientProvider.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\EdgeFaceContactPoint.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\SphereConvexContactPoint.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\SphereConvexDetection.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\SphereSphereDetection.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\NarrowPhase\ContactPoint\SphereSphereContactPoint.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\NarrowPhase\CollisionDetection\GJK_EPA2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics\Collision\SequentialImpulseSolver.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Terrain\PlatformBase.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\EditorScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shape\TextureShape\TextureQuad.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shape\TextureShape\TextureCube.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Mesh\MeshBase.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Mesh\StaticMesh.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Model\ModelBase.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Model\StaticModel.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Model\SkeletalModel.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shape\ColorShape\ColorShapeRenderer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shape\TextureShape\TextureShapeRenderer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Terrain\BrickPlatform.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Model\ModelInterface.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Model\MainCharactor\HatKid.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shape\ColorShape\ColorSphere.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Shape\TextureShape\TextureSphere.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor\Terrain\SkySphere.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="System\Manager\LightManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\OpticalEffects\Light.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Renderer\PerObjectRenderer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Renderer\InstancedRenderer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderableObject\RenderableObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Renderer\RendererInterface.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderableObject\MeshRO.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderableObject\ModelRO.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Renderer\RendererUpdateComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Renderer\PerObjectUpdate.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Renderer\InstancingUpdate.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Renderer\SimpleInstaceUpdate.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="__Others\DX3DPortfolio.rc">
+    <ResourceCompile Include="_Others\DX3DPortfolio.rc">
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="__Others\small.ico">
+    <Image Include="_Others\small.ico">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="__Others\DX3DPortfolio.ico">
+    <Image Include="_Others\DX3DPortfolio.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="_Shader\Vertex\VertexColor.hlsl" />
+    <None Include="_Library\assimp-vc143-mtd.dll" />
+    <None Include="_Shader\TextureAndLight.hlsli" />
+    <None Include="_Shader\Animation.hlsli" />
+    <None Include="_Shader\Shared.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="_Shader\Vertex\VertexColorLight.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelColorLight.hlsl" />
     <FxCompile Include="_Shader\Pixel\PixelColor.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexColor.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexModel.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelModel.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexGrid.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelGrid.hlsl" />
     <FxCompile Include="_Shader\Vertex\VertexTexture.hlsl" />
     <FxCompile Include="_Shader\Pixel\PixelTexture.hlsl" />
-    <FxCompile Include="_Shader\Vertex\VertexDefault.hlsl" />
-    <FxCompile Include="_Shader\Pixel\PixelDefault.hlsl" />
-    <FxCompile Include="_Shader\Compute\ComputePicking.hlsl" />
-    <FxCompile Include="_Shader\Vertex\VertexCollider.hlsl" />
-    <FxCompile Include="_Shader\Pixel\PixelCollider.hlsl" />
-    <FxCompile Include="_Shader\Vertex\VertexDefualtInstance.hlsl" />
-    <FxCompile Include="_Shader\Pixel\PixelDefualtInstance.hlsl" />
-    <FxCompile Include="_Shader\Vertex\VertexReflection.hlsl" />
-    <FxCompile Include="_Shader\Pixel\PixelReflection.hlsl" />
-    <FxCompile Include="_Shader\Vertex\VertexSky.hlsl" />
-    <FxCompile Include="_Shader\Pixel\PixelSky.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelTextureLight.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexTextureLight.hlsl" />
+    <FxCompile Include="_Shader\Pixel\PixelTest.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexTextureLightInstancing.hlsl" />
+    <FxCompile Include="_Shader\Vertex\VertexColorLightInstancing.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="_Library\DirectXTex.lib" />
     <Library Include="_Library\assimp.lib" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="_Include\DirectXTex.inl">
-      <Filter>헤더 파일</Filter>
-    </None>
-    <None Include="_Library\assimp-vc143-mtd.dll" />
-    <None Include="_Shader\Header.hlsli" />
-    <None Include="Actor\Model\Data\cat\Clip\cat0.clip" />
-    <None Include="Actor\Model\Data\cat\Clip\cat1.clip" />
-    <None Include="Actor\Model\Data\cat\Clip\cat2.clip" />
   </ItemGroup>
 </Project>

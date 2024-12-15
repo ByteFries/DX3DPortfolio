@@ -1,34 +1,19 @@
 #pragma once
-class Actor : public Transform
+class Actor
 {
 public:
-	enum State
-	{
-		IDLE,
-		WALK,
-		JUMP,
-		NONE
-	};
-
-	Actor(string name);
+	Actor();
 	virtual ~Actor();
 
-	virtual void Render();
 	virtual void Update();
+	void SetName(string name) { _name = name; }
+	string GetName() { return _name; }
 
-	void Debug();
+	Transform* GetTransform() { return _transform; }
 
-
-	void SetMesh(Mesh* mesh) { _mesh = mesh; }
-
+	virtual void Debug();
 protected:
+	Transform* _transform;
 	string _name;
-	Mesh* _mesh;
-
-	Collider* _collider;
-
-	vector<NodeData> _nodes;
-	vector<BoneData> _bones;
-	map<string, UINT> _boneMap;
-
 };
+

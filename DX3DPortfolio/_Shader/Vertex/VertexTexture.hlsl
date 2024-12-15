@@ -1,39 +1,15 @@
-cbuffer World : register(b0)
-{
-    matrix world;
-}
+#include "../Shared.hlsli"
+#include "../TextureAndLight.hlsli"
 
-cbuffer View : register(b1)
+VertexTextureOutput main(VertexTexture input)
 {
-    matrix view;
-    matrix pos;
-}
-
-cbuffer Projection : register(b2)
-{
-    matrix proj;
-}
-
-struct VertexInputput
-{
-    float4 pos : POSITION;
-    float2 uv : UV;
-};
-
-struct VertexOutput
-{
-    float4 pos : SV_POSITION;
-    float2 uv : UV;
-};
-
-VertexOutput main(VertexInputput input)
-{
-    VertexOutput result;
-    
+    VertexTextureOutput result;
+    result.pos = input.pos;
+	
     result.pos = mul(input.pos, world);
     result.pos = mul(result.pos, view);
-    result.pos = mul(result.pos, proj);
-    
+    result.pos = mul(result.pos, projection);
+	
     result.uv = input.uv;
     
 	return result;

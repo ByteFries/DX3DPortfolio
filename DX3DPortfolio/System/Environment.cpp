@@ -6,19 +6,21 @@ Environment::Environment()
 	CreateViewport();
 	CreateProjection();
 
-	_lBuffer = new LightBuffer();
 }
 
 Environment::~Environment()
 {
-	delete _pers;
-	delete _lBuffer;
+	delete _persBuffer;
+	delete _camBuffer;
 }
 
-void Environment::SetPerspective()
+
+void Environment::SetEnvrionment()
 {
-	_pers->SetVSBuffer(2);
-	_lBuffer->SetPSBuffer(0);
+	//_lBuffer->SetPSBuffer(0);
+	_persBuffer->SetVSBuffer(2);
+
+	StateManager::Get()->MainSet();
 }
 
 void Environment::SetViewport(UINT width, UINT height)
@@ -34,26 +36,27 @@ void Environment::SetViewport(UINT width, UINT height)
 	DC->RSSetViewports(1, &viewPort);
 }
 
-void Environment::SetEnvironment()
+void Environment::Debug()
 {
-	_lBuffer->SetPSBuffer(0);
-	_pers->SetVSBuffer(2);
+	if (ImGui::TreeNode("Environment"))
+	{
 
-	//StateManager::Get()->Set();
+		ImGui::TreePop();
+	}
 }
 
 void Environment::CreateProjection()
 {
-	_pers = new MatrixBuffer();
+	_persBuffer = new MatrixBuffer();
 
 	_persMatrix = XMMatrixPerspectiveFovLH(
 		XM_PIDIV2,
 		WIN_WIDTH / WIN_HEIGHT,
 		0.1f,
-		2000.0f
+		1000.0f
 	);
 
-	_pers->SetMatrix(_persMatrix);
+	_persBuffer->SetMatrix(_persMatrix);
 }
 
 void Environment::CreateViewport()

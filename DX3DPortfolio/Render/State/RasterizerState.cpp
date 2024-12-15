@@ -3,10 +3,10 @@
 
 RasterizerState::RasterizerState()
 {
-	_desc.FillMode = D3D11_FILL_SOLID;
-	_desc.CullMode = D3D11_CULL_BACK;
+	_dsc.FillMode = D3D11_FILL_SOLID;
+	_dsc.CullMode = D3D11_CULL_BACK;
 
-	DEVICE->CreateRasterizerState(&_desc, &_rasterizerState);
+	DEVICE->CreateRasterizerState(&_dsc, &_rasterizerState);
 }
 
 RasterizerState::~RasterizerState()
@@ -19,26 +19,26 @@ void RasterizerState::SetState()
 	DC->RSSetState(_rasterizerState);
 }
 
-void RasterizerState::ChangeState(D3D11_FILL_MODE mode)
+void RasterizerState::ChangeState(D3D11_FILL_MODE mod)
 {
-	if (_desc.FillMode == mode)
+	if (_dsc.FillMode == mod)
 		return;
 
-	_desc.FillMode = mode;
+	_dsc.FillMode = mod;
 
 	if (_rasterizerState != nullptr)
 		_rasterizerState->Release();
 
-	DEVICE->CreateRasterizerState(&_desc, &_rasterizerState);
+	DEVICE->CreateRasterizerState(&_dsc, &_rasterizerState);
 	DC->RSSetState(_rasterizerState);
 }
 
-void RasterizerState::FrontCounterClockWise(bool value)
+void RasterizerState::FrontCounterClockWise(bool val)
 {
-	_desc.FrontCounterClockwise = value;
+	_dsc.FrontCounterClockwise = val;
 
 	if (_rasterizerState != nullptr)
 		_rasterizerState->Release();
 
-	DEVICE->CreateRasterizerState(&_desc, &_rasterizerState);
+	DEVICE->CreateRasterizerState(&_dsc, &_rasterizerState);
 }

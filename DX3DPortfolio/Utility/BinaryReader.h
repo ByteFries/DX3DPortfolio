@@ -1,10 +1,10 @@
 #pragma once
+
 class BinaryReader
 {
 public:
 	BinaryReader(wstring path);
 	BinaryReader(string path);
-
 	~BinaryReader();
 
 	int        ReadInt();
@@ -14,15 +14,14 @@ public:
 	wstring    ReadWString();
 	Vector3    ReadVector3();
 	XMFLOAT4    ReadXMFLOAT4();
-	XMFLOAT4X4 ReadFloat4X4();
-	XMMATRIX     ReadMatrix();
+	XMFLOAT4X4 ReadFLOAT4X4();
+	XMMATRIX     ReadXMMATRIX();
 
 	void ReadData(OUT void** data, UINT dataSize);
 
 	bool Succeeded();
 
 private:
-	HANDLE _file = nullptr;
-	DWORD  _size = 0;
+	HANDLE file = nullptr;
+	DWORD  size = 0;
 };
-

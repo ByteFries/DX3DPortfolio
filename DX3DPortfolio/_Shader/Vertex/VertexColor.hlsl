@@ -1,17 +1,4 @@
-cbuffer World : register(b0)
-{
-    matrix world;
-}
-
-cbuffer View : register(b1)
-{
-    matrix view;
-}
-
-cbuffer Projection : register(b2)
-{
-    matrix proj;
-}
+#include "../Shared.hlsli"
 
 struct VertexInput
 {
@@ -20,16 +7,15 @@ struct VertexInput
 
 struct VertexOutput
 {
-    float4 pos : SV_POSITION;
+    float4 pos : SV_Position;
 };
 
 VertexOutput main(VertexInput input)
 {
     VertexOutput result;
-    
     result.pos = mul(input.pos, world);
     result.pos = mul(result.pos, view);
-    result.pos = mul(result.pos, proj);
+    result.pos = mul(result.pos, projection);
     
     return result;
 }
