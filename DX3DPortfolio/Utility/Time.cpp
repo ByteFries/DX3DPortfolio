@@ -45,11 +45,17 @@ void Time::Update()
 	{
 		_frameRate = _frameCount;
 		_frameCount = 0;
-
 		_oneSecCount = 0;
 	}
 }
 
 void Time::Debug()
 {
+	if (ImGui::TreeNode("Time"))
+	{
+		ImGui::Text("FPS : %u", &_frameRate);
+
+
+		ImGui::TreePop();
+	}
 }

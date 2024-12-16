@@ -3,7 +3,7 @@
 class InstancedRenderer : public RendererInterface
 {
 public:
-	InstancedRenderer(VertexBuffer* instanceBuffer, UINT drawCount);
+	InstancedRenderer(InstanceBuffer* instanceBuffer, UINT drawCount);
 	virtual ~InstancedRenderer();
 
 	void Draw(int indexCounter) override;
@@ -12,6 +12,6 @@ public:
 
 	RendererType GetType() override { return INSTANCED; }
 protected:
-	VertexBuffer* _instanceBuffer;
+	InstanceBuffer* _instanceBuffer;
 	UINT _drawCount = 0;
 };

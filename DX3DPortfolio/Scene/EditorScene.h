@@ -23,10 +23,6 @@ private:
 	MeshRO* render;
 
 	InstancedRenderer* renderer;
-
-	struct Datas
-	{
-		XMMATRIX matrix;
-	};
+	vector<InstanceDataBase*> instanceDatas;
 };
 

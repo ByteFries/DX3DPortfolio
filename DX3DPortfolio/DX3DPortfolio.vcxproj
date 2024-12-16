@@ -137,6 +137,11 @@
     <ClInclude Include="DX3DPortfolio.h" />
     <ClInclude Include="Actor\Terrain\BrickPlatform.h" />
     <ClInclude Include="Actor\Model\MainCharactor\HatKid.h" />
+    <ClInclude Include="Render\RenderResource\MeshRR.h" />
+    <ClInclude Include="Render\RenderResource\ModelRR.h" />
+    <ClInclude Include="Render\RenderResource\RenderResource.h" />
+    <ClInclude Include="Render\Buffer\DXBuffer.h" />
+    <ClInclude Include="Render\Buffer\InstanceBuffer.h" />
     <ClInclude Include="Render\Renderer\InstanceDatas.h" />
     <ClInclude Include="Render\Renderer\InstancingUpdate.h" />
     <ClInclude Include="Render\Renderer\PerObjectUpdate.h" />
@@ -196,6 +201,7 @@
     <ClInclude Include="Render\Shape\TextureShape\TextureSphere.h" />
     <ClInclude Include="Actor\Terrain\SkySphere.h" />
     <ClInclude Include="Render\Renderer\RendererUpdateComponent.h" />
+    <ClInclude Include="Actor\Terrain\TexturePlatform.h" />
     <ClInclude Include="Utility\Matrix3x3.h" />
     <ClInclude Include="Utility\Observer.h" />
     <ClInclude Include="Physics\PhysicalObject\PhysicalObject.h" />
@@ -253,6 +259,11 @@
     <ClCompile Include="Actor\Actor.cpp" />
     <ClCompile Include="Actor\Terrain\BrickPlatform.cpp" />
     <ClCompile Include="Actor\Model\MainCharactor\HatKid.cpp" />
+    <ClCompile Include="Render\RenderResource\MeshRR.cpp" />
+    <ClCompile Include="Render\RenderResource\ModelRR.cpp" />
+    <ClCompile Include="Render\RenderResource\RenderResource.cpp" />
+    <ClCompile Include="Render\Buffer\DXBuffer.cpp" />
+    <ClCompile Include="Render\Buffer\InstanceBuffer.cpp" />
     <ClCompile Include="Render\Renderer\InstancingUpdate.cpp" />
     <ClCompile Include="Render\Renderer\PerObjectUpdate.cpp" />
     <ClCompile Include="Render\RenderableObject\MeshRO.cpp" />
@@ -310,6 +321,7 @@
     <ClCompile Include="Render\Shape\TextureShape\TextureSphere.cpp" />
     <ClCompile Include="Actor\Terrain\SkySphere.cpp" />
     <ClCompile Include="Render\Renderer\RendererUpdateComponent.cpp" />
+    <ClCompile Include="Actor\Terrain\TexturePlatform.cpp" />
     <ClCompile Include="Utility\Matrix3x3.cpp" />
     <ClCompile Include="Utility\Observable.cpp" />
     <ClCompile Include="System\Manager\PhysicsManager.cpp" />

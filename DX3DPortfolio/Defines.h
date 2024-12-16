@@ -60,3 +60,4 @@ const string MESH_LIST_FILE = "MeshList.list";
 
 //instance
 #define MAX_INSTANCE_COUNT 30
+#define INSTANCE_BUFFER_SLOT 1

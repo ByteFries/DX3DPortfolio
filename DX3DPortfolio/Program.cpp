@@ -72,7 +72,7 @@ void Program::Initial()
 	PHYSICS;
 	SCENE;
 	LIGHT;
-	TIME->LockFPS(60);
+	//TIME->LockFPS(60);
 
 	PHYSICS->StartInitial();
 

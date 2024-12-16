@@ -1,7 +1,7 @@
 #include "framework.h"
 #include "InstancedRenderer.h"
 
-InstancedRenderer::InstancedRenderer(VertexBuffer* instanceBuffer, UINT drawCount)
+InstancedRenderer::InstancedRenderer(InstanceBuffer* instanceBuffer, UINT drawCount)
 	:_instanceBuffer(instanceBuffer), _drawCount(drawCount)
 {
 }
@@ -13,7 +13,7 @@ InstancedRenderer::~InstancedRenderer()
 
 void InstancedRenderer::Draw(int indexCounter)
 {
-	_instanceBuffer->IASetBuffer(1);
+	_instanceBuffer->IASetBuffer();
 	DC->DrawIndexedInstanced(indexCounter, _drawCount, 0, 0, 0);
 }
 

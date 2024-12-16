@@ -12,6 +12,7 @@ struct InstanceDataBase
 struct InstanceMatrixData : public InstanceDataBase
 {
 	InstanceMatrixData() {}
+
 	InstanceMatrixData(XMMATRIX matrix)
 	{
 		data.matrix = matrix;
@@ -30,6 +31,37 @@ struct InstanceMatrixData : public InstanceDataBase
 	struct Data
 	{
 		XMMATRIX matrix;
+	} data;
+};
+
+struct InstanceMatrixColorData : public InstanceDataBase
+{
+
+	InstanceMatrixColorData(){}
+
+	InstanceMatrixColorData(XMMATRIX matrix, XMFLOAT4 color)
+	{
+		data.matrix = matrix;
+		data.color = color;
+	}
+
+	~InstanceMatrixColorData()
+	{}
+
+	void* GetData()
+	{
+		return &data;
+	}
+
+	size_t GetSize()
+	{
+		return sizeof(data);
+	}
+
+	struct Data
+	{
+		XMMATRIX matrix = XMMatrixIdentity();
+		XMFLOAT4 color = {0,0,0,1};
 	} data;
 };
 

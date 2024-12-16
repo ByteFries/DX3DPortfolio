@@ -20,8 +20,3 @@ void PlatformBase::Render(D3D11_PRIMITIVE_TOPOLOGY type)
 {
 	_render->Render(type);
 }
-
-void PlatformBase::SetTexture(wstring path)
-{
-	_render->SetTexture(path);
-}

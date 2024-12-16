@@ -77,6 +77,7 @@ using namespace DirectX;
 
 #include "Render\Buffer\ConstantBuffer.h"
 #include "Render\Buffer\Buffers.h"
+#include "Render/Buffer/DXBuffer.h"
 #include "Render\Buffer\VertexBuffer.h"
 #include "Render\Buffer\IndexBuffer.h"
 
@@ -145,6 +146,7 @@ using namespace DirectX;
 #include "Render\Model\ModelFactory.h"
 
 #include "Render\Renderer\InstanceDatas.h"
+#include "Render/Buffer/InstanceBuffer.h"
 
 #include "Render\Renderer\RendererUpdateComponent.h"
 #include "Render\Renderer\PerObjectUpdate.h"
@@ -154,11 +156,11 @@ using namespace DirectX;
 #include "Render\Renderer\PerObjectRenderer.h"
 #include "Render\Renderer\InstancedRenderer.h"
 
+#include "Render/RenderResource/RenderResource.h"
+
 #include "Render\RenderableObject\RenderableObject.h"
 #include "Render\RenderableObject\MeshRO.h"
 #include "Render\RenderableObject\ModelRO.h"
-
-
 
 #include "Render\Shape\ColorShape\ColorShapeRenderer.h"
 #include "Render\Shape\ColorShape\ColorQuad.h"
